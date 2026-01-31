@@ -147,7 +147,8 @@ fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel,
             modifier = Modifier.fillMaxWidth()
         )
         Text("${laso.info.gender} - ${laso.info.cuc}", fontSize = 12.sp)
-        Text("Sinh: ${laso.info.lunarDate}", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text("DL: ${laso.info.solarDate}", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text("AL: ${laso.info.lunarDate}", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(laso.info.canChi, fontSize = 11.sp, fontWeight = FontWeight.Bold)
         
         Spacer(modifier = Modifier.height(12.dp))

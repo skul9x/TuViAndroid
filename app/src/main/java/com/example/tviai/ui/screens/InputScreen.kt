@@ -39,7 +39,7 @@ fun InputScreen(
             CenterAlignedTopAppBar(
                 title = { 
                     Text(
-                        "TViAI", 
+                        "Tử Vi AI", 
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
                     ) 
