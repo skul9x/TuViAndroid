@@ -1,0 +1,49 @@
+{
+    "meta": {
+        "schema_version": "1.1.0",
+        "awf_version": "3.3.0"
+    },
+    "project": {
+        "name": "TViAI",
+        "type": "Android App",
+        "status": "In Development"
+    },
+    "tech_stack": {
+        "frontend": {
+            "language": "Kotlin",
+            "framework": "Jetpack Compose"
+        },
+        "backend": {
+            "ai_model": "Google Gemini",
+            "sdk": "Generative AI Android SDK"
+        },
+        "database": {
+            "local": "Room",
+            "preferences": "DataStore"
+        }
+    },
+    "features": [
+        {
+            "name": "Tu Vi An Sao",
+            "status": "Implemented"
+        },
+        {
+            "name": "AI Reading",
+            "status": "Implemented",
+            "details": "Multi-model fallback, markdown support"
+        },
+        {
+            "name": "Smart API Management",
+            "status": "Implemented",
+            "details": "Key rotation, auto-extract"
+        },
+        {
+            "name": "Dynamic Viewing Year",
+            "status": "Implemented"
+        },
+        {
+            "name": "History Saving",
+            "status": "Implemented"
+        }
+    ]
+}
