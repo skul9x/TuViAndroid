@@ -47,44 +47,46 @@ fun LasoScreen(
                 .padding(padding)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            // Traditional 12-palace grid (4x4)
-            // Indices mapping to DIA_CHI: 0:Tý, 1:Sửu, 2:Dần...
-            // Visual position in 4x4:
-            // [5, 6, 7, 8]  (Tỵ, Ngọ, Mùi, Thân)
-            // [4, C, C, 9]  (Thìn, Info, Info, Dậu)
-            // [3, C, C, 10] (Mão, Info, Info, Tuất)
-            // [2, 1, 0, 11] (Dần, Sửu, Tý, Hợi) - Reversed bottom
-            
+            // Layer 1: The Grid of 12 Cungs
+            // We use a Column of Rows to simple grid, but we leave the middle empty for overlay
             Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
-                // Row 1 (Top)
+                // Row 1 (Top) indices: 5, 6, 7, 8
                 Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
                     CungCell(laso.cung[5], Modifier.weight(1f))
                     CungCell(laso.cung[6], Modifier.weight(1f))
                     CungCell(laso.cung[7], Modifier.weight(1f))
                     CungCell(laso.cung[8], Modifier.weight(1f))
                 }
-                // Row 2
+                // Row 2 indices: 4, [Center], [Center], 9
                 Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
                     CungCell(laso.cung[4], Modifier.weight(1f))
-                    CentralInfo(laso, viewModel, onNavigateToAnalysis, Modifier.weight(2f))
+                    Spacer(modifier = Modifier.weight(2f)) // Space for center
                     CungCell(laso.cung[9], Modifier.weight(1f))
                 }
-                // Row 3 (Since central is 2x2, we jump row 3 center)
+                // Row 3 indices: 3, [Center], [Center], 10
                 Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
                     CungCell(laso.cung[3], Modifier.weight(1f))
-                    // Central info is 2x2, so we don't put anything here if CentralInfo handles it, 
-                    // or we split CentralInfo. Let's make CentralInfo a single component 
-                    // that covers middle 2x2.
-                    Spacer(modifier = Modifier.weight(2f)) 
+                    Spacer(modifier = Modifier.weight(2f)) // Space for center
                     CungCell(laso.cung[10], Modifier.weight(1f))
                 }
-                // Row 4 (Bottom)
+                // Row 4 (Bottom) indices: 2, 1, 0, 11
                 Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
                     CungCell(laso.cung[2], Modifier.weight(1f))
                     CungCell(laso.cung[1], Modifier.weight(1f))
                     CungCell(laso.cung[0], Modifier.weight(1f))
                     CungCell(laso.cung[11], Modifier.weight(1f))
                 }
+            }
+            
+            // Layer 2: Central Info Panel
+            // Placed exactly in the center, taking up 50% width and 50% height
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight(0.5f)
+                    .align(Alignment.Center)
+            ) {
+                 CentralInfo(laso, viewModel, onNavigateToAnalysis, Modifier.fillMaxSize())
             }
         }
     }
@@ -105,7 +107,7 @@ fun CungCell(cung: CungInfo, modifier: Modifier = Modifier) {
                 Text(cung.name, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
             }
             
-            Divider(modifier = Modifier.padding(vertical = 2.dp), thickness = 0.5.dp)
+            HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp), thickness = 0.5.dp)
 
             // Stars
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -130,17 +132,20 @@ fun CungCell(cung: CungInfo, modifier: Modifier = Modifier) {
 
 @Composable
 fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel, onNavigate: () -> Unit, modifier: Modifier) {
-    // This needs to span 2 rows height ideally, but for now we place in row 2 and wrap.
-    // In a production layout, we'd use ConstraintLayout or a custom SubcomposeLayout for perfect 4x4 with center 2x2.
-    // Here we overlap or use an absolute Box approach.
-    
-    // Quick fix: Just show key info in the assigned 2-col slot.
     Column(
-        modifier = modifier.fillMaxHeight().padding(8.dp),
+        modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(laso.info.name.uppercase(), fontWeight = FontWeight.ExtraBold, fontSize = 18.sp, color = MaterialTheme.colorScheme.primary)
+        // Name centered
+        Text(
+            laso.info.name.uppercase(), 
+            fontWeight = FontWeight.ExtraBold, 
+            fontSize = 18.sp, 
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
         Text("${laso.info.gender} - ${laso.info.cuc}", fontSize = 12.sp)
         Text("Sinh: ${laso.info.lunarDate}", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(laso.info.canChi, fontSize = 11.sp, fontWeight = FontWeight.Bold)
@@ -153,7 +158,7 @@ fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel,
                 viewModel.generateAiReading()
                 onNavigate()
             },
-            modifier = Modifier.height(40.dp).fillMaxWidth(0.8f)
+            modifier = Modifier.height(40.dp).fillMaxWidth(0.9f)
         )
         
         Spacer(modifier = Modifier.height(8.dp))
@@ -165,7 +170,7 @@ fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel,
                 val prompt = viewModel.getPrompt()
                 clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(prompt))
             },
-            modifier = Modifier.height(36.dp).fillMaxWidth(0.8f),
+            modifier = Modifier.height(36.dp).fillMaxWidth(0.9f),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
             colors = ButtonDefaults.outlinedButtonColors(
                 contentColor = MaterialTheme.colorScheme.onSurface

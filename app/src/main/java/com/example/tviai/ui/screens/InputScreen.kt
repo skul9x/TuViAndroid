@@ -198,35 +198,65 @@ fun DateInput(label: String, value: String, modifier: Modifier, onValueChange: (
 @Composable
 fun HourSelector(selectedHour: Int, onHourSelected: (Int) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val hours = (0..23).toList()
+    // 12 Zodiac Hours (0..11)
+    val zodiacHours = (0..11).toList()
+    
+    // Determine current Zodiac index from selectedHour (0-23)
+    // Formula: ((hour + 1) % 24) / 2
+    val currentZodiacIndex = ((selectedHour + 1) % 24) / 2
     
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            value = "${selectedHour}h - Giờ ${com.example.tviai.core.Constants.DIA_CHI[((selectedHour + 1) % 24) / 2]}",
+            value = getHourRangeLabel(currentZodiacIndex),
             onValueChange = {},
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier.fillMaxWidth().menuAnchor(),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            label = { Text("Giờ sinh") }
         )
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            hours.forEach { hour ->
+            zodiacHours.forEach { zIndex ->
                 DropdownMenuItem(
-                    text = { Text("${hour}h") },
+                    text = { Text(getHourRangeLabel(zIndex)) },
                     onClick = {
-                        onHourSelected(hour)
+                        // Map Zodiac index back to a representative hour
+                        // Tý (0) -> 0 (00:00)
+                        // Sửu (1) -> 2 (02:00)
+                        // ...
+                        onHourSelected(zIndex * 2)
                         expanded = false
                     }
                 )
             }
         }
     }
+}
+
+private fun getHourRangeLabel(index: Int): String {
+    val chiName = com.example.tviai.core.Constants.DIA_CHI[index]
+    val range = when(index) {
+        0 -> "23h-01h" // Tý
+        1 -> "01h-03h" // Sửu
+        2 -> "03h-05h" // Dần
+        3 -> "05h-07h" // Mão
+        4 -> "07h-09h" // Thìn
+        5 -> "09h-11h" // Tị
+        6 -> "11h-13h" // Ngọ
+        7 -> "13h-15h" // Mùi
+        8 -> "15h-17h" // Thân
+        9 -> "17h-19h" // Dậu
+        10 -> "19h-21h" // Tuất
+        11 -> "21h-23h" // Hợi
+        else -> ""
+    }
+    return "$chiName ($range)"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -354,7 +384,7 @@ fun MonthSelector(selectedMonth: Int, modifier: Modifier = Modifier, onMonthSele
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = "Th$selectedMonth",
+            value = selectedMonth.toString(),
             onValueChange = {},
             readOnly = true,
             label = { Text("Tháng", fontSize = 11.sp) },
@@ -369,7 +399,7 @@ fun MonthSelector(selectedMonth: Int, modifier: Modifier = Modifier, onMonthSele
         ) {
             months.forEach { month ->
                 DropdownMenuItem(
-                    text = { Text("Tháng $month") },
+                    text = { Text(month.toString()) },
                     onClick = {
                         onMonthSelected(month)
                         expanded = false
@@ -380,41 +410,22 @@ fun MonthSelector(selectedMonth: Int, modifier: Modifier = Modifier, onMonthSele
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BirthYearSelector(selectedYear: Int, modifier: Modifier = Modifier, onYearSelected: (Int) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    val currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
-    val years = (1920..currentYear).toList().reversed() // Most recent first
-    
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-        modifier = modifier
-    ) {
-        OutlinedTextField(
-            value = selectedYear.toString(),
-            onValueChange = {},
-            readOnly = true,
-            label = { Text("Năm", fontSize = 11.sp) },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier.fillMaxWidth().menuAnchor(),
-            shape = RoundedCornerShape(12.dp),
-            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            years.forEach { year ->
-                DropdownMenuItem(
-                    text = { Text(year.toString()) },
-                    onClick = {
-                        onYearSelected(year)
-                        expanded = false
-                    }
-                )
+    OutlinedTextField(
+        value = if (selectedYear == 0) "" else selectedYear.toString(),
+        onValueChange = { newValue ->
+            if (newValue.isEmpty()) {
+                onYearSelected(0)
+            } else if (newValue.all { it.isDigit() } && newValue.length <= 4) {
+                onYearSelected(newValue.toInt())
             }
-        }
-    }
+        },
+        label = { Text("Năm", fontSize = 11.sp) },
+        modifier = modifier,
+        shape = RoundedCornerShape(12.dp),
+        keyboardOptions = KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+        textStyle = LocalTextStyle.current.copy(fontSize = 14.sp),
+        placeholder = { Text("YYYY") }
+    )
 }
