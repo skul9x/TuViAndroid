@@ -1,5 +1,6 @@
 package com.example.tviai.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -164,7 +165,11 @@ fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel,
                 val prompt = viewModel.getPrompt()
                 clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(prompt))
             },
-            modifier = Modifier.height(36.dp).fillMaxWidth(0.8f)
+            modifier = Modifier.height(36.dp).fillMaxWidth(0.8f),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = MaterialTheme.colorScheme.onSurface
+            )
         ) {
             Text("📋 Copy Prompt", fontSize = 12.sp)
         }

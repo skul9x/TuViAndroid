@@ -1,45 +1,59 @@
 {
-    "updated_at": "2026-01-31T13:05:00+07:00",
+    "updated_at": "2026-01-31T17:28:16+07:00",
     "working_on": {
-        "feature": "UX & Model Management",
+        "feature": "Detailed Star Logic Expansion",
         "status": "completed",
         "files": [
-            "app/src/main/java/com/example/tviai/core/GeminiClient.kt",
-            "app/src/main/java/com/example/tviai/ui/screens/InputScreen.kt",
-            "app/src/main/java/com/example/tviai/ui/screens/LasoScreen.kt",
-            "app/src/main/java/com/example/tviai/viewmodel/TuViViewModel.kt"
-        ]
+            "app/src/main/java/com/example/tviai/core/TuViLogic.kt",
+            "app/src/main/java/com/example/tviai/core/Constants.kt",
+            "app/src/test/java/com/example/tviai/core/TuViLogicTest.kt"
+        ],
+        "notes": "Implemented correcting logic for Đầu Quân, added full Decade Stars (Đại Vận) engine, and expanded Static/Yearly stars to matching User's detailed requirements."
     },
     "recent_changes": [
         {
             "type": "feature",
-            "description": "Implemented multi-API key support with rotation and fallback"
-        },
-        {
-            "type": "ux",
-            "description": "Replaced InputScreen date texts with Dropdown Selectors"
-        },
-        {
-            "type": "ux",
-            "description": "Added auto-capitalization for name input"
+            "description": "Implemented 'anSaoDaiVan' for Decade Stars (ĐV. Lộc, Tứ Hóa, Khôi Việt)"
         },
         {
             "type": "feature",
-            "description": "Added dynamic default viewing year"
+            "description": "Expanded Static Stars: Đầu Quân, Thiên/Nguyệt Đức, Văn Tinh, Tam Thai/Bát Tọa, Phong Cáo/Thai Phụ"
         },
         {
             "type": "feature",
-            "description": "Added Copy Prompt button and Model Name display"
+            "description": "Expanded Yearly Stars (Sao Lưu): L.Đào/Hồng/Hỷ, L.Khôi/Việt, L.Tứ Hóa, L.Kiếp Sát"
         },
         {
-            "type": "docs",
-            "description": "Created STRUCTURE.md and README.md"
+            "type": "fix",
+            "description": "Corrected Đầu Quân placement logic (Lunar Month 2 -> Tý)"
+        },
+        {
+            "type": "fix",
+            "description": "Forced Brightness (Miếu) for Thái Âm (Sửu) and Liêm Trinh (Thân) per user preference"
+        },
+        {
+            "type": "test",
+            "description": "Updated 'testNguyenDuyTruong' with strict assertions for new star placements"
         }
     ],
     "pending_tasks": [
         {
             "task": "Release to Production",
-            "priority": "high"
+            "priority": "medium"
+        }
+    ],
+    "decisions_made": [
+        {
+            "decision": "Use Table Lookup for Lunar Date",
+            "reason": "Algorithmic approach had drift issues; Lookup is standard and stable."
+        },
+        {
+            "decision": "Nam Phai Logic",
+            "reason": "Arranged Palaces Clockwise and adopted specific Khôi/Việt rules (Can Nhâm) to match user school."
+        },
+        {
+            "decision": "Decade Can Calculation",
+            "reason": "Used 'Ngũ Dần Độn' method from Birth Year Can to determine Can of Dai Van Palace."
         }
     ]
 }

@@ -29,7 +29,10 @@ data class UserInput(
     val gender: Gender,
     val isLunar: Boolean = false,
     val viewingYear: Int,
-    val readingStyle: ReadingStyle = ReadingStyle.NGHIEM_TUC
+    val readingStyle: ReadingStyle = ReadingStyle.NGHIEM_TUC,
+    val lunarDayInput: Int? = null,
+    val lunarMonthInput: Int? = null,
+    val lunarYearInput: Int? = null
 )
 
 data class CungInfo(

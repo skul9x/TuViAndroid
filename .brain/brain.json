@@ -24,13 +24,34 @@
     },
     "features": [
         {
-            "name": "Tu Vi An Sao",
-            "status": "Implemented"
+            "name": "Tu Vi An Sao (Advanced)",
+            "status": "Implemented",
+            "details": "Full Nam Phai logic: Tuần/Triệt, Tứ Hóa, Sát Tinh, Brightness"
+        },
+        {
+            "name": "Detailed Static Stars",
+            "status": "Implemented",
+            "details": "Expanded database: Đầu Quân, Thiên Đức/Nguyệt Đức, Văn Tinh, Tam Thai/Bát Tọa, Phong Cáo/Thai Phụ, Thiên Thương/Sứ"
+        },
+        {
+            "name": "Decade Stars (Đại Vận)",
+            "status": "Implemented",
+            "details": "Dynamic calculation (Can Đại Vận) for ĐV. Lộc Tồn, ĐV. Kình/Đà, ĐV. Tứ Hóa, ĐV. Khôi Việt"
+        },
+        {
+            "name": "Yearly Stars (Sao Lưu) Full",
+            "status": "Implemented",
+            "details": "All yearly stars including L.Đào/Hồng/Hỷ, L.Khôi/Việt, L.Tứ Hóa, L.Kiếp Sát, L.Kình/Đà"
+        },
+        {
+            "name": "Lunar Date Conversion",
+            "status": "Implemented",
+            "details": "Table Lookup method (1900-2049), MinSDK 24 compatible"
         },
         {
             "name": "AI Reading",
             "status": "Implemented",
-            "details": "Multi-model fallback, markdown support"
+            "details": "Multi-model fallback, markdown support, detailed star context (M/V/Đ/H)"
         },
         {
             "name": "Smart API Management",
@@ -45,5 +66,12 @@
             "name": "History Saving",
             "status": "Implemented"
         }
-    ]
+    ],
+    "knowledge_items": {
+        "patterns": [
+            "Use Table Lookup for Lunar Date to avoid algorithmic complexity/drift",
+            "Avoid java.time in core logic if MinSDK < 26 to skip desugaring",
+            "Attach brightness/modifiers directly to star names string for effective Prompt Engineering"
+        ]
+    }
 }

@@ -185,7 +185,15 @@ class GeminiClient(
         val selectedStylePrompt = stylePrompts[style] ?: stylePrompts[ReadingStyle.NGHIEM_TUC]!!
 
         val cungDetails = cungList.joinToString("\n") { c ->
-            "- Cung ${c.name} (${c.chucNang}): ${c.chinhTinh.joinToString(", ")}"
+            val starList = (c.chinhTinh + c.phuTinh).joinToString(", ")
+            val specialContext = StringBuilder()
+            if (c.phuTinh.contains("Tuần")) specialContext.append(" (Gặp Tuần)")
+            if (c.phuTinh.contains("Triệt")) specialContext.append(" (Gặp Triệt)")
+            
+            // Note: Tứ Hóa already added to phuTinh list as separate entries like "(Hóa Lộc)", 
+            // so they will appear in starList automatically.
+            
+            "- Cung ${c.name} (${c.chucNang})$specialContext: $starList"
         }
 
         return """
