@@ -2,15 +2,34 @@
     "updated_at": "2026-01-31T17:28:16+07:00",
     "working_on": {
         "feature": "Detailed Star Logic Expansion",
+        "task": "Expert Refinement (Round 2) - Verified & Complete",
         "status": "completed",
         "files": [
-            "app/src/main/java/com/example/tviai/core/TuViLogic.kt",
-            "app/src/main/java/com/example/tviai/core/Constants.kt",
-            "app/src/test/java/com/example/tviai/core/TuViLogicTest.kt"
+            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\core\\TuViLogic.kt",
+            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\core\\Constants.kt",
+            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\test\\java\\com\\example\\tviai\\core\\TuViLogicTest.kt"
         ],
-        "notes": "Implemented correcting logic for Đầu Quân, added full Decade Stars (Đại Vận) engine, and expanded Static/Yearly stars to matching User's detailed requirements."
+        "notes": "Implemented specific Expert feedback: Corrected positions for Thiên Đức, Văn Tinh. Added missing Yearly/Decade stars. Cleaned up noise."
     },
     "recent_changes": [
+        {
+            "timestamp": "2026-01-31T18:00:00+07:00",
+            "type": "feature",
+            "description": "Implemented Expert Refinement Round 2: Added missing Yearly and Decade stars.",
+            "files": [
+                "TuViLogic.kt",
+                "TuViLogicTest.kt"
+            ]
+        },
+        {
+            "timestamp": "2026-01-31T17:45:00+07:00",
+            "type": "refactor",
+            "description": "Corrected Star Brightness and Positions based on Expert Round 1.",
+            "files": [
+                "Constants.kt",
+                "TuViLogic.kt"
+            ]
+        },
         {
             "type": "feature",
             "description": "Implemented 'anSaoDaiVan' for Decade Stars (ĐV. Lộc, Tứ Hóa, Khôi Việt)"
@@ -18,28 +37,13 @@
         {
             "type": "feature",
             "description": "Expanded Static Stars: Đầu Quân, Thiên/Nguyệt Đức, Văn Tinh, Tam Thai/Bát Tọa, Phong Cáo/Thai Phụ"
-        },
-        {
-            "type": "feature",
-            "description": "Expanded Yearly Stars (Sao Lưu): L.Đào/Hồng/Hỷ, L.Khôi/Việt, L.Tứ Hóa, L.Kiếp Sát"
-        },
-        {
-            "type": "fix",
-            "description": "Corrected Đầu Quân placement logic (Lunar Month 2 -> Tý)"
-        },
-        {
-            "type": "fix",
-            "description": "Forced Brightness (Miếu) for Thái Âm (Sửu) and Liêm Trinh (Thân) per user preference"
-        },
-        {
-            "type": "test",
-            "description": "Updated 'testNguyenDuyTruong' with strict assertions for new star placements"
         }
     ],
     "pending_tasks": [
         {
-            "task": "Release to Production",
-            "priority": "medium"
+            "task": "Generate Final Prompt Output",
+            "priority": "high",
+            "notes": "Use the refined logic to generate the full string."
         }
     ],
     "decisions_made": [
