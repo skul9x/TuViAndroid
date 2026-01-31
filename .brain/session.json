@@ -1,17 +1,40 @@
 {
-    "updated_at": "2026-01-31T17:28:16+07:00",
+    "updated_at": "2026-01-31T19:03:00+07:00",
     "working_on": {
-        "feature": "Detailed Star Logic Expansion",
-        "task": "Expert Refinement (Round 2) - Verified & Complete",
+        "feature": "Laso Screen Refinement",
+        "task": "Final Polish (Title, Date Display, Layout)",
         "status": "completed",
         "files": [
-            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\core\\TuViLogic.kt",
-            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\core\\Constants.kt",
-            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\test\\java\\com\\example\\tviai\\core\\TuViLogicTest.kt"
+            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\ui\\screens\\LasoScreen.kt",
+            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\ui\\screens\\InputScreen.kt"
         ],
-        "notes": "Implemented specific Expert feedback: Corrected positions for Thiên Đức, Văn Tinh. Added missing Yearly/Decade stars. Cleaned up noise."
+        "notes": "Completed all requested UI fixes: Title change, Date display, Layout centering."
     },
     "recent_changes": [
+        {
+            "timestamp": "2026-01-31T19:02:00+07:00",
+            "type": "ui",
+            "description": "Updated Birth Date Display to show both Solar and Lunar dates on LasoScreen.",
+            "files": [
+                "LasoScreen.kt"
+            ]
+        },
+        {
+            "timestamp": "2026-01-31T18:59:00+07:00",
+            "type": "ui",
+            "description": "Renamed App Title from 'TViAI' to 'Tử Vi AI' on InputScreen.",
+            "files": [
+                "InputScreen.kt"
+            ]
+        },
+        {
+            "timestamp": "2026-01-31T18:55:00+07:00",
+            "type": "ui",
+            "description": "Fixed LasoScreen Layout: Center-aligned Name, visible Copy Prompt button, correctly sized central Box.",
+            "files": [
+                "LasoScreen.kt"
+            ]
+        },
         {
             "timestamp": "2026-01-31T18:00:00+07:00",
             "type": "feature",
@@ -20,44 +43,17 @@
                 "TuViLogic.kt",
                 "TuViLogicTest.kt"
             ]
-        },
-        {
-            "timestamp": "2026-01-31T17:45:00+07:00",
-            "type": "refactor",
-            "description": "Corrected Star Brightness and Positions based on Expert Round 1.",
-            "files": [
-                "Constants.kt",
-                "TuViLogic.kt"
-            ]
-        },
-        {
-            "type": "feature",
-            "description": "Implemented 'anSaoDaiVan' for Decade Stars (ĐV. Lộc, Tứ Hóa, Khôi Việt)"
-        },
-        {
-            "type": "feature",
-            "description": "Expanded Static Stars: Đầu Quân, Thiên/Nguyệt Đức, Văn Tinh, Tam Thai/Bát Tọa, Phong Cáo/Thai Phụ"
         }
     ],
-    "pending_tasks": [
-        {
-            "task": "Generate Final Prompt Output",
-            "priority": "high",
-            "notes": "Use the refined logic to generate the full string."
-        }
-    ],
+    "pending_tasks": [],
     "decisions_made": [
         {
             "decision": "Use Table Lookup for Lunar Date",
             "reason": "Algorithmic approach had drift issues; Lookup is standard and stable."
         },
         {
-            "decision": "Nam Phai Logic",
-            "reason": "Arranged Palaces Clockwise and adopted specific Khôi/Việt rules (Can Nhâm) to match user school."
-        },
-        {
-            "decision": "Decade Can Calculation",
-            "reason": "Used 'Ngũ Dần Độn' method from Birth Year Can to determine Can of Dai Van Palace."
+            "decision": "Center Alignment in Box for Laso Info",
+            "reason": "Using Column weight caused the central info to be squeezed or hidden on properties. Box overlay is more robust."
         }
     ]
 }

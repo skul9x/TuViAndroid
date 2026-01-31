@@ -65,13 +65,24 @@
         {
             "name": "History Saving",
             "status": "Implemented"
+        },
+        {
+            "name": "Laso Screen UX",
+            "status": "Implemented",
+            "details": "Centered Layout, Copy Prompt Button, Dual Date Display (Solar/Lunar)"
+        },
+        {
+            "name": "Input Form UX",
+            "status": "Implemented",
+            "details": "Cleaned up selectors, Zodiac Hour logic"
         }
     ],
     "knowledge_items": {
         "patterns": [
             "Use Table Lookup for Lunar Date to avoid algorithmic complexity/drift",
             "Avoid java.time in core logic if MinSDK < 26 to skip desugaring",
-            "Attach brightness/modifiers directly to star names string for effective Prompt Engineering"
+            "Attach brightness/modifiers directly to star names string for effective Prompt Engineering",
+            "Use Box with Alignment.Center for Laso Center overlay to handle dynamic sizing better than Column weight"
         ]
     }
 }
