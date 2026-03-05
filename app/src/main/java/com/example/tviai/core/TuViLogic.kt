@@ -136,6 +136,8 @@ class TuViLogic {
                 menhTai = DIA_CHI[menhIndex],
                 thanTai = DIA_CHI[thanIndex],
                 viewingYear = input.viewingYear,
+                viewingMonth = input.viewingMonth,
+                viewingMode = input.viewingMode.name,
                 readingStyle = input.readingStyle.displayName
             ),
             cung = cungList,

@@ -8,8 +8,10 @@ import com.example.tviai.data.Gender
 import com.example.tviai.data.HistoryRepository
 import com.example.tviai.data.LasoData
 import com.example.tviai.data.ReadingStyle
+import com.example.tviai.data.ViewingMode
 import com.example.tviai.data.SettingsDataStore
 import com.example.tviai.data.UserInput
+import java.util.Calendar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -92,6 +94,29 @@ class TuViViewModel(
 
     fun updateViewingYear(year: Int) {
         _uiState.update { it.copy(userInput = it.userInput.copy(viewingYear = year)) }
+    }
+
+    fun updateViewingMode(mode: ViewingMode) {
+        _uiState.update { state ->
+            val newInput = if (mode == ViewingMode.MONTH && state.userInput.viewingMonth == 0) {
+                // First time switching to MONTH -> set default to next month
+                val cal = Calendar.getInstance()
+                val nextMonth = cal.get(Calendar.MONTH) + 2 // Calendar.MONTH is 0-based, +1 for real, +1 for next
+                val (month, year) = if (nextMonth > 12) {
+                    1 to state.userInput.viewingYear + 1
+                } else {
+                    nextMonth to state.userInput.viewingYear
+                }
+                state.userInput.copy(viewingMode = mode, viewingMonth = month, viewingYear = year)
+            } else {
+                state.userInput.copy(viewingMode = mode)
+            }
+            state.copy(userInput = newInput)
+        }
+    }
+
+    fun updateViewingMonth(month: Int) {
+        _uiState.update { it.copy(userInput = it.userInput.copy(viewingMonth = month)) }
     }
 
     fun calculateLaso() {

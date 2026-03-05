@@ -72,9 +72,14 @@
             "details": "Centered Layout, Copy Prompt Button, Dual Date Display (Solar/Lunar)"
         },
         {
-            "name": "Input Form UX",
+            "name": "Prompt Version 3 (Advanced Reading)",
             "status": "Implemented",
-            "details": "Cleaned up selectors, Zodiac Hour logic"
+            "details": "All styles use professional 12-cung structural analysis (Tam Hợp, Xung Chiếu, Giáp Cung, Tứ Hóa)"
+        },
+        {
+            "name": "Monthly/Yearly Viewing Modes",
+            "status": "Implemented",
+            "details": "Dynamic toggle for analyzing specific months or the whole year"
         }
     ],
     "knowledge_items": {

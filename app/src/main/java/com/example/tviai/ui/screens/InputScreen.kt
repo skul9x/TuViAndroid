@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tviai.data.Gender
 import com.example.tviai.data.ReadingStyle
+import com.example.tviai.data.ViewingMode
 import com.example.tviai.ui.components.GoldButton
 import com.example.tviai.ui.components.PremiumCard
 import com.example.tviai.ui.components.SectionHeader
@@ -135,19 +136,50 @@ fun InputScreen(
                 }
             }
 
-            // 3. Năm xem hạn
+            // 3. Thời gian xem vận
             PremiumCard {
-                SectionHeader("Năm xem hạn")
+                SectionHeader("Hạn vận luận giải")
                 Text(
-                    "Chọn năm để luận giải vận hạn",
+                    "Chọn khoảng thời gian để AI luận giải vận hạn",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                YearSelector(
-                    selectedYear = uiState.userInput.viewingYear,
-                    onYearSelected = { viewModel.updateViewingYear(it) }
-                )
+                
+                // Viewing Mode Selection
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    ViewingModeOption("Theo năm", uiState.userInput.viewingMode == ViewingMode.YEAR) {
+                        viewModel.updateViewingMode(ViewingMode.YEAR)
+                    }
+                    ViewingModeOption("Theo tháng", uiState.userInput.viewingMode == ViewingMode.MONTH) {
+                        viewModel.updateViewingMode(ViewingMode.MONTH)
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(), 
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                ) {
+                    if (uiState.userInput.viewingMode == ViewingMode.MONTH) {
+                        MonthSelector(
+                            selectedMonth = uiState.userInput.viewingMonth,
+                            modifier = Modifier.weight(1f),
+                            label = "Tháng âm"
+                        ) { viewModel.updateViewingMonth(it) }
+                    }
+                    
+                    YearSelector(
+                        selectedYear = uiState.userInput.viewingYear,
+                        modifier = if (uiState.userInput.viewingMode == ViewingMode.MONTH) Modifier.weight(1.2f) else Modifier.fillMaxWidth(),
+                        onYearSelected = { viewModel.updateViewingYear(it) }
+                    )
+                }
             }
 
             // 4. Phong cách luận giải
@@ -176,9 +208,17 @@ fun InputScreen(
 
 @Composable
 fun GenderOption(label: String, isSelected: Boolean, onSelect: () -> Unit) {
-    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically, modifier = Modifier.clickable { onSelect() }) {
         RadioButton(selected = isSelected, onClick = onSelect)
-        Text(label, modifier = Modifier.clickable { onSelect() })
+        Text(label)
+    }
+}
+
+@Composable
+fun ViewingModeOption(label: String, isSelected: Boolean, onSelect: () -> Unit) {
+    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically, modifier = Modifier.clickable { onSelect() }) {
+        RadioButton(selected = isSelected, onClick = onSelect)
+        Text(label, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -295,14 +335,15 @@ fun ReadingStyleSelector(selectedStyle: ReadingStyle, onStyleSelected: (ReadingS
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun YearSelector(selectedYear: Int, onYearSelected: (Int) -> Unit) {
+fun YearSelector(selectedYear: Int, modifier: Modifier = Modifier, onYearSelected: (Int) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
     val years = (currentYear - 10..currentYear + 10).toList()
     
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
+        onExpandedChange = { expanded = !expanded },
+        modifier = modifier
     ) {
         OutlinedTextField(
             value = "Năm $selectedYear",
@@ -374,7 +415,12 @@ fun DaySelector(selectedDay: Int, modifier: Modifier = Modifier, onDaySelected: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MonthSelector(selectedMonth: Int, modifier: Modifier = Modifier, onMonthSelected: (Int) -> Unit) {
+fun MonthSelector(
+    selectedMonth: Int, 
+    modifier: Modifier = Modifier, 
+    label: String = "Tháng",
+    onMonthSelected: (Int) -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
     val months = (1..12).toList()
     
@@ -384,14 +430,14 @@ fun MonthSelector(selectedMonth: Int, modifier: Modifier = Modifier, onMonthSele
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = selectedMonth.toString(),
+            value = if (selectedMonth == 0) "Chọn" else selectedMonth.toString(),
             onValueChange = {},
             readOnly = true,
-            label = { Text("Tháng", fontSize = 11.sp) },
+            label = { Text(label, fontSize = 11.sp) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier.fillMaxWidth().menuAnchor(),
             shape = RoundedCornerShape(12.dp),
-            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 14.sp)
         )
         ExposedDropdownMenu(
             expanded = expanded,

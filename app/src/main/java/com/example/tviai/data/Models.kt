@@ -11,13 +11,19 @@ enum class ReadingStyle(val displayName: String) {
     DOI_THUONG("Đời thường"),
     HAI_HUOC("Hài hước"),
     KIEM_HIEP("Kiếm hiệp"),
-    CHUA_LANH("Chữa lành");
+    CHUA_LANH("Chữa lành"),
+    CHUYEN_GIA("Chuyên gia mệnh lý");
 
     companion object {
         fun fromString(value: String): ReadingStyle {
             return entries.find { it.displayName == value } ?: NGHIEM_TUC
         }
     }
+}
+
+enum class ViewingMode(val displayName: String) {
+    YEAR("Theo năm"),
+    MONTH("Theo tháng")
 }
 
 data class UserInput(
@@ -29,6 +35,8 @@ data class UserInput(
     val gender: Gender,
     val isLunar: Boolean = false,
     val viewingYear: Int,
+    val viewingMonth: Int = 0,
+    val viewingMode: ViewingMode = ViewingMode.YEAR,
     val readingStyle: ReadingStyle = ReadingStyle.NGHIEM_TUC,
     val lunarDayInput: Int? = null,
     val lunarMonthInput: Int? = null,
@@ -55,6 +63,8 @@ data class UserInfoResult(
     val menhTai: String,
     val thanTai: String,
     val viewingYear: Int,
+    val viewingMonth: Int = 0,
+    val viewingMode: String = "YEAR",
     val readingStyle: String
 )
 

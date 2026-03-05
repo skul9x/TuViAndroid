@@ -1,59 +1,53 @@
 {
-    "updated_at": "2026-01-31T19:03:00+07:00",
+    "updated_at": "2026-03-04T20:12:00+07:00",
     "working_on": {
-        "feature": "Laso Screen Refinement",
-        "task": "Final Polish (Title, Date Display, Layout)",
+        "feature": "AI Reading Upgrade (Prompt v3 & Monthly Mode)",
+        "task": "Implementation & Verification",
         "status": "completed",
         "files": [
-            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\ui\\screens\\LasoScreen.kt",
-            "c:\\Users\\admin\\AndroidStudioProjects\\TViAI\\app\\src\\main\\java\\com\\example\\tviai\\ui\\screens\\InputScreen.kt"
+            "Models.kt",
+            "TuViViewModel.kt",
+            "TuViLogic.kt",
+            "GeminiClient.kt",
+            "InputScreen.kt"
         ],
-        "notes": "Completed all requested UI fixes: Title change, Date display, Layout centering."
+        "notes": "Replaced old 5-part prompt with structural 12-cung analysis. Added Monthly viewing mode with auto-calculation."
     },
     "recent_changes": [
         {
-            "timestamp": "2026-01-31T19:02:00+07:00",
-            "type": "ui",
-            "description": "Updated Birth Date Display to show both Solar and Lunar dates on LasoScreen.",
-            "files": [
-                "LasoScreen.kt"
-            ]
-        },
-        {
-            "timestamp": "2026-01-31T18:59:00+07:00",
-            "type": "ui",
-            "description": "Renamed App Title from 'TViAI' to 'Tử Vi AI' on InputScreen.",
-            "files": [
-                "InputScreen.kt"
-            ]
-        },
-        {
-            "timestamp": "2026-01-31T18:55:00+07:00",
-            "type": "ui",
-            "description": "Fixed LasoScreen Layout: Center-aligned Name, visible Copy Prompt button, correctly sized central Box.",
-            "files": [
-                "LasoScreen.kt"
-            ]
-        },
-        {
-            "timestamp": "2026-01-31T18:00:00+07:00",
+            "timestamp": "2026-03-04T20:05:00+07:00",
             "type": "feature",
-            "description": "Implemented Expert Refinement Round 2: Added missing Yearly and Decade stars.",
-            "files": [
-                "TuViLogic.kt",
-                "TuViLogicTest.kt"
-            ]
+            "description": "Implemented Prompt Version 3 for all reading styles in GeminiClient.kt.",
+            "files": ["GeminiClient.kt"]
+        },
+        {
+            "timestamp": "2026-03-04T20:02:00+07:00",
+            "type": "ui",
+            "description": "Added Monthly/Yearly viewing mode selection in InputScreen.kt with side-by-side selectors.",
+            "files": ["InputScreen.kt"]
+        },
+        {
+            "timestamp": "2026-03-04T19:58:00+07:00",
+            "type": "logic",
+            "description": "Updated TuViViewModel.kt to handle dynamic month/year calculations and ViewingMode toggle.",
+            "files": ["TuViViewModel.kt"]
+        },
+        {
+            "timestamp": "2026-03-04T19:50:00+07:00",
+            "type": "architecture",
+            "description": "Updated Models.kt to include ViewingMode and monthly context fields.",
+            "files": ["Models.kt"]
         }
     ],
     "pending_tasks": [],
     "decisions_made": [
         {
-            "decision": "Use Table Lookup for Lunar Date",
-            "reason": "Algorithmic approach had drift issues; Lookup is standard and stable."
+            "decision": "Apply Prompt v3 to all styles",
+            "reason": "Ensure high-quality structural analysis even for casual styles (tone fits style, but depth is consistent)."
         },
         {
-            "decision": "Center Alignment in Box for Laso Info",
-            "reason": "Using Column weight caused the central info to be squeezed or hidden on properties. Box overlay is more robust."
+            "decision": "Default Monthly Mode to Current Month + 1",
+            "reason": "Anticipate user's desire to see upcoming fortune."
         }
     ]
 }
