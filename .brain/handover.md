@@ -1,33 +1,35 @@
-# 📋 HANDOVER DOCUMENT - Tử Vi AI Verification
+# 📋 HANDOVER DOCUMENT - Tử Vi AI Classical Logic
 
-**📍 Đang làm:** Xác thực logic an Sao Lưu và Đại Vận
-**🔢 Đến bước:** Phân tích hoàn tất
+**📍 Đang làm:** Hoàn tất thay đổi Prompt AI theo hệ thống cổ điển
+**🔢 Đến bước:** Đã build xong APK và sẵn sàng cho User trải nghiệm
 
 ---
 
 ## ✅ ĐÃ XÔNG:
-- **Xác thực logic cốt lõi**: So khớp kết quả tính toán của app với dữ liệu từ `tuvivietnam.vn`. Kết quả: Vị trí 14 Chính Tinh, vòng Tuần/Triệt, vòng Trường Sinh, và Tứ cục hoàn toàn chính xác.
-- **Phân tích khác biệt Sao Lưu & Đại Vận**: 
-  - Đã xác định nguyên nhân "lệch" dữ liệu: Code của app đang sinh ra số lượng sao dư dả và chi tiết hơn (20 Sao Lưu, 10 Sao Đại Vận) so với sự hiển thị tối giản của web đối thủ.
-  - Luồng thuật toán được đánh giá là ĐÚNG với nguyên lý Tử Vi chuyên sâu, không phải lỗi code.
+- **Thay Prompt AI**: Toàn bộ hệ thống luận giải đã chuyển sang chuẩn **Thiên Lương – Vân Đằng Thái Thứ Lang**. 
+- **Quy trình bắt buộc**: AI giờ sẽ luận theo 3 bước (Tóm tắt cấu trúc -> Đánh giá lực -> Kiểm tra cách cục) sau đó mới luận chi tiết 12 cung.
+- **Phong cách**: Giữ lại 6 style xưng hô (Nghiêm túc, Kiếm hiệp, Chữa lành...) để Bệ hạ tùy ý lựa chọn.
+- **Build APK**: Version mới nhất `app-debug.apk` đã tích hợp prompt mới.
+- **Kiểm thử**: Đã chạy unit test `TuViLogicTest`, vương quốc vẫn ổn định, không có xung đột logic.
 
 ---
 
-## ⏳ CÒN LẠI (Gợi ý cho session sau):
-- Chờ quyết định của User xem có nên giữ lại bộ sao khổng lồ này hay tỉa tót bớt (comment code) để cho giống hệt output của web kia.
-- Nếu giữ lại: Triển khai đưa dữ liệu này qua `/test` và `/code` để xem phản ứng của AI.
+## ⏳ CÒN LẠI:
+- Chờ Bệ hạ trải nghiệm thực tế trên app để đánh giá chất lượng luận giải của "vị cố vấn AI" mới.
+- Tinh chỉnh lại bộ sao (ẩn/hiện) nếu Bệ hạ cảm thấy lá số quá nhiều sao làm AI bị "rối" (tuy nhiên prompt mới đã có cơ chế phân loại sao chính/phụ nên có thể không cần thiết).
 
 ---
 
 ## 🔧 QUYẾT ĐỊNH QUAN TRỌNG:
-- **Tạm dừng tinh chỉnh code logic**: Vì code đang đúng chuẩn Tử Vi học, khoan gỡ các hàm `calculateGiaoVan` và `calculateLuuNien` cho đến khi User đưa ra phán quyết cuối cùng.
-- Sự hiển thị khác biệt không có nghĩa là Code lỗi!
+- **Trung thành với hệ thống cổ điển**: Phản hồi của AI sẽ không còn cảm tính mà dựa hoàn toàn vào căn cứ sao.
+- **Duy trì đa dạng phong cách**: Sự kết hợp giữa logic cổ điển và phong cách hiện đại/hài hước giúp app dễ tiếp cận hơn.
 
 ---
 
 ## 📁 FILES QUAN TRỌNG:
-- `TuViLogic.kt`: Chứa full logic sinh sao khổng lồ (từ line 700+).
+- `GeminiClient.kt`: Chứa prompt khổng lồ mới (method `constructPrompt`).
+- `CHANGELOG.md`: Đã cập nhật lịch sử hào hùng của phiên bản này.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 Đã lưu checkpoint! Để tiếp tục: Gõ `/recap`
+📍 Đã lưu checkpoint! Thỉnh Bệ hạ nghỉ ngơi. 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

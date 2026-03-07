@@ -1,6 +1,10 @@
 # Changelog
 
 ## [2026-03-07]
+### Added
+- **Classical Methodology Prompt**: Replaced the AI prompt with a comprehensive system based on *Thiên Lương – Vân Đằng Thái Thứ Lang – Tử Vi Đẩu Số Toàn Thư*.
+- **Prompt Format Enforcement**: Mandatory 3-step analysis (Summary, Force Assessment, Pattern Check) and structured 12-palace reading.
+
 ### Fixed
 - **Critical Logic Overhaul**: Total audit and fix of 9 logic bugs in `TuViLogic.kt`.
 - **Palace Direction (Bug 1)**: Corrected the 12 cung chức năng assignment order. Verified that Nam Phai uses **Thuận** (clockwise) direction starting from Mệnh.
@@ -11,8 +15,9 @@
 - **Documentation**: Added school-specific notes for `Thiên Y`/`Thiên Riêu` placement.
 
 ### Changed
+- **AI Reading Style Integration**: Preserved and injected 6 user-selected ReadingStyles (Nghiêm túc, Đời thường, etc.) into the new classical prompt.
 - **Unit Tests**: Updated `TuViLogicTest.kt` with corrected palace indices and star positions for the benchmark case (Nguyen Duy Truong).
-- **APK Export**: Successfully built and verified updated `app-debug.apk`.
+- **APK Export**: Successfully built and verified updated `app-debug.apk` with the new AI engine.
 
 ## [2026-03-04]
 ### Added
