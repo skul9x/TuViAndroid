@@ -1,0 +1,73 @@
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:kspDebugKotlin UP-TO-DATE
+> Task :app:compileDebugKotlin UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:bundleDebugClassesToRuntimeJar UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:kspDebugUnitTestKotlin
+
+> Task :app:compileDebugUnitTestKotlin
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:82:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:83:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:89:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:92:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:93:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:94:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:97:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:98:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:99:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:103:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:104:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:107:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:110:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:111:9 Unreachable code
+w: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/src/test/java/com/example/tviai/core/TuViLogicTest.kt:114:9 Unreachable code
+
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes UP-TO-DATE
+
+> Task :app:testDebugUnitTest FAILED
+
+TuViLogicTest > testNguyenDuyTruong FAILED
+    java.lang.RuntimeException at TuViLogicTest.kt:79
+
+1 test completed, 1 failed
+
+[Incubating] Problems report is available at: file:///C:/Users/admin/AndroidStudioProjects/TViAI/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testDebugUnitTest'.
+> There were failing tests. See the report at: file:///C:/Users/admin/AndroidStudioProjects/TViAI/app/build/reports/tests/testDebugUnitTest/index.html
+
+* Try:
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 2s
+26 actionable tasks: 4 executed, 22 up-to-date

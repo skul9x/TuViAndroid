@@ -1,0 +1,31 @@
+{
+    "updated_at": "2026-03-07T19:54:00+07:00",
+    "working_on": {
+        "feature": "Tử Vi Logic Verification",
+        "task": "Compare text and image outputs",
+        "status": "completed",
+        "files": [
+            "TuViLogic.kt",
+            "Constants.kt"
+        ],
+        "notes": "Verified that core logic matches perfectly. The difference is verbosity: app calculates 30 combined L. and ĐV. stars, while reference shows <10."
+    },
+    "recent_changes": [
+        {
+            "timestamp": "2026-03-07T19:50:00+07:00",
+            "type": "investigation",
+            "description": "Checked anSaoLuu and anSaoDaiVan methods. Both implement strict Nam Phai rules injecting many secondary stars.",
+            "files": ["TuViLogic.kt"]
+        }
+    ],
+    "pending_tasks": [
+        { "task": "Decide on keeping full stars vs pruning them to match web reference.", "priority": "high", "notes": "Waiting for User input" }
+    ],
+    "decisions_made": [
+        {
+            "decision": "Logic is mathematically correct and follows advanced astrology.",
+            "reason": "TuViVietNam masks data for a clean UI; our app outputs raw data for AI reading."
+        }
+    ],
+    "errors_encountered": []
+}
