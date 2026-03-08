@@ -199,6 +199,20 @@ class GeminiClient(
         } else {
             "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
         }
+        
+        val birthYear = info.solarDate.split("/").last().toIntOrNull() ?: info.viewingYear
+        val approxAge = info.viewingYear - birthYear + 1
+        val isChild = approxAge < 13 || info.daiVanInfo.contains("Chưa vào đại vận")
+
+        val rule9 = if (isChild) {
+            """
+            
+            9. 👶 LUẬN LÁ SỐ TRẺ EM (Đương số dưới 13 tuổi hoặc chưa vào đại vận):
+            • TUYỆT ĐỐI KHÔNG phân tích sâu về Tiền Bạc (Tài bạch), Sự Nghiệp (Quan lộc), Tình Duyên (Phu thê).
+            • CHỈ tập trung luận đoán về: Sức khỏe, tính cách bẩm sinh, khả năng tiếp thu/học tập, và môi trường cha mẹ nuôi dưỡng.
+            • Phải dùng giọng văn phù hợp để tư vấn cho "Phụ huynh" của đương số (ví dụ: "Bé có xu hướng...", "Cha mẹ nên...").
+            """.trimIndent()
+        } else ""
 
         val lasoContent = """
         1. THÔNG TIN CƠ BẢN:
@@ -208,6 +222,7 @@ class GeminiClient(
         - Cục: ${info.cuc}
         - Mệnh đóng tại: ${info.menhTai}
         - Thân đóng tại: ${info.thanTai}
+        - Đại vận hiện tại: ${info.daiVanInfo}
         - Khoảng thời gian xem vận: ${if (info.viewingMode == "MONTH") "Tháng ${info.viewingMonth} năm ${info.viewingYear}" else "Năm ${info.viewingYear}"}
 
         2. CÁC CUNG VÀ SAO:
@@ -272,6 +287,16 @@ class GeminiClient(
         "thường"
         "có xu hướng"
         "nếu vận hỗ trợ"
+
+        8. ⛔ KHÔNG ĐƯỢC tự tính toán bất kỳ dữ liệu nào.
+        CHỈ sử dụng dữ liệu đã được cung cấp sẵn bên dưới.
+        Cụ thể KHÔNG ĐƯỢC:
+        • Tự tính miếu / vượng / đắc / hãm (dữ liệu đã có sẵn ký hiệu M/V/Đ/H sau tên chính tinh)
+        • Tự xác định đại vận (thông tin đại vận đã được cung cấp đầy đủ)
+        • Tự tính lưu tinh hay lưu tứ hóa (dữ liệu đã có prefix L. và ĐV.)
+        • Tự suy ra cách cục không dựa trên sao thực tế trong lá số
+        Nếu dữ liệu không có → ghi rõ "Không có trong dữ liệu được cung cấp".
+        $rule9
 
         =====================================
         QUY TRÌNH PHÂN TÍCH BẮT BUỘC
@@ -453,6 +478,14 @@ class GeminiClient(
         • lưu ý vận hạn
 
         =====================================
+
+        QUY ƯỚC KÝ HIỆU TRONG DỮ LIỆU:
+        • (M) = Miếu, (V) = Vượng, (Đ) = Đắc, (H) = Hãm — trạng thái của chính tinh
+        • (Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ) — Tứ hóa bản mệnh
+        • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. H Lộc = Đại Vận Hóa Lộc)
+        • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
+        • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
+        • Cung không có chính tinh = Vô chính diệu → xem chính tinh cung đối chiếu (xung chiếu) để luận
 
         Nội dung lá số:
 

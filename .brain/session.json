@@ -1,41 +1,24 @@
 {
-    "updated_at": "2026-03-07T20:06:00+07:00",
-    "working_on": {
-        "feature": "AI Prompt Replacement",
-        "task": "Deploy classical methodology prompt",
-        "status": "completed",
-        "files": [
-            "GeminiClient.kt"
-        ],
-        "notes": "Replaced original prompt with classical system (Thiên Lương - Thái Thứ Lang). Retained ReadingStyle injection."
-    },
+  "updated_at": "2026-03-08T19:30:00Z",
+  "working_on": {
+    "feature": "AI Prompt Optimization (Childhood & Metadata)",
+    "status": "COMPLETED",
     "recent_changes": [
-        {
-            "timestamp": "2026-03-07T20:00:00+07:00",
-            "type": "feature",
-            "description": "Implemented new classical Tử Vi methodology prompt with multi-step analysis workflow.",
-            "files": ["GeminiClient.kt"]
-        },
-        {
-            "timestamp": "2026-03-07T20:04:00+07:00",
-            "type": "build",
-            "description": "Successfully built and exported updated app-debug.apk.",
-            "files": ["app/build/outputs/apk/debug/app-debug.apk"]
-        }
+      "Added daiVanInfo field to UserInfoResult",
+      "Short-circuited anSaoDaiVan metadata for children before first cycle",
+      "Added Rule #9 for childhood horoscopes in GeminiClient",
+      "Prohibited AI self-calculation (Rule #8)",
+      "Added standardized signs legend (M/V/Đ/H, ĐV., L.)"
     ],
-    "pending_tasks": [
-        { "task": "Evaluate AI reading quality with the new prompt.", "priority": "medium", "notes": "Waiting for User feedback on actual readings." },
-        { "task": "Decide on keeping full stars vs pruning them in UI.", "priority": "low", "notes": "Prompt now handles them via logic." }
-    ],
-    "decisions_made": [
-        {
-            "decision": "Use classical methodology as the default AI engine reasoning path.",
-            "reason": "Classical systems provide more structured and logical explanations compared to general AI prose."
-        },
-        {
-            "decision": "Keep 6 ReadingStyles for personalization.",
-            "reason": "Allows user to choose xưng hô while maintaining the same logical foundation."
-        }
-    ],
-    "errors_encountered": []
+    "notes": "Built successful APK app-debug.apk. Unit tests passed."
+  },
+  "pending_tasks": [
+    { "task": "P1: Standardize Star Classification (Cát/Sát/Phụ)", "priority": "medium" },
+    { "task": "P1: Implement Output Length Control (Max length)", "priority": "medium" },
+    { "task": "P2: Define Cách Cục conditions in prompt", "priority": "low" }
+  ],
+  "decisions_made": [
+    { "decision": "Use String field for daiVanInfo", "reason": "Simpler to inject directly into prompt text" },
+    { "decision": "Dynamic Rule 9 injection", "reason": "Allows AI to adapt mindset for children without hard-coding multiple prompts" }
+  ]
 }

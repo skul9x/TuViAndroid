@@ -65,7 +65,8 @@ data class UserInfoResult(
     val viewingYear: Int,
     val viewingMonth: Int = 0,
     val viewingMode: String = "YEAR",
-    val readingStyle: String
+    val readingStyle: String,
+    val daiVanInfo: String = ""
 )
 
 data class LasoData(

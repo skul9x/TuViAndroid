@@ -1,75 +1,22 @@
 {
-    "meta": {
-        "schema_version": "1.1.0",
-        "awf_version": "3.3.0"
-    },
-    "project": {
-        "name": "TViAI",
-        "type": "Android App",
-        "status": "In Development"
-    },
-    "tech_stack": {
-        "frontend": {
-            "language": "Kotlin",
-            "framework": "Jetpack Compose"
-        },
-        "backend": {
-            "ai_model": "Google Gemini",
-            "sdk": "Generative AI Android SDK"
-        },
-        "database": {
-            "local": "Room",
-            "preferences": "DataStore"
-        }
-    },
-    "features": [
-        {
-            "name": "Tu Vi An Sao (Advanced)",
-            "status": "Implemented",
-            "details": "Full Nam Phai logic: Tuần/Triệt, Tứ Hóa, Sát Tinh, Brightness"
-        },
-        {
-            "name": "Detailed Static Stars",
-            "status": "Implemented",
-            "details": "Expanded database: Đầu Quân, Thiên Đức/Nguyệt Đức, Văn Tinh, Tam Thai/Bát Tọa, Phong Cáo/Thai Phụ, Thiên Thương/Sứ"
-        },
-        {
-            "name": "Core Logic Bug-Fixed",
-            "status": "Verified",
-            "details": "Audited and corrected palace direction and star symmetry axis (4-TV)."
-        },
-        {
-            "name": "Decade Stars (Đại Vận)",
-            "status": "Implemented",
-            "details": "Dynamic calculation (Can Đại Vận) for ĐV. Lộc Tồn, ĐV. Kình/Đà, ĐV. Tứ Hóa, ĐV. Khôi Việt"
-        },
-        {
-            "name": "Yearly Stars (Sao Lưu) Full",
-            "status": "Implemented",
-            "details": "All yearly stars including L.Đào/Hồng/Hỷ, L.Khôi/Việt, L.Tứ Hóa, L.Kiếp Sát, L.Kình/Đà"
-        },
-        {
-            "name": "Lunar Date Conversion",
-            "status": "Implemented",
-            "details": "Table Lookup method (1900-2049), MinSDK 24 compatible"
-        },
-        {
-            "name": "AI Reading",
-            "status": "Implemented",
-            "details": "Classical methodology (Thiên Lương – Thái Thứ Lang) with mandatory 3-step structural analysis and 12-palace logic."
-        }
-    ],
-    "knowledge_items": {
-        "patterns": [
-            "Use Table Lookup for Lunar Date to avoid algorithmic complexity/drift",
-            "Avoid java.time in core logic if MinSDK < 26 to skip desugaring",
-            "Calculate scores before appending modifiers like (M)/(V) to star names",
-            "Use startsWith() for Tứ Hóa lookup to support modified star names"
-        ],
-        "gotchas": [
-            "Palace Direction: Mệnh -> Phụ -> Phúc is THUẬN (+1 index) in Nam Phai standards.",
-            "Thiên Phủ Symmetry: Symmetry sum must be 4 (Dần axis), formula is (4 - tuViPos) % 12.",
-            "Star Naming: Some stars (like Văn Khúc) have different placement rules based on Can vs Chi; always use the correct Map."
-        ]
-    }
+  "meta": { "schema_version": "1.1.0", "awf_version": "3.3.0" },
+  "project": { 
+    "name": "TuViAndroid", 
+    "type": "Android (Kotlin)", 
+    "status": "Enhancing AI logic" 
+  },
+  "business_rules": [
+    "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
+    "AI cấm tự tính toán dữ liệu: Phải dùng ký hiệu M/V/Đ/H và prefix ĐV./L. đã cấp.",
+    "Cung vô chính diệu: Luận theo cung xung chiếu."
+  ],
+  "features": [
+    "AI Horoscope Reading",
+    "Childhood Perspective Analysis",
+    "Detailed Major Cycle (Đại vận) Metadata"
+  ],
+  "knowledge_items": {
+    "patterns": ["String-based metadata injection for prompt flexibility"],
+    "current_p0_fixes": "Completed: AI Hallucination & Child Logic"
+  }
 }

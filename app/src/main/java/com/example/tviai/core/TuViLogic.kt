@@ -104,7 +104,7 @@ class TuViLogic {
         anPhuTinhMoRong(cungList, canNamIndex, chiNamIndex, lunarMonth, lunarDay, chiGioIndex)
 
         // 5.8c An Sao Đại Vận
-        anSaoDaiVan(
+        val daiVanMeta = anSaoDaiVan(
             cungList = cungList,
             menhIndex = menhIndex,
             cucNumber = cucNumber,
@@ -138,7 +138,8 @@ class TuViLogic {
                 viewingYear = input.viewingYear,
                 viewingMonth = input.viewingMonth,
                 viewingMode = input.viewingMode.name,
-                readingStyle = input.readingStyle.displayName
+                readingStyle = input.readingStyle.displayName,
+                daiVanInfo = daiVanMeta
             ),
             cung = cungList,
             scores = scores
@@ -720,7 +721,7 @@ class TuViLogic {
         canNamIndex: Int, // Birth Year Can
         viewingYear: Int,
         birthYear: Int
-    ) {
+    ): String {
         // 1. Determine Start Palace of Dai Van (Dung Cục)
         // Nam: Dương(Thuận) Âm(Nghịch). Nữ: Dương(Nghịch) Âm(Thuận).
         val isYangYear = (canNamIndex % 2 == 0)
@@ -832,6 +833,19 @@ class TuViLogic {
                  }
              }
         }
+
+        // Return metadata for prompt
+        if (currentAge < cucVal) {
+            return "Chưa vào đại vận (đại vận đầu tiên bắt đầu từ tuổi $cucVal tại cung ${DIA_CHI[menhIndex]}). " +
+                   "Giai đoạn này chỉ xem Đồng Hạn (Tiểu vận trẻ em)."
+        }
+
+        val startAge = cucVal + decadeIdx * 10
+        val endAge = startAge + 9
+        val cungName = DIA_CHI[daiVanPos]
+        val direction = if (isThuan) "Thuận" else "Nghịch"
+        return "Đại vận thứ ${decadeIdx + 1} ($startAge–$endAge tuổi), " +
+               "Can: $canStr, Cung: $cungName, Hướng: $direction"
     }
 
     private fun anSaoLuu(cungList: MutableList<CungInfo>, viewingYear: Int) {

@@ -52,3 +52,16 @@
 ### Fixed
 - Fixed compilation error in `TuViLogic.kt` (missing brace).
 - Fixed `testNguyenDuyTruong` assertions to align with expert corrections.
+## [2026-03-08]
+### Added
+- Logic xử lý lá số trẻ em (< 13 tuổi): Tự động chuyển sang chế độ tư vấn phụ huynh.
+- Metadata Đại Vận chi tiết: Can, Cung, Hướng, Khoảng tuổi.
+- Bảng quy ước ký hiệu sao (M/V/Đ/H, ĐV., L.) vào prompt AI.
+- Quy tắc nghiêm ngặt cấm AI tự tính toán (Rule #8).
+
+### Fixed
+- Lỗi AI tự tính sai Đại Vận và Miếu Vượng.
+- Lỗi AI luận sự nghiệp, tiền bạc cho trẻ mẫu giáo.
+
+### Artifacts
+- APK Build: \`app/build/outputs/apk/debug/app-debug.apk\`
