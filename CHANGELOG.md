@@ -54,14 +54,18 @@
 - Fixed `testNguyenDuyTruong` assertions to align with expert corrections.
 ## [2026-03-08]
 ### Added
-- Logic xử lý lá số trẻ em (< 13 tuổi): Tự động chuyển sang chế độ tư vấn phụ huynh.
-- Metadata Đại Vận chi tiết: Can, Cung, Hướng, Khoảng tuổi.
-- Bảng quy ước ký hiệu sao (M/V/Đ/H, ĐV., L.) vào prompt AI.
-- Quy tắc nghiêm ngặt cấm AI tự tính toán (Rule #8).
+- **AI Child Analysis Mode**: Automatic detection and parent-consultation tone for users < 13 years old.
+- **Detailed Decade Metadata**: Added Stem, Branch, Direction, and Age Bracket to Đại Vận info.
+- **AI Anti-Hallucination Prompt Upgrade**: A massive overhaul to ensure AI adheres strictly to star data.
+  - **Star Categorization**: Explicitly defined 14 Main Stars, Malefics, Benefics, and Tứ hóa.
+  - **Rule #10 (Pattern Rigidity)**: Prohibits AI from inferring patterns (Cách cục) without explicit star evidence.
+  - **VCD Protocol**: Mandates polar projection notation for empty palaces.
+  - **Consistency Stage**: New "TRƯỚC KHI KẾT LUẬN" section for cross-checking analysis.
 
 ### Fixed
-- Lỗi AI tự tính sai Đại Vận và Miếu Vượng.
-- Lỗi AI luận sự nghiệp, tiền bạc cho trẻ mẫu giáo.
+- **Pattern Hallucinations**: Prevented AI from "making up" lucky patterns for weak destiny palaces.
+- **Calculation Errors**: Rule #8 strictly prohibits AI from self-calculating miếu/vượng or đại vận.
 
 ### Artifacts
-- APK Build: \`app/build/outputs/apk/debug/app-debug.apk\`
+- APK Build: `app/build/outputs/apk/debug/app-debug.apk`
+- Implementation Plan: `plans/260308-1932-anti-hallucination-prompt/`

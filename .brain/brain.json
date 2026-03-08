@@ -3,20 +3,26 @@
   "project": { 
     "name": "TuViAndroid", 
     "type": "Android (Kotlin)", 
-    "status": "Enhancing AI logic" 
+    "status": "AI Prompt Hardened (Anti-Hallucination)" 
   },
   "business_rules": [
     "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
-    "AI cấm tự tính toán dữ liệu: Phải dùng ký hiệu M/V/Đ/H và prefix ĐV./L. đã cấp.",
-    "Cung vô chính diệu: Luận theo cung xung chiếu."
+    "AI cấm tự tính toán dữ liệu: Phải dùng ký hiệu M/V/Đ/H và prefix ĐV./L. đã cấp (Rule #8).",
+    "Cung vô chính diệu: BẮT BUỘC ghi rõ xung chiếu trong tóm tắt (Phase 02).",
+    "Cách cục: Chỉ xác nhận khi đủ sao (Rule #10) và không tự suy diễn.",
+    "TRƯỚC KHI KẾT LUẬN: Bắt buộc bước kiểm tra mâu thuẫn nội bộ (Phase 03)."
   ],
   "features": [
-    "AI Horoscope Reading",
+    "AI Horoscope Reading (Classical Methodology)",
+    "Anti-Hallucination Prompt Engine",
     "Childhood Perspective Analysis",
     "Detailed Major Cycle (Đại vận) Metadata"
   ],
   "knowledge_items": {
-    "patterns": ["String-based metadata injection for prompt flexibility"],
-    "current_p0_fixes": "Completed: AI Hallucination & Child Logic"
+    "patterns": [
+      "String-based metadata injection",
+      "Strict Rule-based prompting to control LLM logic"
+    ],
+    "milestones": "Completed: Anti-Hallucination Upgrade (2026-03-08)"
   }
 }

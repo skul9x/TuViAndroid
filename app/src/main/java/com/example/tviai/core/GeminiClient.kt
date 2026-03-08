@@ -254,15 +254,12 @@ class GeminiClient(
         3. Không suy đoán khi thiếu dữ liệu.
         Nếu thiếu thông tin quan trọng → hỏi lại tối đa 3 câu.
 
-        4. Phân biệt rõ:
-
-        Chính tinh
-        Phụ tinh
-        Cát tinh
-        Sát tinh
-        Tứ hóa
-        Sao lưu
-        Sao đại vận
+        4. Không tự phân loại lại sao. Chỉ dùng cách phân loại truyền thống:
+        • 14 Chính tinh: Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, Liêm Trinh, Thiên Phủ, Thái Âm, Tham Lang, Cự Môn, Thiên Tướng, Thiên Lương, Thất Sát, Phá Quân.
+        • Sát tinh chính: Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp.
+        • Cát tinh chính: Tả Phụ, Hữu Bật, Văn Xương, Văn Khúc, Lộc Tồn, Thiên Khôi, Thiên Việt.
+        • Tứ hóa: Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ (đã ký hiệu sẵn trong dữ liệu).
+        • Các sao còn lại: Phụ tinh — không tự ý nâng cấp thành cát tinh hoặc sát tinh.
 
         5. Không bỏ qua các tương tác tinh hệ:
 
@@ -298,6 +295,10 @@ class GeminiClient(
         Nếu dữ liệu không có → ghi rõ "Không có trong dữ liệu được cung cấp".
         $rule9
 
+        10. ⛔ KHÔNG ĐƯỢC tự suy diễn cách cục khi dữ liệu không đủ.
+        Chỉ xác nhận một cách cục khi CÁC SAO tạo cách xuất hiện ĐÚNG CUNG theo điều kiện.
+        Nếu không đủ điều kiện → ghi rõ: "Không đủ dữ kiện để xác nhận cách [tên cách]".
+
         =====================================
         QUY TRÌNH PHÂN TÍCH BẮT BUỘC
 
@@ -308,7 +309,7 @@ class GeminiClient(
 
         Liệt kê:
 
-        • chính tinh từng cung
+        • chính tinh từng cung (đối với cung vô chính diệu, bắt buộc ghi: "Cung [Tên]: Vô chính diệu → xung chiếu [Tên sao chính tinh cung đối diện]")
         • tứ hóa
         • cung Mệnh
         • cung Thân
@@ -319,7 +320,7 @@ class GeminiClient(
 
         Xác định:
 
-        • Mệnh mạnh hay yếu
+        • Đánh giá lực Mệnh dựa trên: trạng thái miếu/vượng/đắc/hãm của chính tinh tại Mệnh; số lượng cát tinh nâng đỡ (Tả Hữu, Xương Khúc, Khôi Việt...); số lượng sát tinh phá (Kình Đà, Hỏa Linh, Không Kiếp...); ảnh hưởng Tuần / Triệt (nếu có).
         • Thân cư cung nào
         • cục sinh hay khắc mệnh
         • có sát tinh nặng hay không
@@ -350,6 +351,11 @@ class GeminiClient(
         • vị trí cung
         • điều kiện đạt cách
         • có sát tinh phá cách không
+
+        ⛔ QUY TẮC KIỂM TRA CÁCH CỤC:
+        • Chỉ xác nhận cách khi các sao tạo cách xuất hiện đúng vị trí trong dữ liệu.
+        • Nếu không đủ điều kiện → ghi: "Không đủ dữ kiện để xác nhận cách".
+        • Không tự suy diễn cách cục theo trường phái khác.
 
         =====================================
         PHƯƠNG PHÁP LUẬN MỖI CUNG
@@ -451,7 +457,19 @@ class GeminiClient(
         • Bạo phát
         • Khởi nghiệp thành công
 
-        Chỉ được kết luận khi có căn cứ tinh hệ.
+        Chỉ được phân loại khi có ít nhất 2–3 yếu tố tinh hệ hỗ trợ rõ ràng.
+        Phải liệt kê cụ thể các yếu tố đó.
+        Nếu không đủ → ghi: "Lá số trung bình, chưa đủ dấu hiệu đặc biệt".
+
+        =====================================
+        TRƯỚC KHI KẾT LUẬN — KIỂM TRA MÂU THUẪN
+
+        Rà soát lại toàn bộ phân tích để đảm bảo KHÔNG có mâu thuẫn giữa:
+        • Đánh giá lực Mệnh (Bước 2) và kết luận tổng thể
+        • Đánh giá từng cung (phần B) và phân loại lá số (phần D)
+        • Nhận định ở cung Tài bạch và kết luận về khả năng giàu có
+
+        Nếu phát hiện mâu thuẫn → ưu tiên căn cứ tinh hệ, sửa lại kết luận cho nhất quán.
 
         =====================================
         FORMAT ĐẦU RA
