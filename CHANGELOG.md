@@ -69,3 +69,14 @@
 ### Artifacts
 - APK Build: `app/build/outputs/apk/debug/app-debug.apk`
 - Implementation Plan: `plans/260308-1932-anti-hallucination-prompt/`
+
+### [2026-03-08 - Part 2]
+#### Fixed
+- **Metadata Ambiguity Resolution**: Fixed potential AI confusion by standardizing markers.
+- **Marker Standard: [Cung Đại Vận]**: Changed from "Đại Vận" (string) to `[Cung Đại Vận]` to distinguish it from star names.
+- **Marker Standard: [Thân cư]**: Changed from "(Thân)" to `[Thân cư]` (e.g., `Cung Thân (Phu Thê) [Thân cư]`) to distinguish from Địa Chi Thân.
+- **Prompt Conventions**: Updated QUY ƯỚC KÝ HIỆU in `GeminiClient.kt` to define these new markers for the AI.
+
+#### Changed
+- **Unit Tests**: Updated `TuViLogicTest.kt` assertions to verify the new naming convention.
+- **APK Export**: Re-built and verified updated `app-debug.apk` (v1.0.1-prompt-fix).

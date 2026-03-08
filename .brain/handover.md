@@ -1,35 +1,31 @@
-# 📋 HANDOVER DOCUMENT - Tử Vi AI Classical Logic
+# 📋 HANDOVER DOCUMENT - Tử Vi AI v2.0 Finalized
 
-**📍 Đang làm:** Hoàn tất thay đổi Prompt AI theo hệ thống cổ điển
-**🔢 Đến bước:** Đã build xong APK và sẵn sàng cho User trải nghiệm
-
----
-
-## ✅ ĐÃ XÔNG:
-- **Thay Prompt AI**: Toàn bộ hệ thống luận giải đã chuyển sang chuẩn **Thiên Lương – Vân Đằng Thái Thứ Lang**. 
-- **Quy trình bắt buộc**: AI giờ sẽ luận theo 3 bước (Tóm tắt cấu trúc -> Đánh giá lực -> Kiểm tra cách cục) sau đó mới luận chi tiết 12 cung.
-- **Phong cách**: Giữ lại 6 style xưng hô (Nghiêm túc, Kiếm hiệp, Chữa lành...) để Bệ hạ tùy ý lựa chọn.
-- **Build APK**: Version mới nhất `app-debug.apk` đã tích hợp prompt mới.
-- **Kiểm thử**: Đã chạy unit test `TuViLogicTest`, vương quốc vẫn ổn định, không có xung đột logic.
+**📍 Đang làm:** Đã hoàn tất nâng cấp Prompt AI (Anti-Hallucination) và chuẩn hóa Metadata Marker.
+**🔢 Đến bước:** Project ở trạng thái "Production-Ready" cho phần AI Engine.
 
 ---
 
-## ⏳ CÒN LẠI:
-- Chờ Bệ hạ trải nghiệm thực tế trên app để đánh giá chất lượng luận giải của "vị cố vấn AI" mới.
-- Tinh chỉnh lại bộ sao (ẩn/hiện) nếu Bệ hạ cảm thấy lá số quá nhiều sao làm AI bị "rối" (tuy nhiên prompt mới đã có cơ chế phân loại sao chính/phụ nên có thể không cần thiết).
+## ✅ ĐÃ XONG:
+- **Anti-Hallucination Upgrade**: Toàn bộ hệ thống prompt đã cực kỳ chặt chẽ, loại bỏ việc AI tự bịa cách cục.
+- **Chuẩn hóa Metadata (MỚI)**: 
+  - `[Cung Đại Vận]` thay cho "Đại Vận" (Tránh nhầm là sao).
+  - `[Thân cư]` thay cho "(Thân)" (Tránh nhầm với địa chi Thân).
+- **Kiểm thử**: Đã chạy `testDebugUnitTest` pass 100%.
+- **Build APK**: Version mới nhất đã nằm trong `/app/build/outputs/apk/debug/app-debug.apk`.
 
 ---
 
-## 🔧 QUYẾT ĐỊNH QUAN TRỌNG:
-- **Trung thành với hệ thống cổ điển**: Phản hồi của AI sẽ không còn cảm tính mà dựa hoàn toàn vào căn cứ sao.
-- **Duy trì đa dạng phong cách**: Sự kết hợp giữa logic cổ điển và phong cách hiện đại/hài hước giúp app dễ tiếp cận hơn.
+## ⏳ CÒN LẠI (Sẵn sàng cho Bệ hạ):
+- **Trải nghiệm thực tế**: Bệ hạ cài APK và kiểm tra chất lượng luận giải. Theo dõi xem AI có còn phát biểu nào "lạ" không.
+- **Tứ hóa (Optional)**: Nếu vẫn thấy AI nhầm sao nào hóa gì, có thể cân nhắc gắn trực tiếp vào sao (VD: `Thiên Cơ (M)[Hóa Lộc]`) thay vì liệt kê riêng. Hiện tại chưa gấp.
 
 ---
 
 ## 📁 FILES QUAN TRỌNG:
-- `GeminiClient.kt`: Chứa prompt khổng lồ mới (method `constructPrompt`).
-- `CHANGELOG.md`: Đã cập nhật lịch sử hào hùng của phiên bản này.
+- `GeminiClient.kt`: Prompt chuẩn v2.0.
+- `TuViLogic.kt`: Logic an sao và marker chuẩn.
+- `CHANGELOG.md`: Nhật ký chi tiết.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 Đã lưu checkpoint! Thỉnh Bệ hạ nghỉ ngơi. 
+📍 Đã lưu checkpoint! Thỉnh Bệ hạ nghỉ ngơi sau một ngày "luyện đan" (Prompt Engineering) vất vả. 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

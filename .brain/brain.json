@@ -3,26 +3,27 @@
   "project": { 
     "name": "TuViAndroid", 
     "type": "Android (Kotlin)", 
-    "status": "AI Prompt Hardened (Anti-Hallucination)" 
+    "status": "AI Prompt Hardened (v2.0 - Metadata Standardized)" 
   },
   "business_rules": [
     "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
     "AI cấm tự tính toán dữ liệu: Phải dùng ký hiệu M/V/Đ/H và prefix ĐV./L. đã cấp (Rule #8).",
     "Cung vô chính diệu: BẮT BUỘC ghi rõ xung chiếu trong tóm tắt (Phase 02).",
     "Cách cục: Chỉ xác nhận khi đủ sao (Rule #10) và không tự suy diễn.",
-    "TRƯỚC KHI KẾT LUẬN: Bắt buộc bước kiểm tra mâu thuẫn nội bộ (Phase 03)."
+    "TRƯỚC KHI KẾT LUẬN: Bắt buộc bước kiểm tra mâu thuẫn nội bộ (Phase 03).",
+    "Marker System: Sử dụng [Cung Đại Vận] và [Thân cư] để AI không nhầm lẫn với tên sao."
   ],
   "features": [
     "AI Horoscope Reading (Classical Methodology)",
     "Anti-Hallucination Prompt Engine",
     "Childhood Perspective Analysis",
-    "Detailed Major Cycle (Đại vận) Metadata"
+    "Metadata Marker Standardization ([Cung Đại Vận], [Thân cư])"
   ],
   "knowledge_items": {
     "patterns": [
       "String-based metadata injection",
       "Strict Rule-based prompting to control LLM logic"
     ],
-    "milestones": "Completed: Anti-Hallucination Upgrade (2026-03-08)"
+    "milestones": "Completed: Anti-Hallucination Upgrade + Metadata Standardization (2026-03-08)"
   }
 }

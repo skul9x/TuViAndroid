@@ -1,21 +1,22 @@
 {
-  "updated_at": "2026-03-08T19:43:00Z",
+  "updated_at": "2026-03-08T19:58:00Z",
   "working_on": {
-    "feature": "AI Prompt Anti-Hallucination Upgrade",
-    "current_plan_path": "plans/260308-1932-anti-hallucination-prompt/",
-    "current_phase": "All Phases Complete",
-    "task": "Handover",
+    "feature": "Metadata Marker Ambiguity Fix",
+    "current_plan_path": "plans/260308-1949-metadata-marker-fix/",
+    "current_phase": "Post-Verification",
+    "task": "Brain Save",
     "status": "finished"
   },
   "pending_tasks": [
-    { "task": "Maintenance & User Feedback Monitoring", "priority": "low" }
+    { "task": "User testing of real reading outputs", "priority": "high" },
+    { "task": "Check if Tứ hóa binding to stars is necessary (Point #4 in feedback)", "priority": "medium" }
   ],
   "recent_changes": [
-    { "type": "feature", "description": "Overhauled Gemini prompt to prevent logical hallucinations and enforce strict pattern rules." }
+    { "type": "fix", "description": "Standardized [Cung Đại Vận] and [Thân cư] markers in TuViLogic.kt." },
+    { "type": "config", "description": "Updated Gemini prompt with marker definitions." },
+    { "type": "build", "description": "Successful APK build and unit test verification." }
   ],
   "decisions_made": [
-    { "decision": "Explicit star categorization", "reason": "Prevent AI misclassification" },
-    { "decision": "Rule #10 Adoption", "reason": "Combat pattern hallucination" },
-    { "decision": "Final Consistency Check Section", "reason": "Prevent internal logic contradictions" }
+    { "decision": "Adopt square brackets for markers", "reason": "Consistent with prompt conventions and visually distinct for LLM." }
   ]
 }
