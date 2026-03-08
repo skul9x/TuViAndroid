@@ -503,6 +503,8 @@ class GeminiClient(
         • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. H Lộc = Đại Vận Hóa Lộc)
         • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
         • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
+        • [Cung Đại Vận] = Marker đánh dấu cung đại vận hiện tại (KHÔNG phải sao)
+        • [Thân cư] = Cung mà Thân đóng (VD: "Phu Thê [Thân cư]" = Thân cư tại Phu Thê)
         • Cung không có chính tinh = Vô chính diệu → xem chính tinh cung đối chiếu (xung chiếu) để luận
 
         Nội dung lá số:

@@ -162,7 +162,7 @@ class TuViLogic {
         
         // Thân cư gì?
         val currentThanFunc = cungList[thanPos].chucNang
-        val newThanFunc = if (currentThanFunc.isNotEmpty()) "$currentThanFunc (Thân)" else "(Thân)"
+        val newThanFunc = if (currentThanFunc.isNotEmpty()) "$currentThanFunc [Thân cư]" else "[Thân cư]"
         cungList[thanPos] = cungList[thanPos].copy(chucNang = newThanFunc) // Note: This copy won't work on list item ref if not careful.
         // Wait, list set needs to replace element.
         
@@ -188,7 +188,7 @@ class TuViLogic {
             // Special handle for Than
             if (p == thanPos) {
                  // Than is already marked or we mark here
-                 cungList[p] = cungList[p].copy(chucNang = "$funcName (Thân)")
+                 cungList[p] = cungList[p].copy(chucNang = "$funcName [Thân cư]")
             } else {
                  cungList[p] = cungList[p].copy(chucNang = funcName)
             }
@@ -761,7 +761,7 @@ class TuViLogic {
         var daiVanPos = if (isThuan) (startPalace + decadeIdx) % 12 else (startPalace - decadeIdx) % 12
         if (daiVanPos < 0) daiVanPos += 12
         
-        cungList[daiVanPos].phuTinh.add("Đại Vận") // Mark the palace
+        cungList[daiVanPos].phuTinh.add("[Cung Đại Vận]") // Mark the palace
         
         // 3. Determine CAN of Dai Van (Ngũ Dần Độn)
         // Rule: From Birth Year Can, determine Can of Dần (2).

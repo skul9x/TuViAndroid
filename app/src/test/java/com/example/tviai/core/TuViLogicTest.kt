@@ -134,7 +134,7 @@ class TuViLogicTest {
 
         // Liêm Trinh at Thân (8) (Phu Thê) must be (V)
         val phuTheCheck = getCung(8)
-        assertTrue("Thân must be Phu Thê", phuTheCheck.chucNang.contains("Phu Thê"))
+        assertTrue("Thân must be Phu Thê [Thân cư]", phuTheCheck.chucNang.contains("Phu Thê [Thân cư]"))
         assertTrue("Liêm Trinh at Thân must be (V)", phuTheCheck.chinhTinh.any { it.contains("Liêm Trinh (V)") })
 
         // 5. Verify Static Correction

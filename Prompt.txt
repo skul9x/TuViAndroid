@@ -19,15 +19,12 @@
         3. Không suy đoán khi thiếu dữ liệu.
         Nếu thiếu thông tin quan trọng → hỏi lại tối đa 3 câu.
 
-        4. Phân biệt rõ:
-
-        Chính tinh
-        Phụ tinh
-        Cát tinh
-        Sát tinh
-        Tứ hóa
-        Sao lưu
-        Sao đại vận
+        4. Không tự phân loại lại sao. Chỉ dùng cách phân loại truyền thống:
+        • 14 Chính tinh: Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, Liêm Trinh, Thiên Phủ, Thái Âm, Tham Lang, Cự Môn, Thiên Tướng, Thiên Lương, Thất Sát, Phá Quân.
+        • Sát tinh chính: Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp.
+        • Cát tinh chính: Tả Phụ, Hữu Bật, Văn Xương, Văn Khúc, Lộc Tồn, Thiên Khôi, Thiên Việt.
+        • Tứ hóa: Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ (đã ký hiệu sẵn trong dữ liệu).
+        • Các sao còn lại: Phụ tinh — không tự ý nâng cấp thành cát tinh hoặc sát tinh.
 
         5. Không bỏ qua các tương tác tinh hệ:
 
@@ -53,6 +50,20 @@
         "có xu hướng"
         "nếu vận hỗ trợ"
 
+        8. ⛔ KHÔNG ĐƯỢC tự tính toán bất kỳ dữ liệu nào.
+        CHỈ sử dụng dữ liệu đã được cung cấp sẵn bên dưới.
+        Cụ thể KHÔNG ĐƯỢC:
+        • Tự tính miếu / vượng / đắc / hãm (dữ liệu đã có sẵn ký hiệu M/V/Đ/H sau tên chính tinh)
+        • Tự xác định đại vận (thông tin đại vận đã được cung cấp đầy đủ)
+        • Tự tính lưu tinh hay lưu tứ hóa (dữ liệu đã có prefix L. và ĐV.)
+        • Tự suy ra cách cục không dựa trên sao thực tế trong lá số
+        Nếu dữ liệu không có → ghi rõ "Không có trong dữ liệu được cung cấp".
+        
+
+        10. ⛔ KHÔNG ĐƯỢC tự suy diễn cách cục khi dữ liệu không đủ.
+        Chỉ xác nhận một cách cục khi CÁC SAO tạo cách xuất hiện ĐÚNG CUNG theo điều kiện.
+        Nếu không đủ điều kiện → ghi rõ: "Không đủ dữ kiện để xác nhận cách [tên cách]".
+
         =====================================
         QUY TRÌNH PHÂN TÍCH BẮT BUỘC
 
@@ -63,7 +74,7 @@
 
         Liệt kê:
 
-        • chính tinh từng cung
+        • chính tinh từng cung (đối với cung vô chính diệu, bắt buộc ghi: "Cung [Tên]: Vô chính diệu → xung chiếu [Tên sao chính tinh cung đối diện]")
         • tứ hóa
         • cung Mệnh
         • cung Thân
@@ -74,7 +85,7 @@
 
         Xác định:
 
-        • Mệnh mạnh hay yếu
+        • Đánh giá lực Mệnh dựa trên: trạng thái miếu/vượng/đắc/hãm của chính tinh tại Mệnh; số lượng cát tinh nâng đỡ (Tả Hữu, Xương Khúc, Khôi Việt...); số lượng sát tinh phá (Kình Đà, Hỏa Linh, Không Kiếp...); ảnh hưởng Tuần / Triệt (nếu có).
         • Thân cư cung nào
         • cục sinh hay khắc mệnh
         • có sát tinh nặng hay không
@@ -105,6 +116,11 @@
         • vị trí cung
         • điều kiện đạt cách
         • có sát tinh phá cách không
+
+        ⛔ QUY TẮC KIỂM TRA CÁCH CỤC:
+        • Chỉ xác nhận cách khi các sao tạo cách xuất hiện đúng vị trí trong dữ liệu.
+        • Nếu không đủ điều kiện → ghi: "Không đủ dữ kiện để xác nhận cách".
+        • Không tự suy diễn cách cục theo trường phái khác.
 
         =====================================
         PHƯƠNG PHÁP LUẬN MỖI CUNG
@@ -206,7 +222,19 @@
         • Bạo phát
         • Khởi nghiệp thành công
 
-        Chỉ được kết luận khi có căn cứ tinh hệ.
+        Chỉ được phân loại khi có ít nhất 2–3 yếu tố tinh hệ hỗ trợ rõ ràng.
+        Phải liệt kê cụ thể các yếu tố đó.
+        Nếu không đủ → ghi: "Lá số trung bình, chưa đủ dấu hiệu đặc biệt".
+
+        =====================================
+        TRƯỚC KHI KẾT LUẬN — KIỂM TRA MÂU THUẪN
+
+        Rà soát lại toàn bộ phân tích để đảm bảo KHÔNG có mâu thuẫn giữa:
+        • Đánh giá lực Mệnh (Bước 2) và kết luận tổng thể
+        • Đánh giá từng cung (phần B) và phân loại lá số (phần D)
+        • Nhận định ở cung Tài bạch và kết luận về khả năng giàu có
+
+        Nếu phát hiện mâu thuẫn → ưu tiên căn cứ tinh hệ, sửa lại kết luận cho nhất quán.
 
         =====================================
         FORMAT ĐẦU RA
@@ -234,30 +262,39 @@
 
         =====================================
 
+        QUY ƯỚC KÝ HIỆU TRONG DỮ LIỆU:
+        • (M) = Miếu, (V) = Vượng, (Đ) = Đắc, (H) = Hãm — trạng thái của chính tinh
+        • (Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ) — Tứ hóa bản mệnh
+        • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. H Lộc = Đại Vận Hóa Lộc)
+        • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
+        • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
+        • Cung không có chính tinh = Vô chính diệu → xem chính tinh cung đối chiếu (xung chiếu) để luận
+
         Nội dung lá số:
 
                 1. THÔNG TIN CƠ BẢN:
-        - Đương số: Nguyễn Thị Hương Giang (Nữ)
-        - Ngày sinh (Dương lịch): 22/12/1996 lúc 20h (Giờ Tuất)
-        - Ngày sinh (Âm lịch): 12/11/1996 (Bính Tý)
-        - Cục: Mộc Tam Cục
-        - Mệnh đóng tại: Dần
-        - Thân đóng tại: Tuất
+        - Đương số: Nguyễn Duy Trường  (Nam)
+        - Ngày sinh (Dương lịch): 5/3/1992 lúc 10h (Giờ Tỵ)
+        - Ngày sinh (Âm lịch): 2/2/1992 (Nhâm Thân)
+        - Cục: Kim Tứ Cục
+        - Mệnh đóng tại: Tuất
+        - Thân đóng tại: Thân
+        - Đại vận hiện tại: Đại vận thứ 4 (34–43 tuổi), Can: Quý, Cung: Sửu, Hướng: Thuận
         - Khoảng thời gian xem vận: Năm 2026
 
         2. CÁC CUNG VÀ SAO:
-        - Cung Tý (Phu Thê): Thiên Đồng (V), Thái Âm (V), Thái Tuế, Tấu Thư, Dưỡng, Hữu Bật, Văn Xương, (Hóa Lộc), (Hóa Khoa), Hỏa Tinh, Linh Tinh, Thiên Phúc, Thiên Trù, Phong Cáo, Đầu Quân, Đại Vận, (ĐV. H Khoa), (ĐV. H Kỵ), L.Thiên Khốc, L.Thiên Hư, (L.Hóa Lộc), (L.Hóa Khoa)
-- Cung Sửu (Huynh Đệ): Vũ Khúc (M), Tham Lang (M), Thiếu Dương, Tướng Quân, Thai, Địa Không, Thiên Không, Quốc Ấn, Tam Thai, Bát Tọa, (ĐV. H Quyền)
-- Cung Dần (Mệnh): Thái Dương (V), Cự Môn (M), Tang Môn, Tiểu Hao, Tuyệt, Tả Phù, Văn Khúc, Thiên Mã, Cô Thần, Thiên Tài, ĐV. Thiên Việt, ĐV. Thiên Mã, (ĐV. H Lộc), L.Bạch Hổ
-- Cung Mão (Phụ Mẫu): Thiên Tướng (H), Thiếu Âm, Thanh Long, Mộ, Hồng Loan, ĐV. Văn Khúc, L.Đào Hoa, L.Long Đức, L.Thiên Đức
-- Cung Thìn (Phúc Đức) (Gặp Triệt): Thiên Cơ (V), Thiên Lương (M), Quan Phù, Đà La, Lực Sỹ, Tử, Triệt, (Hóa Quyền), Long Trì, Hoa Cái, Thiên Quý, Thai Phụ, Thiên La, L.Đà La, (L.Hóa Quyền)
-- Cung Tỵ (Điền Trạch) (Gặp Triệt): Tử Vi (M), Thất Sát (V), Tử Phù, Lộc Tồn, Bác Sỹ, Bệnh, Triệt, Kiếp Sát, Thiên Quan, Địa Giải, Nguyệt Đức, Phá Toái, L.Lộc Tồn, L.Phúc Đức
-- Cung Ngọ (Quan Lộc): Tuế Phá, Kình Dương, Quan Phủ, Suy, Thiên Khốc, Thiên Hư, Thiên Giải, ĐV. Thiên Khôi, L.Thái Tuế, L.Kình Dương, L.Văn Khúc
-- Cung Mùi (Nô Bộc): Long Đức, Phục Binh, Đế Vượng, Thiên Hình, Lưu Hà, Thiên Thương, ĐV. Đà La
-- Cung Thân (Thiên Di) (Gặp Tuần): Bạch Hổ, Đại Hao, Lâm Quan, Tuần, Văn Tinh, ĐV. Lộc Tồn, L.Tang Môn, L.Thiên Mã, L.Văn Xương
-- Cung Dậu (Tật Ách) (Gặp Tuần): Liêm Trinh (H), Phá Quân (H), Phúc Đức, Bệnh Phù, Quan Đới, Thiên Việt, Địa Kiếp, Tuần, (Hóa Kỵ), Đào Hoa, Thiên Hỷ, Thiên Sứ, Thiên Đức, ĐV. Kình Dương, L.Hồng Loan, L.Thiên Việt, (L.Hóa Kỵ)
-- Cung Tuất (Tài Bạch (Thân)): Điếu Khách, Hỷ Thần, Mộc Dục, Quả Tú, Phượng Các, Giải Thần, Đường Phù, Ân Quang, Thiên Thọ, Địa Võng
-- Cung Hợi (Tử Tức): Thiên Phủ (Đ), Trực Phù, Phi Liêm, Tràng Sinh, Thiên Khôi, Thiên Riêu, Thiên Y, ĐV. Văn Xương, L.Kiếp Sát, L.Thiên Khôi, L.Nguyệt Đức
+        - Cung Tý (Phúc Đức): Vũ Khúc (V), Thiên Phủ (M), Quan Phù, Kình Dương, Lực Sỹ, Tử, (Hóa Kỵ), Long Trì, Đầu Quân, ĐV. Lộc Tồn, L.Thiên Khốc, L.Thiên Hư
+- Cung Sửu (Điền Trạch): Thái Dương (Đ), Thái Âm (Đ), Tử Phù, Thanh Long, Mộ, Thiên Hỷ, Nguyệt Đức, Đại Vận, ĐV. Kình Dương, (ĐV. H Khoa)
+- Cung Dần (Quan Lộc) (Gặp Triệt): Tham Lang (Đ), Tuế Phá, Tiểu Hao, Tuyệt, Thiên Mã, Thiên Hư, Triệt, Phượng Các, Giải Thần, Thiên Riêu, Thiên Y, (ĐV. H Kỵ), L.Bạch Hổ
+- Cung Mão (Nô Bộc) (Gặp Triệt): Thiên Cơ (M), Cự Môn (M), Long Đức, Tướng Quân, Thai, Thiên Khôi, Triệt, Thiên Thương, ĐV. Thiên Khôi, ĐV. Văn Xương, (ĐV. H Quyền), L.Đào Hoa, L.Long Đức, L.Thiên Đức, (L.Hóa Quyền)
+- Cung Thìn (Thiên Di): Tử Vi (V), Thiên Tướng (V), Bạch Hổ, Tấu Thư, Dưỡng, Địa Kiếp, (Hóa Quyền), Hoa Cái, Đường Phù, Thiên Thọ, Thiên La, L.Đà La
+- Cung Tỵ (Tật Ách): Thiên Lương (H), Phúc Đức, Phi Liêm, Tràng Sinh, Thiên Việt, Tả Phù, Văn Xương, (Hóa Lộc), (Hóa Khoa), Linh Tinh, Kiếp Sát, Ân Quang, Thiên Sứ, Thiên Đức, ĐV. Thiên Việt, L.Lộc Tồn, L.Phúc Đức, (L.Hóa Khoa)
+- Cung Ngọ (Tài Bạch): Thất Sát (M), Điếu Khách, Hỷ Thần, Mộc Dục, Địa Không, Thiên Phúc, Thiên Tài, Tam Thai, L.Thái Tuế, L.Kình Dương, L.Văn Khúc
+- Cung Mùi (Tử Tức): Trực Phù, Bệnh Phù, Quan Đới, Hỏa Tinh, Hồng Loan, Quả Tú, Quốc Ấn, Phong Cáo
+- Cung Thân (Phu Thê (Thân)): Liêm Trinh (V), Thái Tuế, Đại Hao, Lâm Quan, Địa Giải, Bát Tọa, L.Tang Môn, L.Thiên Mã, L.Văn Xương, (L.Hóa Kỵ)
+- Cung Dậu (Huynh Đệ): Thiếu Dương, Phục Binh, Đế Vượng, Hữu Bật, Văn Khúc, Đào Hoa, Thiên Không, Thiên Giải, Thiên Trù, Thiên Quý, Văn Tinh, Phá Toái, L.Hồng Loan, L.Thiên Việt
+- Cung Tuất (Mệnh) (Gặp Tuần): Phá Quân (Đ), Tang Môn, Đà La, Quan Phủ, Suy, Thiên Khốc, Tuần, Thiên Hình, Thiên Quan, Địa Võng, (ĐV. H Lộc)
+- Cung Hợi (Phụ Mẫu) (Gặp Tuần): Thiên Đồng (Đ), Thiếu Âm, Lộc Tồn, Bác Sỹ, Bệnh, Tuần, Cô Thần, Lưu Hà, Thai Phụ, ĐV. Đà La, ĐV. Văn Khúc, ĐV. Thiên Mã, L.Kiếp Sát, L.Thiên Khôi, L.Nguyệt Đức, (L.Hóa Lộc)
 
         3. YÊU CẦU BỔ SUNG VỀ VẬN HẠN:
         - Phân tích vận năm 2026 (theo đại vận hiện tại và lưu tinh năm)
