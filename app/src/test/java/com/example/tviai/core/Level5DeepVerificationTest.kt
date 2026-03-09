@@ -436,4 +436,60 @@ class Level5DeepVerificationTest {
         
         println("Prompt Ranking Verification: ✅")
     }
+
+    @Test
+    fun deepDump_Level5PatchBlocks() {
+        val client = GeminiClient("fake-key")
+        val result = logic.anSao(testInput)
+        val prompt = client.getPromptForCopy(result)
+        
+        println("=" .repeat(60))
+        println("DEEP DUMP: LEVEL 5 PATCH BLOCKS PRESENCE")
+        println("=" .repeat(60))
+        
+        val blocks = listOf(
+            "QUY TẮC ƯU TIÊN KHI TÍN HIỆU MÂU THUẪN",
+            "QUY TẮC TRỌNG SỐ TƯƠNG TÁC",
+            "QUY TẮC VÔ CHÍNH DIỆU (4 bước)",
+            "CÁC LỖI PHỔ BIẾN AI KHÔNG ĐƯỢC MẮC",
+            "LỰC CUNG:",
+            "TÓM TẮT TỨ HÓA"
+        )
+        
+        for (block in blocks) {
+            val present = prompt.contains(block)
+            println("Block '$block' present: ${if (present) "✅" else "❌"}")
+            assertTrue("Prompt phải chứa block: $block", present)
+        }
+        println("Level 5 Blocks Verification: ✅")
+    }
+
+    @Test
+    fun deepDump_TuHoaSummaryAccuracy() {
+        val result = logic.anSao(testInput)
+        val client = GeminiClient("fake-key")
+        val prompt = client.getPromptForCopy(result)
+        
+        println("=" .repeat(60))
+        println("DEEP DUMP: TỨ HÓA SUMMARY ACCURACY")
+        println("=" .repeat(60))
+        
+        // Find the summary section
+        val summaryLine = prompt.lines().find { it.contains("TÓM TẮT TỨ HÓA") }
+        assertNotNull("Phải có block TÓM TẮT TỨ HÓA", summaryLine)
+        
+        println("Tứ Hóa Summary Found: ✅")
+        
+        // Verify specific known Tứ Hóa for Nhâm Thân 1992
+        // Bản mệnh Nhâm: Lộc-Lương(Tỵ), Quyền-Vi(Thìn), Khoa-Phù(Tỵ), Kỵ-Khúc(Tý)
+        assertTrue("Summary phải có Hóa Lộc bản mệnh", prompt.contains("(Hóa Lộc) → Cung Tỵ"))
+        assertTrue("Summary phải có Hóa Quyền bản mệnh", prompt.contains("(Hóa Quyền) → Cung Thìn"))
+        assertTrue("Summary phải có Hóa Kỵ bản mệnh", prompt.contains("(Hóa Kỵ) → Cung Tý"))
+        
+        // 2026 Bính: Lộc-Đồng(Hợi), Quyền-Cơ(Mão), Khoa-Xương(Tỵ), Kỵ-Liêm(Thân)
+        assertTrue("Summary phải có L.Hóa Lộc", prompt.contains("(L.Hóa Lộc) → Cung Hợi"))
+        assertTrue("Summary phải có L.Hóa Kỵ", prompt.contains("(L.Hóa Kỵ) → Cung Thân"))
+        
+        println("Tứ Hóa Content Accuracy: ✅")
+    }
 }

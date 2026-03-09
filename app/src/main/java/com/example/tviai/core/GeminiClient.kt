@@ -267,6 +267,9 @@ class GeminiClient(
         - Danh sách Đại Vận: ${info.daiVanFullList}
         - Phi Tinh Tứ Hóa (Pre-computed):
         ${info.phiTinhTuHoa.ifEmpty { "Không có dữ liệu phi tinh" }}
+
+        TÓM TẮT TỨ HÓA (ĐỌC TRƯỚC KHI LUẬN):
+        ${buildTuHoaSummary(cungList)}
         
         BẢNG TRA TỨ HÓA 10 CAN (DÙNG CHO PHI TINH):
         $canTuHoaTable
@@ -353,6 +356,14 @@ class GeminiClient(
         • Tự suy ra cách cục không dựa trên sao thực tế trong lá số
         Nếu dữ liệu không có → ghi rõ "Không có trong dữ liệu được cung cấp".
         $rule9
+
+        =====================================
+        QUY TẮC ƯU TIÊN KHI TÍN HIỆU MÂU THUẪN:
+        1. Chính tinh > Phụ tinh (chính tinh quyết định bản chất cung)
+        2. Miếu/Vượng > Đắc > Bình > Hãm (sáng quyết định lực)
+        3. Tứ hóa bản mệnh > Tứ hóa đại vận > Tứ hóa lưu niên
+        4. Đồng cung > Tam hợp > Xung chiếu > Giáp cung
+        5. Cách cục lớn > Tiểu cách (cách lớn chi phối toàn cục)
 
         =====================================
         QUY TRÌNH PHÂN TÍCH BẮT BUỘC
@@ -474,6 +485,15 @@ class GeminiClient(
         giáp cung
         hội sát tinh
 
+        QUY TẮC TRỌNG SỐ TƯƠNG TÁC:
+        - Đồng cung: 100% lực (mạnh nhất)
+        - Tam hợp hội chiếu: 70-80% lực
+        - Xung chiếu (đối cung): 60-70% lực (ảnh hưởng gián tiếp)
+        - Giáp cung: 40-50% lực (hỗ trợ/kìm hãm từ hai bên)
+        - Nhị hợp: 30% lực (yếu nhất)
+        ⚠️ Sát tinh xung chiếu gây hại ÍT HƠN sát tinh đồng cung.
+        ⚠️ Cát tinh tam hợp hội chiếu có lực MẠNH HƠN cát tinh giáp cung.
+
         Bước 4
         Đánh giá lực cung:
 
@@ -531,6 +551,14 @@ class GeminiClient(
         → phân tích logic tinh hệ
 
         → biểu hiện thực tế.
+        → 🔹 LỰC CUNG: [1-10] (1=rất yếu, 10=rất mạnh)
+        → 🔹 XU HƯỚNG: [Thuận/Nghịch/Biến động]
+
+        Mỗi kết luận lớn (cách cục, vận hạn) phải kèm:
+        📊 ĐỘ TIN CẬY: [Cao/Trung bình/Thấp]
+        - Cao: ≥3 căn cứ tinh hệ khớp nhau, không mâu thuẫn.
+        - Trung bình: 1-2 căn cứ, hoặc có mâu thuẫn nhẹ.
+        - Thấp: Thiếu dữ liệu hoặc nhiều mâu thuẫn.
 
         Ví dụ:
 
@@ -590,14 +618,61 @@ class GeminiClient(
         • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. Hóa Lộc = Đại Vận Hóa Lộc)
         • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
         • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
-        • Cung không có chính tinh = Vô chính diệu → xem chính tinh cung đối chiếu (xung chiếu) để luận
+        • QUY TẮC VÔ CHÍNH DIỆU (4 bước):
+          Bước 1: Mượn chính tinh cung đối chiếu (xung chiếu) — giảm 30% lực so với sao ở bản cung.
+          Bước 2: Phụ tinh trong cung vô chính diệu trở thành "chủ thực tế" — phân tích kỹ hơn.
+          Bước 3: Vô chính diệu + nhiều sát tinh → cung rất yếu, biến động lớn.
+          Bước 4: Vô chính diệu + nhiều cát tinh → "đất trống gặp mưa" — muộn phát nhưng có thể phát.
         • "Tam hợp [Bộ sao]" = Các sao phân bố đều trên 3 cung thuộc mạng lưới tam hợp.
         • "Nhóm [Bộ sao]" = Các sao có xuất hiện hội tụ nhưng CHƯA đủ điều kiện hoặc phân bố chưa chuẩn để gọi là cách cục hoàn chỉnh (cần AI đánh giá thêm).
+
+        CÁC LỖI PHỔ BIẾN AI KHÔNG ĐƯỢC MẮC:
+        ❌ SAI: "Tử Vi là sao vua nên ở đâu cũng tốt" → PHẢI xét miếu/hãm, cung vị.
+        ❌ SAI: "Kình Dương luôn xấu" → Kình Dương miếu (VD: Ngọ) có thể tạo Mã Đầu Đới Kiếm.
+        ❌ SAI: "Hóa Kỵ luôn xấu" → Kỵ ở Quan/Tài có thể chỉ là "chuyên tâm, bám víu".
+        ❌ SAI: Luận Vô Chính Diệu mà không nhắc chính tinh đối cung.
+        ❌ SAI: Gộp cát tinh + sát tinh → "trung bình" → PHẢI phân tích cơ chế: cát giảm sát hay sát phá cát.
 
         Nội dung lá số:
 
         $lasoContent
         """.trimIndent()
+    }
+
+    private fun buildTuHoaSummary(cungList: List<CungInfo>): String {
+        val sb = StringBuilder()
+        
+        // 1. Tứ Hóa Bản Mệnh
+        sb.appendLine("TỨ HÓA BẢN MỆNH:")
+        val bmSuffixes = listOf("(Hóa Lộc)", "(Hóa Quyền)", "(Hóa Khoa)", "(Hóa Kỵ)")
+        for (suffix in bmSuffixes) {
+            val cung = cungList.find { c -> c.phuTinh.contains(suffix.trim()) }
+            if (cung != null) {
+                sb.appendLine("  $suffix → Cung ${cung.name} (${cung.chucNang})")
+            }
+        }
+        
+        // 2. Tứ Hóa Đại Vận
+        sb.appendLine("TỨ HÓA ĐẠI VẬN:")
+        val dvSuffixes = listOf("(ĐV. Hóa Lộc)", "(ĐV. Hóa Quyền)", "(ĐV. Hóa Khoa)", "(ĐV. Hóa Kỵ)")
+        for (suffix in dvSuffixes) {
+            val cung = cungList.find { c -> c.phuTinh.contains(suffix.trim()) }
+            if (cung != null) {
+                sb.appendLine("  $suffix → Cung ${cung.name} (${cung.chucNang})")
+            }
+        }
+        
+        // 3. Tứ Hóa Lưu Niên
+        sb.appendLine("TỨ HÓA LƯU NIÊN:")
+        val lnSuffixes = listOf("(L.Hóa Lộc)", "(L.Hóa Quyền)", "(L.Hóa Khoa)", "(L.Hóa Kỵ)")
+        for (suffix in lnSuffixes) {
+            val cung = cungList.find { c -> c.phuTinh.contains(suffix.trim()) }
+            if (cung != null) {
+                sb.appendLine("  $suffix → Cung ${cung.name} (${cung.chucNang})")
+            }
+        }
+        
+        return sb.toString()
     }
 
     private fun detectBoSao(cungList: List<CungInfo>): List<String> {
