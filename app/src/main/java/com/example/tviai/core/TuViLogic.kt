@@ -675,7 +675,7 @@ class TuViLogic {
         
         // 12. Thiên Tài, Thiên Thọ
         val menhCung = cungList.find { it.chucNang.contains("Mệnh") }
-        val thanCung = cungList.find { it.chucNang.contains("(Thân)") }
+        val thanCung = cungList.find { it.chucNang.contains("Thân cư") }
         
         if (menhCung != null) {
             val taiPos = (menhCung.index + chiNamIndex) % 12

@@ -1,5 +1,20 @@
 # Changelog
 
+## [2026-03-09 - Late Night: GitHub Deployment & Final Verification]
+### Added
+- **GitHub Repository**: Initialized Git and pushed the complete codebase to `https://github.com/skul9x/TuViAndroid.git` (branch `main`).
+- **History Preservation**: Successfully pushed without force-pushing to maintain project commit history.
+
+### Verified
+- **Rule #8 Prompt Upgrade**: Confirmed that `GeminiClient.kt` contains the expert-approved wording for AI reasoning (allowing inference while banning raw data fabrication).
+- **Level 5.0 Core**: Re-verified that VCD protocol, interaction weights, and yearly transit logic are correctly integrated.
+
+## [2026-03-09 - Late Night: Critical Fix & Logic Audit]
+### Fixed
+- **Sao Thiên Thọ Placement**: Resolved a critical bug where Thiên Thọ was missing due to a keyword mismatch (`"(Thân)"` vs `"[Thân cư]"`).
+### Audit
+- **Comprehensive Formula Verification**: Conducted a deep manual audit of 25+ astrological formulas in `TuViLogic.kt` (including Chính Tinh, Phụ Tinh, Tuần/Triệt, Tứ Hóa, axes, etc.) against standard references. **All verified correct.**
+
 ## [2026-03-09 - Part 5: Level 5.0 Final Polish]
 ### Added — Advanced Prompt Validation & Yearly Transits
 - **BƯỚC 4 – Kiểm tra mâu thuẫn**: Mandated a post-analysis validation step for the AI to resolve contradictions between life aspects (Mệnh vs. Thân, Mệnh vs. Career, etc.).

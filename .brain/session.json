@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-03-09T12:12:00Z",
+  "updated_at": "2026-03-09T22:30:00Z",
   "working_on": {
-    "feature": "Level 5.0 Final Polish (Expert Review Round 2)",
-    "task": "Brain Save (Session End - Level 5.0 Certified)",
+    "feature": "Logic Audit & Bug Fix",
+    "task": "Thiên Thọ Keyword Fix & Comprehensive Formula Verification",
     "status": "finished"
   },
   "pending_tasks": [
@@ -11,15 +11,11 @@
     { "task": "Refine Lunar Month (Lưu Nguyệt) logic if ROI justifies complexity", "priority": "low" }
   ],
   "recent_changes": [
-    { "type": "prompt", "description": "Added BƯỚC 4 (Mandatory Validation), Tứ Hóa Table Lock, and E1 Mandatory Yearly Transit (5 steps) for current viewing year." },
-    { "type": "prompt", "description": "Implementation of 5 methodology blocks: Priority Rules, Interaction Weights, VCD 4-step, Negative Examples, and Scoring (Lực cung/Độ tin cậy)." },
-    { "type": "feature", "description": "Implemented buildTuHoaSummary() to aggregate inherent, major cycle, and annual transformations into a dedicated prompt section." },
-    { "type": "test", "description": "Added deepDump_Level5FinalPolish_3Blocks test case. 12/12 tests pass (Full Suite)." },
-    { "type": "build", "description": "Clean build successful. app-debug.apk generated (v5.0-level5-certified)." }
+    { "type": "fix", "description": "Fixed 'Thiên Thọ' star placement bug caused by keyword mismatch ('(Thân)' vs '[Thân cư]')." },
+    { "type": "audit", "description": "Performed a deep manual audit of 25+ astrology formulas in TuViLogic.kt; all verified correct against standard references." },
+    { "type": "build", "description": "Clean build successful. app-debug.apk generated after logic fix." }
   ],
   "decisions_made": [
-    { "decision": "Mandatory Step 4 Validation", "reason": "Expert noted AI often contradicts itself (e.g. Mệnh vs Thân). Explicit step forces AI to rà soát before concluding." },
-    { "decision": "Strict Tứ Hóa Table Warning", "reason": "Forbids AI from self-calculating transformations; ensures it relies only on pre-computed pre-compute data." },
-    { "decision": "Structured E1 Yearly Section", "reason": "Forces the AI to analyze the current year's transits using a specific 5-step cascade (DV -> LN -> Trùng điệp -> Tác động -> Kết quả)." }
+    { "decision": "Retained existing school-specific formulas", "reason": "After deep audit, verified that current Linh Tinh/Thiên Y placement follows valid (though variant) schools of thought." }
   ]
 }
