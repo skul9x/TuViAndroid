@@ -41,8 +41,19 @@
 3. Nhấn **Xem Lá Số & Luận Giải**.
 4. Chờ AI kết nối với các vì sao và trả về bản bình giải.
 
+## 🔭 Công Nghệ Luận Giải Level 5 (Mới)
+
+Dự án đã nâng cấp lên hệ thống **Level 5 Astrology Engine**, kết hợp:
+- **12-Palace Stem Calculation**: Ngũ Dần Độn tính toán can cho từng cung.
+- **Flying Star Causality (Phi Tinh)**: Phân tích nhân quả giữa các cung dựa trên 10 Can.
+- **Trục Cung & Tam Phương Tứ Chính**: Phân tích hình thái bộ sao hội hợp chuyên sâu.
+- **Anti-Hallucination v3.0**: Bộ Prompt kỹ thuật cao ép AI phân tích theo đúng cấu trúc sao, không suy diễn cảm tính.
+
 ## 📁 Tài liệu kỹ thuật
-Xem chi tiết cấu trúc code tại [STRUCTURE.md](./STRUCTURE.md)
+- [Kiến trúc hệ thống (v4.0)](./docs/architecture/system_overview.md)
+- [Quy tắc Nghiệp vụ Tử Vi](./docs/business/rules.md)
+- [Lịch sử thay đổi (Changelog)](./CHANGELOG.md)
+- [Cấu trúc code chi tiết](./STRUCTURE.md)
 
 ---
 *Phát triển bởi Đội ngũ TViAI - Mang tinh tú đến gần bạn hơn.*

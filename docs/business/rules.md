@@ -33,3 +33,22 @@ Tài liệu này lưu lại các quy tắc logic đã được kiểm chứng v�
 ## 5. Các Chỉnh Sửa Đặc Biệt (User Requests)
 - **Văn Tinh:** Cố định tại Dậu (9).
 - **Loại bỏ sao nhiễu:** Không hiển thị L.Hồng Hỷ và các sao nhỏ gây rối mắt trên lá số trung tâm.
+
+## 6. Quy Tắc Nhóm Sao & Cách Cục (Tam Phương Tứ Chính)
+- **Kiểm tra Hội hợp:** Khi phát hiện bộ sao, hệ thống phải kiểm tra xem các sao có nằm trong mạng lưới **Tam phương tứ chính** hay không.
+  - Helper: `getHoiHopIndices(idx)` trả về 4 cung: Gốc (idx), Tam hợp (idx+4, idx+8), Xung chiếu (idx+6).
+- **Phân loại nhãn (Labeling):**
+  - **Tam hợp Sát Phá Tham:** Chỉ hiển thị nếu 3 sao Thất Sát, Phá Quân, Tham Lang cùng nằm trong 1 mạng lưới tam hợp.
+  - **Nhật Nguyệt:**
+    - Đồng cung: 2 sao ở cùng 1 cung.
+    - Hội chiếu: Nằm ở 2 cung khác nhau nhưng thuộc cùng mạng lưới Tam hợp.
+    - Đối chiếu: Nằm ở 2 cung đối diện nhau.
+  - **Tử Phủ Vũ Tướng / Cơ Nguyệt Đồng Lương:**
+    - **"Hội chiếu"**: Nếu 4 sao phân bố trên **từ 3 cung trở lên** trong mạng Tam phương tứ chính.
+    - **"Nhóm"**: Nếu 4 sao dồn tụ ở **chỉ 2 cung** (đồng cung từng cặp), hệ thống dán nhãn là "Nhóm" để nhắc AI kiểm tra kỹ trước khi khẳng định là Cách cục.
+
+## 7. Xếp Hạng Cách Cục (AI Ranking)
+- Khi lá số có nhiều cách cục lớn hội tụ mâu thuẫn (Ví dụ: vừa Sát Phá Tham vừa Tử Phủ Vũ Tướng), AI phải áp dụng thứ tự ưu tiên:
+  1. **LỰC (Sao Miếu/Vượng):** Cách nào có nhiều sao Miếu/Vượng hơn thì mạnh hơn.
+  2. **VỊ TRÍ (Mệnh-Tài-Quan):** Cách nào nằm trong cụm Mệnh-Tài-Quan thì có ảnh hưởng chủ đạo hơn cách ở cung phụ.
+  3. **TỨ HÓA (Kích hoạt):** Cách nào được Tứ Hóa (Hóa Lộc/Quyền) hội tụ thì được nâng lên tầm cao mới.

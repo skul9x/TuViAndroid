@@ -1,6 +1,41 @@
 # Changelog
 
-## [2026-03-09]
+## [2026-03-09 - Expert Feedback Fixes]
+### Fixed — Astrology Logic & Metadata Accuracy
+- **Refined `detectBoSao()`**: Overhauled star combination detection to use **Tam phương tứ chính** (trigons + opposite) logic.
+    - **Tử Phủ Vũ Tướng**: Now correctly distinguishes between a full formation (distributed across 3+ palaces) and a mere "grouping" (Nhóm) if stars are clustered in only 2 palaces.
+    - **Sát Phá Tham**: Standardized label to **"Tam hợp Sát Phá Tham"**.
+    - **Nhật Nguyệt**: Precise classification into **"đồng cung"**, **"hội chiếu"**, or **"đối chiếu"** based on relative positions.
+- **Stem/Branch Notation**: Standardized the Four Transformation abbreviations from `ĐV. H Lộc` to the clearer **`ĐV. Hóa Lộc`** (and similarly for Quyền, Khoa, Kỵ) in both logic engine and AI prompt.
+- **Metadata Labeling**: Changed the prompt metadata label from "Bộ sao đã hình thành" to **"Nhóm sao hội hợp"** to clarify that these are detected candidates for AI analysis, not confirmed formations.
+
+### Added — AI Prompt Intelligence
+- **"XẾP HẠNG CÁCH CỤC" Block**: Added a new mandatory step (3b) for the AI to resolve conflicts when multiple formations are present.
+    - Ranking criteria: **LỰC (Strength/Brightness)** > **VỊ TRÍ (Palace importance)** > **TỨ HÓA (Transformations support)**.
+    - Prohibits the AI from giving equal weight to conflicting primary formations (e.g., must decide between Sát Phá Tham vs. Tử Phủ Vũ Tướng as the dominant influence).
+- **Notation Definitions**: Added explicit definitions for **"Tam hợp [Bộ sao]"** vs. **"Nhóm [Bộ sao]"** in the prompt's `QUY ƯỚC KÝ HIỆU` to help the AI distinguish between confirmed patterns and potential groupings.
+- **Verification Testing**: Added 3 new deep verification tests (`deepDump_DetectBoSao_Labels`, `deepDump_DaiVan_HoaLabel`, `deepDump_PromptCachCucRanking`) to ensure these specific fixes remain stable.
+
+## [2026-03-09 - Level 5 Upgrade]
+### Added — Level 5 Methodology & Advanced Astrology Logic
+- **Can Chi 12 Cung**: Implemented "Ngũ Dần Độn" to accurately calculate the Heavenly Stem of each palace based on the birth year's Stem.
+- **Tiểu Hạn (Minor Cycles)**: Added calculation for the Minor Fortune Cycle palace based on birth year branch, gender, and viewing year.
+- **Phi Tinh Tứ Hóa (Pre-computed)**: Implemented 10-Can flying star transformations. The code now pre-calculates Hóa Lộc, Quyền, Khoa, Kỵ for all 12 palaces and injects it into the prompt.
+- **7 Mandatory Methodological Sections**: Upgraded `GeminiClient.kt` with a massive methodological prompt including:
+    1. **Tứ Hóa Phân Tích**: 8-step process for inherent transformations.
+    2. **Ngũ Hành 4 Tầng**: Mệnh vs Cục vs Cung vs Sao analysis.
+    3. **Giới Tính Quy Tắc**: Gender-specific priorities (Nam: Quan/Tài, Nữ: Phu/Tử).
+    4. **Tuần-Triệt Protocol**: Precise influence levels by age (before/after 30).
+    5. **Phi Tinh Phân Tích**: Causality analysis between palaces (Can cung A → Hóa → Cung B).
+    6. **Vận Hạn Đa Tầng**: Multi-layered stacking (Đại Vận + Lưu Niên + Tiểu Hạn).
+    7. **Kiểm Chứng Chéo**: Cross-checking Mệnh/Thân and Trinity (Tam giác Mệnh-Quan-Tài).
+- **Expanded Cách Cục List**: Added 20+ advanced astrological formations (Quân Thần Khánh Hội, Mã Đầu Đới Kiếm, Song Lộc, etc.) to the prompt's reference data.
+
+### Changed
+- **LasoData/UserInfoResult**: Added `canChi`, `amDuong`, `tieuHanCung`, and `phiTinhTuHoa` fields.
+- **DataLayerVerificationTest**: Added 3 new Level 5 specific unit tests (`testLayer7_CanChi12Cung`, `testLayer8_AmDuongMenh`, `testLayer9_PromptStructure`). All 14/14 tests pass.
+
+### [2026-03-09 - Part 3]
 ### Added — Data Structure Enhancement (Level-Up AI Tử Vi)
 - **Ngũ Hành Cung**: Each of 12 cung now includes its Five Element (e.g., Tuất → Thổ) in the prompt output.
 - **Ngũ Hành Sao**: All 14 chính tinh mapped to Five Elements (e.g., Tử Vi → Thổ, Phá Quân → Thủy).

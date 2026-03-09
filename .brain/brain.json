@@ -1,30 +1,33 @@
 {
-  "meta": { "schema_version": "1.1.0", "awf_version": "3.3.0" },
+  "meta": { "schema_version": "1.1.0", "awf_version": "4.0.2" },
   "project": { 
     "name": "TuViAndroid", 
     "type": "Android (Kotlin)", 
-    "status": "AI Metadata Refined (v3.1 - B->Bình & VCD labels)" 
+    "status": "Expert Refined (v4.0 - Tam phương tứ chính & Ranking)" 
   },
   "business_rules": [
     "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
     "AI cấm tự tính toán dữ liệu (Rule #8): Phải dùng dữ liệu metadata được cấp sẵn (Ngũ hành, Cục-Mệnh relation, Bộ sao...).",
     "Cung vô chính diệu: AI phải ưu tiên xung chiếu sau đó đến tam hợp.",
-    "Xác nhận cách cục: Chỉ khi đủ sao và khớp metadata bộ sao được cung cấp.",
+    "Xác nhận cách cục: Chỉ khi đủ sao và khớp mạng lưới Tam phương tứ chính (Hội hợp) được cung cấp.",
     "Luận Mệnh: Bắt buộc liên hệ tam hợp Mệnh-Tài-Quan (Rule #10).",
+    "Xếp hạng Cách cục: AI phải so sánh LỰC (Miếu/Hãm), VỊ TRÍ (Mệnh cung) và TỨ HÓA để phân biệt Chủ-Thứ khi có nhiều cách hội tụ.",
     "Phân loại lá số: Phải dựa trên cơ sở tinh hệ rõ ràng, không cảm tính."
   ],
   "features": [
-    "AI Horoscope Reading (Classical Methodology)",
-    "Anti-Hallucination Prompt Engine v2.0",
-    "6-Layer Metadata Infusion (Ngũ hành cung/sao, Nạp Âm, Cục-Mệnh relation, Bộ Sao, Trục Cung, Full Đại Vận)",
-    "Comprehensive 10-Decade Lifecycle Analysis"
+    "AI Horoscope Reading (Level 5 Advanced Methodology)",
+    "Anti-Hallucination Prompt Engine v3.0 (with 3b-Ranking Block)",
+    "Advanced Star Detection (Tam phương tứ chính logic for Sát Phá Tham, Tử Phủ Vũ Tướng, Cơ Nguyệt Đồng Lương...)",
+    "Phi Tinh Tứ Hóa (10-Can flying star causality)",
+    "6-Layer Metadata Infusion (Ngũ hành cung/sao, Nạp Âm, Cục-Mệnh relation, Bộ Sao, Trục Cung, Full Đại Vận)"
   ],
   "knowledge_items": {
     "patterns": [
-      "Metadata-driven LLM orchestration",
+      "Metadata-driven LLM orchestration with ranking logic",
       "NAP_AM_MAP (60 entries) for accurate destiny calculation",
-      "Palace Axis (Trục cung) auto-calculation logic"
+      "detectBoSao() - Trigon-based star grouping logic",
+      "Tam phương tứ chính = Tam hợp + Xung chiếu"
     ],
-    "milestones": "Completed: 6-Layer Metadata Enhancement (2026-03-09)"
+    "milestones": "Completed: Expert Feedback Fixes & Level 5 Refinement (2026-03-09)"
   }
 }

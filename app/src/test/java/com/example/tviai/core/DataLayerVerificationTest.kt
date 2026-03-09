@@ -195,4 +195,54 @@ class DataLayerVerificationTest {
             }
         }
     }
+
+    @Test
+    fun testLayer7_CanChi12Cung() {
+        val result = logic.anSao(testInput)
+        for (cung in result.cung) {
+            assertTrue("Cung ${cung.name} phải có canChi", cung.canChi.isNotEmpty())
+            assertTrue("Format canChi phải là 2 từ: '${cung.canChi}'", cung.canChi.split(" ").size == 2)
+        }
+        // Nhâm Thân 1992 (Can Nhâm = 8) -> startCanDan = 8 (Nhâm Dần)
+        val danCung = result.cung.find { it.name == "Dần" }
+        assertEquals("Dần phải là Nhâm Dần", "Nhâm Dần", danCung?.canChi)
+        
+        val tuatCung = result.cung.find { it.name == "Tuất" }
+        // Dần(Nhâm) -> Mão(Quý) -> Thìn(Giáp) -> Tỵ(Ất) -> Ngọ(Bính) -> Mùi(Đinh) -> Thân(Mậu) -> Dậu(Kỷ) -> Tuất(Canh)
+        assertEquals("Tuất phải là Canh Tuất", "Canh Tuất", tuatCung?.canChi)
+    }
+
+    @Test
+    fun testLayer8_AmDuongMenh() {
+        val result = logic.anSao(testInput)
+        // Nhâm Thân -> Nhâm là Dương, Male -> Dương Nam, Thuận hành
+        assertTrue("Âm Dương phải là Dương Nam", result.info.amDuong.contains("Dương Nam"))
+        assertTrue("Phải có hướng hành", result.info.amDuong.contains("Thuận hành"))
+    }
+
+    @Test
+    fun testLayer9_PromptContainsLevel5Sections() {
+        val client = GeminiClient("fake-key")
+        val result = logic.anSao(testInput)
+        val prompt = client.getPromptForCopy(result)
+        
+        val mandatorySections = listOf(
+            "PHẦN 1: PHÂN TÍCH TỨ HÓA BẢN MỆNH",
+            "PHẦN 2: PHÂN TÍCH NGŨ HÀNH 4 TẦNG",
+            "PHẦN 3: QUY TẮC LUẬN THEO GIỚI TÍNH",
+            "PHẦN 4: QUY TRÌNH PHÂN TÍCH TUẦN – TRIỆT",
+            "PHẦN 5: PHI TINH TỨ HÓA (CHUYÊN SÂU)",
+            "PHẦN 6: VẬN HẠN ĐA TẦNG (XẾP CHỒNG)",
+            "PHẦN 7: KIỂM CHỨNG CHÉO (CROSS-CHECK)"
+        )
+        
+        for (section in mandatorySections) {
+            assertTrue("Prompt phải chứa section: $section", prompt.contains(section))
+        }
+        
+        // Check if Can Chi data is in prompt
+        assertTrue("Prompt phải chứa data Can Chi 12 cung", prompt.contains("Can Chi 12 cung"))
+        assertTrue("Prompt phải chứa data Phi Tinh", prompt.contains("Phi Tinh Tứ Hóa"))
+        assertTrue("Prompt phải chứa bảng tra 10 can", prompt.contains("BẢNG TRA TỨ HÓA 10 CAN"))
+    }
 }

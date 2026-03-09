@@ -201,6 +201,15 @@ class GeminiClient(
             "$sao=$hanh"
         }
 
+        // Build 10-Can Transformation Table for AI reference
+        val canTuHoaTable = Constants.THIEN_CAN.mapIndexed { index, can ->
+            val hoa = Constants.TU_HOA_MAP[index] ?: listOf("", "", "", "")
+            "$can: Lộc→${hoa[0]}, Quyền→${hoa[1]}, Khoa→${hoa[2]}, Kỵ→${hoa[3]}"
+        }.joinToString("\n        ")
+
+        // Build Can Chi 12 cung string
+        val canChi12CungStr = cungList.joinToString(", ") { "${it.name}=${it.canChi}" }
+
         // Detect bộ sao đã hình thành
         val boSaoList = detectBoSao(cungList)
 
@@ -247,12 +256,20 @@ class GeminiClient(
         val lasoContent = """
         0. METADATA LÁ SỐ:
         - Mệnh Ngũ Hành (Nạp Âm): ${info.menhNguHanh}
+        - Âm/Dương mệnh: ${info.amDuong}
         - Cục: ${info.cuc}
         - Quan hệ Mệnh – Cục: ${info.cucMenhRelation}
         - Ngũ hành 14 chính tinh: $nguHanhSaoStr
-        - Bộ sao đã hình thành: ${if (boSaoList.isEmpty()) "Không phát hiện" else boSaoList.joinToString("; ")}
+        - Nhóm sao hội hợp: ${if (boSaoList.isEmpty()) "Không phát hiện" else boSaoList.joinToString("; ")}
         - Trục cung: $trucCungStr
+        - Can Chi 12 cung: $canChi12CungStr
+        - Cung Tiểu Hạn năm ${info.viewingYear}: ${info.tieuHanCung}
         - Danh sách Đại Vận: ${info.daiVanFullList}
+        - Phi Tinh Tứ Hóa (Pre-computed):
+        ${info.phiTinhTuHoa.ifEmpty { "Không có dữ liệu phi tinh" }}
+        
+        BẢNG TRA TỨ HÓA 10 CAN (DÙNG CHO PHI TINH):
+        $canTuHoaTable
 
         1. THÔNG TIN CƠ BẢN:
         - Đương số: ${info.name} (${info.gender})
@@ -379,16 +396,65 @@ class GeminiClient(
         Vũ Khúc tài tinh
         Thiên Phủ tài khố
         Thái Âm tài tinh
+        
+        CÁC CÁCH CỤC MỞ RỘNG (KÈM DỰ LIỆU):
+        • ĐẠI QUÝ: ${Constants.CACH_CUC_DAI_QUY.joinToString(", ")}
+        • ĐẠI PHÚ: ${Constants.CACH_CUC_DAI_PHU.joinToString(", ")}
+        • CÁCH VÕ: ${Constants.CACH_CUC_VO.joinToString(", ")}
+        • CÁCH HUNG/PHÁ: ${Constants.CACH_CUC_HUNG.joinToString(", ")}
+        • CÁC BỘ SAO KHÁC: ${Constants.CACH_CUC_DAC_BIET.joinToString(", ")}
 
-        Nếu phát hiện:
-
-        Phải ghi rõ:
-
-        • tên cách cục
-        • sao tạo cách
-        • vị trí cung
-        • điều kiện đạt cách
         • có sát tinh phá cách không
+
+        ⚠️ LƯU Ý: "Nhóm sao hội hợp" trong metadata CHỈ là danh sách gợi ý phát hiện.
+        AI phải TỰ XÁC ĐỊNH đây có phải "Cách cục" thật sự hay không bằng cách:
+        - Kiểm tra độ sáng của sao (Miếu/Vượng hay Hãm)
+        - Kiểm tra có bị Tuần/Triệt che mờ hoặc phá vỡ không
+        - Kiểm tra có Tứ Hóa (Lộc/Quyền/Khoa) hỗ trợ hay (Kỵ) phá hoại không
+
+        -------------------------------------
+        BƯỚC 3b – XẾP HẠNG CÁCH CỤC (Khi phát hiện nhiều cách)
+
+        Khi lá số đồng thời có từ 2 cách cục trở lên, AI phải so sánh để xác định cái nào là "Chủ đạo":
+        ① So sánh LỰC: Cách nào tụ hội nhiều sao Miếu/Vượng hơn → mạnh hơn.
+        ② So sánh VỊ TRÍ: Cách nào nằm trong tam hợp Mệnh–Tài–Quan → có tác động trực tiếp và mạnh nhất.
+        ③ So sánh TỨ HÓA: Cách nào được (Hóa Lộc)/(Hóa Quyền) bản mệnh hoặc đại vận chiếu → được kích hoạt/nâng tầm.
+        ④ Kết luận: Xác định đâu là "Cách cục chính" (ảnh hưởng >60% cuộc đời) và đâu là "Cách cục bổ trợ/phối hợp".
+
+        KHÔNG ĐƯỢC luận các cách cục có sức mạnh ngang nhau nếu chúng mâu thuẫn (VD: vừa luận theo Sát Phá Tham vừa luận theo Tử Phủ Vũ Tướng mà không phân chủ-thứ).
+
+        =====================================
+        7 PHƯƠNG PHÁP LUẬN BẮT BUỘC (LEVEL 5)
+
+        PHẦN 1: PHÂN TÍCH TỨ HÓA BẢN MỆNH
+        Quy trình 8 bước: (1) Tìm vị trí 4 Hóa chủ sinh nạp -> (2) Xét Lộc/Kỵ trùng phùng -> (3) Kỵ + Sát tinh (địa kiếp, hỏa tinh...) -> (4) Lộc + Cát tinh -> (5) Hóa Kỵ rơi vào cung nào (chủ nợ/nghiệp lực) -> (6) Tứ hóa đại vận xếp chồng -> (7) Lưu Tứ Hóa -> (8) Kết luận lực Hóa.
+
+        PHẦN 2: PHÂN TÍCH NGŨ HÀNH 4 TẦNG
+        Xét sinh khắc giữa: (Tầng 1) Bản mệnh ngũ hành (Nạp âm) vs (Tầng 2) Cục vs (Tầng 3) Ngũ hành cung vs (Tầng 4) Ngũ hành sao.
+        VD: Mệnh Kim đóng cung Thủy (sinh xuất) hội sao Hỏa (khắc) -> dù miếu địa cũng bị chiết giảm lực.
+
+        PHẦN 3: QUY TẮC LUẬN THEO GIỚI TÍNH
+        - Nam mệnh: Chú trọng Quan, Tài, Di. Sợ nhất: Triệt đóng Mệnh, Cô Quả hội chiếu.
+        - Nữ mệnh: Chú trọng Phu, Tử, Phúc. Sợ nhất: Sát Phá Tham hội Đào Hoa/Hồng Loan/Sát tinh (dễ trắc trở tình duyên).
+
+        PHẦN 4: QUY TRÌNH PHÂN TÍCH TUẦN – TRIỆT
+        - Tuần Không: Giảm 30-50% lực sao (cát giảm cát, hung giảm hung). Ổn định dần sau 30 tuổi.
+        - Triệt Không: Giảm 60-80% lực sao (ngăn chặn hoàn toàn lực mạnh nhất). Ảnh hưởng nặng nhất trước 30 tuổi.
+        - Triệt tại Mệnh -> Thiếu thời lận đận.
+
+        PHẦN 5: PHI TINH TỨ HÓA (CHUYÊN SÂU)
+        Sử dụng kết quả pre-compute trong METADATA: Can cung A bay Hóa sang cung B thể hiện quan hệ nhân quả.
+        - Hóa Lộc bay từ A sang B: A mang lại lợi ích/tình cảm cho B.
+        - Hóa Kỵ bay từ A sang B: A gây áp lực/rắc rối/phiền muộn cho B.
+        - Tự hóa (A hóa cho chính A): Cung đó có xu hướng tự tan biến hoặc tự mâu thuẫn.
+
+        PHẦN 6: VẬN HẠN ĐA TẦNG (XẾP CHỒNG)
+        Quy trình 5 bước: (1) Xác định Mệnh Đại Vận -> (2) Tìm Tứ Hóa Đại Vận -> (3) Tìm Lưu Niên Tứ Hóa năm xem -> (4) Tìm "Trùng điệp" (VD: Song Kỵ, Song Lộc hội tụ một cung) -> (5) Xét cung Tiểu Hạn.
+
+        PHẦN 7: KIỂM CHỨNG CHÉO (CROSS-CHECK)
+        - Luôn đối chiếu Tam giác Mệnh-Quan-Tài để xem "Cái Tâm và Cái Tầm".
+        - Đối chiếu Mệnh (bẩm sinh) vs Thân (hành động hậu thiên).
+        - Nếu mâu thuẫn (Mệnh tốt Thân xấu) -> Tiền cát hậu hung.
 
         =====================================
         PHƯƠNG PHÁP LUẬN MỖI CUNG
@@ -521,10 +587,12 @@ class GeminiClient(
         QUY ƯỚC KÝ HIỆU TRONG DỮ LIỆU:
         • (M) = Miếu, (V) = Vượng, (Đ) = Đắc, (Bình) = Bình, (H) = Hãm — trạng thái của chính tinh
         • (Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ) — Tứ hóa bản mệnh
-        • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. H Lộc = Đại Vận Hóa Lộc)
+        • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. Hóa Lộc = Đại Vận Hóa Lộc)
         • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
         • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
         • Cung không có chính tinh = Vô chính diệu → xem chính tinh cung đối chiếu (xung chiếu) để luận
+        • "Tam hợp [Bộ sao]" = Các sao phân bố đều trên 3 cung thuộc mạng lưới tam hợp.
+        • "Nhóm [Bộ sao]" = Các sao có xuất hiện hội tụ nhưng CHƯA đủ điều kiện hoặc phân bố chưa chuẩn để gọi là cách cục hoàn chỉnh (cần AI đánh giá thêm).
 
         Nội dung lá số:
 
@@ -535,18 +603,20 @@ class GeminiClient(
     private fun detectBoSao(cungList: List<CungInfo>): List<String> {
         val result = mutableListOf<String>()
 
-        // Helper: find which cung indices have a given chính tinh (strip brightness suffix)
         fun findStar(name: String): Int? {
             return cungList.indexOfFirst { cung ->
                 cung.chinhTinh.any { it.startsWith(name) }
             }.takeIf { it >= 0 }
         }
 
-        // Helper: check if two cung indices are in tam hợp or đồng cung
-        fun isTamHopOrSame(a: Int, b: Int): Boolean {
-            if (a == b) return true
-            val diff = Math.abs(a - b)
-            return diff == 4 || diff == 8 || diff == 0
+        // Helper: Get indices of tam hợp for a palace
+        fun getTamHopIndices(idx: Int): Set<Int> {
+            return setOf(idx, (idx + 4) % 12, (idx + 8) % 12)
+        }
+
+        // Helper: Get indices of tam phương tứ chính (hội hợp) for a palace
+        fun getHoiHopIndices(idx: Int): Set<Int> {
+            return setOf(idx, (idx + 4) % 12, (idx + 8) % 12, (idx + 6) % 12)
         }
 
         // 1. Sát Phá Tham
@@ -554,8 +624,9 @@ class GeminiClient(
         val phaIdx = findStar("Phá Quân")
         val thamIdx = findStar("Tham Lang")
         if (satIdx != null && phaIdx != null && thamIdx != null) {
-            if (isTamHopOrSame(satIdx, phaIdx) && isTamHopOrSame(phaIdx, thamIdx)) {
-                result.add("Sát Phá Tham (${Constants.DIA_CHI[satIdx]}–${Constants.DIA_CHI[phaIdx]}–${Constants.DIA_CHI[thamIdx]})")
+            val group = getTamHopIndices(satIdx)
+            if (phaIdx in group && thamIdx in group) {
+                result.add("Tam hợp Sát Phá Tham (${Constants.DIA_CHI[satIdx]}–${Constants.DIA_CHI[phaIdx]}–${Constants.DIA_CHI[thamIdx]})")
             }
         }
 
@@ -565,8 +636,14 @@ class GeminiClient(
         val vuIdx = findStar("Vũ Khúc")
         val tuongIdx = findStar("Thiên Tướng")
         if (tuViIdx != null && phuIdx != null && vuIdx != null && tuongIdx != null) {
-            if (isTamHopOrSame(tuViIdx, phuIdx) && isTamHopOrSame(vuIdx, tuongIdx)) {
-                result.add("Tử Phủ Vũ Tướng (${Constants.DIA_CHI[tuViIdx]}–${Constants.DIA_CHI[phuIdx]}–${Constants.DIA_CHI[vuIdx]}–${Constants.DIA_CHI[tuongIdx]})")
+            val idxs = listOf(tuViIdx, phuIdx, vuIdx, tuongIdx)
+            val uniqueIdxs = idxs.distinct().sorted()
+            val group = getHoiHopIndices(tuViIdx)
+            if (idxs.all { it in group }) {
+                // Traditionally, if stars cluster in only 2 palaces, it's not a strong formation
+                val label = if (uniqueIdxs.size < 3) "Nhóm Tử Phủ Vũ Tướng" else "Tử Phủ Vũ Tướng hội chiếu"
+                val cungStrs = uniqueIdxs.joinToString("–") { Constants.DIA_CHI[it] }
+                result.add("$label ($cungStrs)")
             }
         }
 
@@ -576,16 +653,27 @@ class GeminiClient(
         val dongIdx = findStar("Thiên Đồng")
         val luongIdx = findStar("Thiên Lương")
         if (coIdx != null && nguyetIdx != null && dongIdx != null && luongIdx != null) {
-            if (isTamHopOrSame(coIdx, nguyetIdx) && isTamHopOrSame(dongIdx, luongIdx)) {
-                result.add("Cơ Nguyệt Đồng Lương (${Constants.DIA_CHI[coIdx]}–${Constants.DIA_CHI[nguyetIdx]}–${Constants.DIA_CHI[dongIdx]}–${Constants.DIA_CHI[luongIdx]})")
+            val idxs = listOf(coIdx, nguyetIdx, dongIdx, luongIdx)
+            val uniqueIdxs = idxs.distinct().sorted()
+            val group = getHoiHopIndices(coIdx)
+            if (idxs.all { it in group }) {
+                val label = if (uniqueIdxs.size < 3) "Nhóm Cơ Nguyệt Đồng Lương" else "Cơ Nguyệt Đồng Lương hội chiếu"
+                val cungStrs = uniqueIdxs.joinToString("–") { Constants.DIA_CHI[it] }
+                result.add("$label ($cungStrs)")
             }
         }
 
         // 4. Nhật Nguyệt (Thái Dương + Thái Âm)
         val nhatIdx = findStar("Thái Dương")
         if (nhatIdx != null && nguyetIdx != null) {
-            if (isTamHopOrSame(nhatIdx, nguyetIdx) || nhatIdx == nguyetIdx) {
-                result.add("Nhật Nguyệt (${Constants.DIA_CHI[nhatIdx]}–${Constants.DIA_CHI[nguyetIdx]})")
+            val label = when {
+                nhatIdx == nguyetIdx -> "Nhật Nguyệt đồng cung"
+                Math.abs(nhatIdx - nguyetIdx) == 6 -> "Nhật Nguyệt đối chiếu"
+                Math.abs(nhatIdx - nguyetIdx) % 4 == 0 -> "Nhật Nguyệt hội chiếu"
+                else -> null
+            }
+            if (label != null) {
+                result.add("$label (${Constants.DIA_CHI[nhatIdx]}–${Constants.DIA_CHI[nguyetIdx]})")
             }
         }
 

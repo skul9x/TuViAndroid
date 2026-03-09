@@ -128,12 +128,32 @@ class TuViLogic {
         // 5.9 Attach Brightness (Miếu/Vượng...)
         anDoSang(cungList)
 
-        // 6b. Calculate Nạp Âm (Mệnh Ngũ Hành)
+        // 6. Calculate Can Chi for 12 palaces (Level 5)
+        anCanChiCung(cungList, canNamIndex)
+
+        // 7. Calculate Tieu Han (Level 5)
+        val isYangYear = (canNamIndex % 2 == 0)
+        val isThuanDV = if (input.gender == Gender.NAM) isYangYear else !isYangYear
+        val tieuHanIdx = tinhTieuHan(chiNamIndex, input.viewingYear, input.solarYear, input.gender, isThuanDV)
+        val tieuHanCungName = DIA_CHI[tieuHanIdx]
+
+        // 8. Pre-compute Phi Tinh Tu Hoa (Level 5)
+        val phiTinhData = precomputePhiTinh(cungList)
+
+        // 9. Calculate metadata amDuong
+        val amDuongStr = buildString {
+            append(if (isYangYear) "Dương " else "Âm ")
+            append(if (input.gender == Gender.NAM) "Nam" else "Nữ")
+            append(" – ")
+            append(if (isThuanDV) "Thuận hành" else "Nghịch hành")
+        }
+
+        // 10. Calculate Nạp Âm (Mệnh Ngũ Hành)
         val canChiNam = LunarConverter.getCanChiNam(lunarYear)
         val napAmName = Constants.NAP_AM_MAP[canChiNam] ?: ""
         val menhNguHanhStr = if (napAmName.isNotEmpty()) "$napAmName (${Constants.napAmToNguHanh(napAmName)})" else ""
 
-        // 6c. Calculate Cục-Mệnh relationship
+        // 11. Calculate Cục-Mệnh relationship
         val cucNguHanh = cucName.split(" ").firstOrNull() ?: ""
         val menhHanh = Constants.napAmToNguHanh(napAmName)
         val cucMenhRel = if (cucNguHanh.isNotEmpty() && menhHanh.isNotEmpty() && menhHanh != "Không xác định") {
@@ -141,9 +161,7 @@ class TuViLogic {
             "Mệnh ($menhHanh) $rel Cục ($cucNguHanh)"
         } else ""
 
-        // 6d. Generate Full Đại Vận List
-        val isYangYear = (canNamIndex % 2 == 0)
-        val isThuanDV = if (input.gender == Gender.NAM) isYangYear else !isYangYear
+        // 12. Generate Full Đại Vận List
         val cucVal = cucNumber
         val fullDaiVanList = buildFullDaiVanList(menhIndex, cucVal, isThuanDV, canNamIndex)
         
@@ -165,7 +183,10 @@ class TuViLogic {
                 daiVanInfo = daiVanMeta,
                 menhNguHanh = menhNguHanhStr,
                 cucMenhRelation = cucMenhRel,
-                daiVanFullList = fullDaiVanList
+                daiVanFullList = fullDaiVanList,
+                amDuong = amDuongStr,
+                tieuHanCung = tieuHanCungName,
+                phiTinhTuHoa = phiTinhData
             ),
             cung = cungList,
             scores = scores
@@ -847,7 +868,7 @@ class TuViLogic {
         // Tứ Hóa (Can Đại Vận)
         com.example.tviai.core.Constants.TU_HOA_MAP[canDaiVan]?.let { stars ->
              if (stars.size == 4) {
-                 val suffixes = listOf(" (ĐV. H Lộc)", " (ĐV. H Quyền)", " (ĐV. H Khoa)", " (ĐV. H Kỵ)")
+                 val suffixes = listOf(" (ĐV. Hóa Lộc)", " (ĐV. Hóa Quyền)", " (ĐV. Hóa Khoa)", " (ĐV. Hóa Kỵ)")
                  // Note: User prompt has "ĐV. Hóa Khoa", "ĐV. Hóa Kỵ".
                  for ((i, starName) in stars.withIndex()) {
                      // Find star in chart
@@ -1051,6 +1072,90 @@ class TuViLogic {
 
             sb.append("$startAge–$endAge: $canStr $cungStr")
             if (i < 9) sb.append(" | ")
+        }
+        return sb.toString()
+    }
+
+    /**
+     * Tinh Can Chi cho 12 cung dua tren Ngu Dan Don (Level 5)
+     */
+    private fun anCanChiCung(cungList: MutableList<CungInfo>, canNamIndex: Int) {
+        val startCanDan = when (canNamIndex % 5) {
+            0 -> 2 // Giap/Ky -> Binh
+            1 -> 4 // At/Canh -> Mau
+            2 -> 6 // Binh/Tan -> Canh
+            3 -> 8 // Dinh/Nham -> Nham
+            4 -> 0 // Mau/Quy -> Giap
+            else -> 0
+        }
+
+        for (i in 0 until 12) {
+            // Distance from Dan (index 2)
+            var dist = (i - 2) % 12
+            if (dist < 0) dist += 12
+            
+            val canIdx = (startCanDan + dist) % 10
+            val canStr = THIEN_CAN[canIdx]
+            val chiStr = DIA_CHI[i]
+            
+            cungList[i] = cungList[i].copy(canChi = "$canStr $chiStr")
+        }
+    }
+
+    /**
+     * Tinh cung Tieu Han (Level 5)
+     */
+    private fun tinhTieuHan(chiNamSinh: Int, viewingYear: Int, birthYear: Int, gender: Gender, isThuan: Boolean): Int {
+        val age = viewingYear - birthYear + 1
+        
+        // Start from Chi Nam Sinh
+        // Nam Thuan/Nu Nghich: counting direction depends on gender and parity, but standard rule:
+        // Nam: starts from Chi Nam đếm nghịch đến cung tuổi? No. 
+        // Standard rule for Tieu Han: 
+        // Start from cung Chi Nam Sinh, count Forward for Nam, Backward for Nu?
+        // Actually standard Southern School (Nam Phai):
+        // Start from cung Dan/Ngo/Tuat, etc.? No.
+        // Rule: Start from Chi Nam Sinh. If Nam: count Forward. If Nu: count Backward.
+        // Age 1 is at start. Age 2 is next.
+        // So steps = (age - 1).
+        
+        val direction = if (gender == Gender.NAM) 1 else -1
+        var pos = (chiNamSinh + (age - 1) * direction) % 12
+        if (pos < 0) pos += 12
+        return pos
+    }
+
+    /**
+     * Pre-compute Phi Tinh Tu Hoa cho 12 cung (Level 5)
+     */
+    private fun precomputePhiTinh(cungList: List<CungInfo>): String {
+        val sb = StringBuilder()
+        val hoaNames = listOf("Lộc", "Quyền", "Khoa", "Kỵ")
+        
+        cungList.forEach { cung ->
+            val canCung = cung.canChi.split(" ").firstOrNull() ?: ""
+            val canIdx = THIEN_CAN.indexOf(canCung)
+            
+            if (canIdx != -1) {
+                val targets = Constants.TU_HOA_MAP[canIdx] ?: emptyList()
+                if (targets.size == 4) {
+                    val phiStrs = mutableListOf<String>()
+                    for (i in 0 until 4) {
+                        val starGroup = targets[i]
+                        // Find which palace contains this star
+                        val targetCung = cungList.find { c -> 
+                            c.chinhTinh.any { it.startsWith(starGroup) } || 
+                            c.phuTinh.any { it == starGroup }
+                        }
+                        if (targetCung != null) {
+                            phiStrs.add("H.${hoaNames[i]}→${targetCung.name}")
+                        }
+                    }
+                    if (phiStrs.isNotEmpty()) {
+                        sb.append("${cung.name}(${canCung}): ${phiStrs.joinToString(", ")}\n")
+                    }
+                }
+            }
         }
         return sb.toString()
     }

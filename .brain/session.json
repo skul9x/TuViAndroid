@@ -1,22 +1,24 @@
 {
-  "updated_at": "2026-03-09T03:00:00Z",
+  "updated_at": "2026-03-09T11:15:00Z",
   "working_on": {
-    "feature": "AI Metadata Refinement",
-    "task": "Brain Save",
+    "feature": "Expert Feedback Fixes (Level 5 Refined)",
+    "task": "Brain Save (Session End)",
     "status": "finished"
   },
   "pending_tasks": [
     { "task": "Integrate real-world user data (Career, Marital Status) for reverse-validation", "priority": "medium" },
-    { "task": "Advanced Star Group detection enhancements (e.g., Tứ Linh, Thiên Hình...)", "priority": "low" }
+    { "task": "Advanced Star Group detection enhancements (e.g., Tứ Linh, Thiên Hình...)", "priority": "low" },
+    { "task": "Implement L.Lộc Tồn and L.Kình Đà for advanced annual luck analysis", "priority": "medium" }
   ],
   "recent_changes": [
-    { "type": "feature", "description": "Expanded (B) brightness label to (Bình) to clear LLM ambiguity." },
-    { "type": "feature", "description": "Added explicit [Vô chính diệu] marker for empty palaces in prompt logic." },
-    { "type": "test", "description": "Verified with 11/11 tests pass in DataLayerVerificationTest (added 2 new tests)." }
+    { "type": "feature", "description": "Overhauled detectBoSao() to use Tam phương tứ chính (Hội hợp) logic." },
+    { "type": "prompt", "description": "Added 'XẾP HẠNG CÁCH CỤC' (3b) to AI prompt for conflict resolution." },
+    { "type": "fix", "description": "Standardized 'ĐV. Hóa Lộc' abbreviations for clearer AI interpretation." },
+    { "type": "test", "description": "Added 3 deep verification tests (Bo Sao Labels, Dai Van Labels, Prompt blocks). All 24/24 tests pass." }
   ],
   "decisions_made": [
-    { "decision": "Inject metadata as Section 0", "reason": "Forces LLM to read core architecture facts before interpreting star positions." },
-    { "decision": "Pre-detect major star groups (Sát Phá Tham, etc.)", "reason": "Reduces LLM calculation errors and ensures classical pattern recognition." },
-    { "decision": "Explicitly define (Bình) label", "reason": "Reviewer feedback confirmed AI might not guess single-character (B) abbreviation correctly." }
+    { "decision": "Separate 'Nhóm' vs 'Tam hợp' in labels", "reason": "Reduces false positive formation detection and forces AI to evaluate constellation strength." },
+    { "decision": "Add ranking block to prompt", "reason": "Expert feedback noted AI was lost when multiple formations were found (Sát Phá Tham vs. Tử Phủ Vũ Tướng)." },
+    { "decision": "Expand ĐV. H Lộc to ĐV. Hóa Lộc", "reason": "Reviewer confirmed 'H' could be misinterpreted as Hãm or other abbreviations by the AI." }
   ]
 }

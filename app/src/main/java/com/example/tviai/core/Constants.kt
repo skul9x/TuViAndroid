@@ -381,4 +381,27 @@ object Constants {
             else -> "không xác định"
         }
     }
+
+    // CACH CUC (Dành cho AI đối chiếu trong prompt Level 5)
+    val CACH_CUC_DAI_QUY = listOf(
+        "Quân Thần Khánh Hội", "Phủ Tướng Triều Viên", "Tử Phủ Vũ Tướng",
+        "Nhật Nguyệt Tịnh Minh", "Nhật Xuất Lôi Môn (Thái Dương miếu ở Mão)",
+        "Nguyệt Lãng Thiên Môn (Thái Âm miếu ở Hợi)", "Minh Châu Xuất Hải (Thái Âm ở Hợi + cát tinh)"
+    )
+    val CACH_CUC_DAI_PHU = listOf(
+        "Vũ Khúc + Lộc Tồn đồng cung hoặc hội chiếu", "Thiên Phủ + Lộc Tồn",
+        "Lộc Mã Giao Trì", "Song Lộc (Hóa Lộc + Lộc Tồn) triều Mệnh"
+    )
+    val CACH_CUC_VO = listOf(
+        "Mã Đầu Đới Kiếm (Kình Dương ở Ngọ + miếu)", "Hỏa Tham / Linh Tham đồng cung", "Thất Sát triều đẩu"
+    )
+    val CACH_CUC_HUNG = listOf(
+        "Mệnh Vô Chính Diệu + sát tinh", "Tài Ấm Giáp Ấn bị phá", "Hình Tù Giáp Ấn (Liêm Trinh + sát)",
+        "Lộc Phùng Xung Phá", "Mã Đầu Đới Kiếm bị phá", "Tam Kỵ Trùng Phùng (tứ hóa bản mệnh/đại vận/lưu niên)",
+        "Nhật Nguyệt phản bối (cả hai đều hãm)"
+    )
+    val CACH_CUC_DAC_BIET = listOf(
+        "Cơ Nguyệt Đồng Lương (công chức, ổn định)", "Sát Phá Tham (khai phá, biến động)",
+        "Cự Nhật (miệng lưỡi, truyền thông, nước ngoài)", "Liêm Tham (tình cảm phức tạp, nghệ thuật)"
+    )
 }
