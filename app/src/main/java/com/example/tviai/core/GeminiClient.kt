@@ -273,6 +273,8 @@ class GeminiClient(
         
         BẢNG TRA TỨ HÓA 10 CAN (DÙNG CHO PHI TINH):
         $canTuHoaTable
+        ⚠️ Bảng tra Tứ Hóa 10 Can CHỈ dùng để GIẢI THÍCH cơ chế của dữ liệu Phi Tinh Tứ Hóa đã pre-compute.
+        KHÔNG dùng bảng này để tự an sao, tự tính thêm tứ hóa hoặc suy ra dữ liệu chưa được cung cấp.
 
         1. THÔNG TIN CƠ BẢN:
         - Đương số: ${info.name} (${info.gender})
@@ -368,7 +370,7 @@ class GeminiClient(
         =====================================
         QUY TRÌNH PHÂN TÍCH BẮT BUỘC
 
-        Trước khi luận chi tiết phải thực hiện 3 bước.
+        Trước khi luận chi tiết phải thực hiện 4 bước.
 
         -------------------------------------
         BƯỚC 1 – TÓM TẮT CẤU TRÚC LÁ SỐ
@@ -433,6 +435,17 @@ class GeminiClient(
         ④ Kết luận: Xác định đâu là "Cách cục chính" (ảnh hưởng >60% cuộc đời) và đâu là "Cách cục bổ trợ/phối hợp".
 
         KHÔNG ĐƯỢC luận các cách cục có sức mạnh ngang nhau nếu chúng mâu thuẫn (VD: vừa luận theo Sát Phá Tham vừa luận theo Tử Phủ Vũ Tướng mà không phân chủ-thứ).
+
+        -------------------------------------
+        BƯỚC 4 – KIỂM TRA MÂU THUẪN (BẮT BUỘC SAU KHI LUẬN 12 CUNG)
+
+        Sau khi luận xong 12 cung, phải rà soát:
+        - Mệnh vs Thân: Bẩm sinh vs Hành động có khớp không?
+        - Mệnh vs Quan vs Tài: Tâm (Mệnh) - Tầm (Quan) - Lộc (Tài) logic với nhau không?
+        - Phu Thê vs Phúc Đức: Duyên nợ có khớp với phúc phần không?
+        - Tật Ách vs Mệnh: Sức khỏe có tương ứng với cường độ Mệnh không?
+
+        Nếu có mâu thuẫn, phải giải thích cơ chế ưu tiên theo "Quy tắc ưu tiên khi tín hiệu mâu thuẫn" ở trên. KHÔNG ĐƯỢC để hai kết luận song song mà không phân chủ-thứ.
 
         =====================================
         7 PHƯƠNG PHÁP LUẬN BẮT BUỘC (LEVEL 5)
@@ -608,7 +621,14 @@ class GeminiClient(
         • khả năng giàu có
         • khả năng quyền lực
         • hướng phát triển sự nghiệp
-        • lưu ý vận hạn
+
+        E1. Vận năm ${info.viewingYear} (BẮT BUỘC – KHÔNG ĐƯỢC BỎ QUA)
+        Phân tích theo thứ tự:
+        (1) Đại vận hiện tại → ảnh hưởng nền
+        (2) Lưu niên ${info.viewingYear} → sao lưu + lưu tứ hóa
+        (3) Trùng điệp tứ hóa → Song Lộc/Song Kỵ/Lộc Kỵ giao nhau
+        (4) Tác động lên Mệnh – Quan – Tài – Phu Thê
+        (5) Kết luận: thuận lợi / rủi ro chính trong năm
 
         =====================================
 

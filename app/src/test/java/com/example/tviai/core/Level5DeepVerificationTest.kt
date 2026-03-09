@@ -492,4 +492,42 @@ class Level5DeepVerificationTest {
         
         println("Tứ Hóa Content Accuracy: ✅")
     }
+
+    @Test
+    fun deepDump_Level5FinalPolish_3Blocks() {
+        val client = GeminiClient("fake-key")
+        val result = logic.anSao(testInput)
+        val prompt = client.getPromptForCopy(result)
+        
+        println("=" .repeat(60))
+        println("DEEP DUMP: LEVEL 5 FINAL POLISH - 3 BLOCKS PRESENCE")
+        println("=" .repeat(60))
+        
+        // Block 1: BƯỚC 4 – KIỂM TRA MÂU THUẪN
+        val hasBuoc4 = prompt.contains("BƯỚC 4 – KIỂM TRA MÂU THUẪN")
+        val hasMenhVsThan = prompt.contains("- Mệnh vs Thân:")
+        
+        println("BƯỚC 4 block present: ${if (hasBuoc4) "✅" else "❌"}")
+        println("Mệnh vs Thân check present: ${if (hasMenhVsThan) "✅" else "❌"}")
+        
+        assertTrue("Prompt phải chứa BƯỚC 4 kiểm tra mâu thuẫn", hasBuoc4)
+        assertTrue("Prompt phải chứa Mệnh vs Thân check", hasMenhVsThan)
+        
+        // Block 2: Khóa bảng tra Tứ Hóa
+        val hasTuHoaLock = prompt.contains("Bảng tra Tứ Hóa 10 Can CHỈ dùng để GIẢI THÍCH")
+        println("Tứ Hóa table lock present: ${if (hasTuHoaLock) "✅" else "❌"}")
+        assertTrue("Prompt phải chứa cảnh báo khóa bảng tra Tứ Hóa", hasTuHoaLock)
+        
+        // Block 3: Ép format vận năm bắt buộc (E1)
+        val hasE1Section = prompt.contains("E1. Vận năm ${testInput.viewingYear}")
+        val hasTrungDiep = prompt.contains("(3) Trùng điệp tứ hóa")
+        
+        println("E1 section present: ${if (hasE1Section) "✅" else "❌"}")
+        println("Trùng điệp tứ hóa check present: ${if (hasTrungDiep) "✅" else "❌"}")
+        
+        assertTrue("Prompt phải chứa mục E1 vận năm ${testInput.viewingYear}", hasE1Section)
+        assertTrue("Prompt phải chứa check trùng điệp tứ hóa", hasTrungDiep)
+        
+        println("Level 5 Final Polish Verification: ✅")
+    }
 }

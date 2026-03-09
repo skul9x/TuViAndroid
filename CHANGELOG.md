@@ -1,5 +1,30 @@
 # Changelog
 
+## [2026-03-09 - Part 5: Level 5.0 Final Polish]
+### Added — Advanced Prompt Validation & Yearly Transits
+- **BƯỚC 4 – Kiểm tra mâu thuẫn**: Mandated a post-analysis validation step for the AI to resolve contradictions between life aspects (Mệnh vs. Thân, Mệnh vs. Career, etc.).
+- **Tứ Hóa Table Lock**: Added a strict warning `⚠️` under the 10-Can table to explicitly forbid the AI from self-calculating transformations beyond the provided pre-computed data.
+- **Mandatory E1 Yearly Analysis**: Enforced a highly structured format for analyzing the current viewing year's transit (`E1. Vận năm ${info.viewingYear}`) with 5 specific steps including "Trùng điệp tứ hóa" (transformation stacking).
+
+### Fixed
+- **Verification Stability**: Added `deepDump_Level5FinalPolish_3Blocks` test case to verify the presence of these final 3 expert patches.
+- **Build**: Successfully verified clean build and APK generation for version 5.0 baseline.
+
+## [2026-03-09 - Part 4: Mastery Methodology Upgrade]
+### Added — AI Prompt Engineering v5.0 (Expert Refinement)
+- **Priority Logic & Interaction Weights**: Injected explicit reasoning guidelines into the AI prompt to solve signal conflicts.
+    - **Priority**: Main stars > Minor stars; Brightness (Miếu/Hãm) > Presence; Bản Mệnh > Đại Vận > Lưu Niên.
+    - **Weights**: Palace (100%) > Trigon (80%) > Polar (70%) > Neighbors (50%) > Harmony (30%).
+- **4-Step Vô Chính Diệu (VCD) Protocol**: Replaced the simple VCD rule with a comprehensive procedure: Borrowing polar stars (with 30% reduction), assessing sub-stars as "actual masters", and evaluating "Empty space" outcomes based on benefic/malefic presence.
+- **Scoring & Reliability Format**: Forced the AI to output numerical **Palace Strength [1-10]** and **Reliability Ratings [High/Med/Low]** per conclusion.
+- **Tứ Hóa Summary Block**: Added a dedicated, pre-aggregated section in the prompt that summarizes Inherent, Decade, and Annual transformations together for unified reasoning.
+- **Negative Examples (Anti-Pattern Guardrails)**: Added 5 common failure examples (e.g., "Tử Vi is always good", "Kình Dương is always bad") into the prompt to prevent stereotypical readings.
+
+### Fixed
+- **Test Accuracy**: Corrected Level 5 deep verification test expectations (fixing Dần vs Thìn positions for specific stars) in Nhâm Thân 1992 test case.
+- **GeminiClient.kt**: Implemented `buildTuHoaSummary()` helper to facilitate the new summary block.
+
+
 ## [2026-03-09 - Expert Feedback Fixes]
 ### Fixed — Astrology Logic & Metadata Accuracy
 - **Refined `detectBoSao()`**: Overhauled star combination detection to use **Tam phương tứ chính** (trigons + opposite) logic.

@@ -33,6 +33,11 @@ Dự án TuViAI hiện tại đã đạt mức **Level 5 Astrology Engine**, k�
     - Bước 2: Đánh giá Lực (Mạnh/Yếu).
     - Bước 3: Kiểm tra Cách cục (Sát Phá Tham, Tử Phủ Vũ Tướng...).
     - **Bước 3b (Ranking)**: Xếp hạng cách cục chủ đạo dựa trên Lực, Vị trí và Tứ Hóa.
+    - **Bước 4 (Validation)**: Rà soát mâu thuẫn giữa các phương diện (Mệnh vs Thân, Mệnh vs Quan/Tài,...) — Ép AI tự rà lỗi trước khi kết luận.
+- **Enhanced Analysis Blocks**:
+    - **Vô Chính Diệu (VCD) 4-step**: Thay thế quy luật đơn giản bằng 4 bước phân tích sâu (Mượn xung chiếu, Xét phụ tinh chủ, Đánh giá biến động/cơ hội).
+    - **Mandatory E1 Yearly Transit**: Ép format phân tích năm đang xem (`viewingYear`) theo 5 tầng (Đại vận -> Lưu niên -> Trùng điệp -> Tác động -> Kết luận).
+    - **Weights & Priority**: Tích hợp trọng số tương tác (Cung 100%, Tam hợp 80%, Xung chiếu 70%,...) và quy tắc ưu tiên khi mâu thuẫn.
 
 ### 3. Verification Layer (Unit Tests)
 - **Deep Verification Suite**: `Level5DeepVerificationTest.kt` kiểm tra tính chính xác của:
@@ -50,4 +55,4 @@ Dự án TuViAI hiện tại đã đạt mức **Level 5 Astrology Engine**, k�
 - **`test/.../Level5DeepVerificationTest.kt`**: Bộ test "sống còn" của dự án.
 
 ---
-*Updated: 2026-03-09 (Expert Feedback Refinement)*
+*Updated: 2026-03-09 (Level 5.0 Final Polish)*

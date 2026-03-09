@@ -3,31 +3,36 @@
   "project": { 
     "name": "TuViAndroid", 
     "type": "Android (Kotlin)", 
-    "status": "Expert Refined (v4.0 - Tam phương tứ chính & Ranking)" 
+    "status": "Level 5.0 Final Polish Complete (v5.0 - Final)" 
   },
   "business_rules": [
     "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
     "AI cấm tự tính toán dữ liệu (Rule #8): Phải dùng dữ liệu metadata được cấp sẵn (Ngũ hành, Cục-Mệnh relation, Bộ sao...).",
-    "Cung vô chính diệu: AI phải ưu tiên xung chiếu sau đó đến tam hợp.",
+    "Bảng tra Tứ Hóa 10 Can: CHỈ dùng để giải thích, KHÔNG dùng để tự an sao hay tính thêm.",
+    "Cung vô chính diệu: AI áp dụng 4 bước VCD (Mượn xung chiếu giảm 30%, Phụ tinh làm chủ, Đất trống gặp mưa...).",
     "Xác nhận cách cục: Chỉ khi đủ sao và khớp mạng lưới Tam phương tứ chính (Hội hợp) được cung cấp.",
-    "Luận Mệnh: Bắt buộc liên hệ tam hợp Mệnh-Tài-Quan (Rule #10).",
-    "Xếp hạng Cách cục: AI phải so sánh LỰC (Miếu/Hãm), VỊ TRÍ (Mệnh cung) và TỨ HÓA để phân biệt Chủ-Thứ khi có nhiều cách hội tụ.",
-    "Phân loại lá số: Phải dựa trên cơ sở tinh hệ rõ ràng, không cảm tính."
+    "BƯỚC 4 Validation: Phải rà soát mâu thuẫn giữa các phương diện (Mệnh vs Thân, Mệnh vs Quan/Tài...) sau khi luận xong 12 cung.",
+    "Xếp hạng Cách cục: AI phải so sánh LỰC (Miếu/Hãm), VỊ TRÍ (Mệnh cung) và TỨ HÓA để phân biệt Chủ-Thứ (Bước 3b).",
+    "Phân loại lá số: Phải dựa trên cơ sở tinh hệ rõ ràng, không cảm tính.",
+    "Vận năm viewingYear: Bắt buộc phân tích mục E1 theo 5 bước (Đại vận -> Lưu niên -> Trùng điệp -> Tác động -> Kết luận)."
   ],
   "features": [
-    "AI Horoscope Reading (Level 5 Advanced Methodology)",
-    "Anti-Hallucination Prompt Engine v3.0 (with 3b-Ranking Block)",
-    "Advanced Star Detection (Tam phương tứ chính logic for Sát Phá Tham, Tử Phủ Vũ Tướng, Cơ Nguyệt Đồng Lương...)",
-    "Phi Tinh Tứ Hóa (10-Can flying star causality)",
-    "6-Layer Metadata Infusion (Ngũ hành cung/sao, Nạp Âm, Cục-Mệnh relation, Bộ Sao, Trục Cung, Full Đại Vận)"
+    "AI Horoscope Reading Level 5.0 (Full Classical Methodology)",
+    "Mastery Prompt Engine (Priority Rules, Interaction Weights, 4-step VCD, Conflict Validation)",
+    "Automatic Tứ Hóa Summary (Bản Mệnh, Đại Vận, Lưu Niên aggregation)",
+    "Advanced Scoring Model (Palace Strength 1-10, Analysis Reliability High/Mid/Low)",
+    "Advanced Star Detection (Tam phương tứ chính logic for Sát Phá Tham, Tử Phủ Vũ Tướng...)",
+    "Phi Tinh Tứ Hóa (10-Can flying star causality mapping)",
+    "6-Layer Metadata Infusion (Ngũ hành, axes, Nap Am, Axes, Bộ Sao, Full Đại Vận)"
   ],
   "knowledge_items": {
     "patterns": [
-      "Metadata-driven LLM orchestration with ranking logic",
-      "NAP_AM_MAP (60 entries) for accurate destiny calculation",
-      "detectBoSao() - Trigon-based star grouping logic",
-      "Tam phương tứ chính = Tam hợp + Xung chiếu"
+      "Metadata-driven LLM orchestration with 4-step mandatory workflow",
+      "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
+      "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
+      "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
+      "Dynamic Yearly Transit Injection (E1 Section mapping)"
     ],
-    "milestones": "Completed: Expert Feedback Fixes & Level 5 Refinement (2026-03-09)"
+    "milestones": "Completed: Level 5.0 Final Polish & Expert Review Round 2 (2026-03-09)"
   }
 }
