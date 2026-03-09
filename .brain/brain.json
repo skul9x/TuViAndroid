@@ -3,27 +3,28 @@
   "project": { 
     "name": "TuViAndroid", 
     "type": "Android (Kotlin)", 
-    "status": "AI Prompt Hardened (v2.0 - Metadata Standardized)" 
+    "status": "AI Metadata Refined (v3.1 - B->Bình & VCD labels)" 
   },
   "business_rules": [
     "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
-    "AI cấm tự tính toán dữ liệu: Phải dùng ký hiệu M/V/Đ/H và prefix ĐV./L. đã cấp (Rule #8).",
-    "Cung vô chính diệu: BẮT BUỘC ghi rõ xung chiếu trong tóm tắt (Phase 02).",
-    "Cách cục: Chỉ xác nhận khi đủ sao (Rule #10) và không tự suy diễn.",
-    "TRƯỚC KHI KẾT LUẬN: Bắt buộc bước kiểm tra mâu thuẫn nội bộ (Phase 03).",
-    "Marker System: Sử dụng [Cung Đại Vận] và [Thân cư] để AI không nhầm lẫn với tên sao."
+    "AI cấm tự tính toán dữ liệu (Rule #8): Phải dùng dữ liệu metadata được cấp sẵn (Ngũ hành, Cục-Mệnh relation, Bộ sao...).",
+    "Cung vô chính diệu: AI phải ưu tiên xung chiếu sau đó đến tam hợp.",
+    "Xác nhận cách cục: Chỉ khi đủ sao và khớp metadata bộ sao được cung cấp.",
+    "Luận Mệnh: Bắt buộc liên hệ tam hợp Mệnh-Tài-Quan (Rule #10).",
+    "Phân loại lá số: Phải dựa trên cơ sở tinh hệ rõ ràng, không cảm tính."
   ],
   "features": [
     "AI Horoscope Reading (Classical Methodology)",
-    "Anti-Hallucination Prompt Engine",
-    "Childhood Perspective Analysis",
-    "Metadata Marker Standardization ([Cung Đại Vận], [Thân cư])"
+    "Anti-Hallucination Prompt Engine v2.0",
+    "6-Layer Metadata Infusion (Ngũ hành cung/sao, Nạp Âm, Cục-Mệnh relation, Bộ Sao, Trục Cung, Full Đại Vận)",
+    "Comprehensive 10-Decade Lifecycle Analysis"
   ],
   "knowledge_items": {
     "patterns": [
-      "String-based metadata injection",
-      "Strict Rule-based prompting to control LLM logic"
+      "Metadata-driven LLM orchestration",
+      "NAP_AM_MAP (60 entries) for accurate destiny calculation",
+      "Palace Axis (Trục cung) auto-calculation logic"
     ],
-    "milestones": "Completed: Anti-Hallucination Upgrade + Metadata Standardization (2026-03-08)"
+    "milestones": "Completed: 6-Layer Metadata Enhancement (2026-03-09)"
   }
 }

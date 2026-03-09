@@ -296,4 +296,89 @@ object Constants {
         "Thất Sát" to listOf("M", "Đ", "M", "H", "H", "V", "M", "Đ", "M", "H", "H", "V"),
         "Phá Quân" to listOf("M", "V", "H", "H", "Đ", "H", "M", "V", "H", "H", "Đ", "H")
     )
+
+    // Ngũ Hành của 12 Địa Chi (Cung)
+    val NGU_HANH_CUNG = mapOf(
+        "Tý" to "Thủy", "Sửu" to "Thổ", "Dần" to "Mộc", "Mão" to "Mộc",
+        "Thìn" to "Thổ", "Tỵ" to "Hỏa", "Ngọ" to "Hỏa", "Mùi" to "Thổ",
+        "Thân" to "Kim", "Dậu" to "Kim", "Tuất" to "Thổ", "Hợi" to "Thủy"
+    )
+
+    // Ngũ Hành của 14 Chính Tinh
+    val NGU_HANH_SAO = mapOf(
+        "Tử Vi" to "Thổ", "Thiên Cơ" to "Mộc", "Thái Dương" to "Hỏa",
+        "Vũ Khúc" to "Kim", "Thiên Đồng" to "Thủy", "Liêm Trinh" to "Hỏa",
+        "Thiên Phủ" to "Thổ", "Thái Âm" to "Thủy", "Tham Lang" to "Mộc",
+        "Cự Môn" to "Thủy", "Thiên Tướng" to "Thủy", "Thiên Lương" to "Mộc",
+        "Thất Sát" to "Kim", "Phá Quân" to "Thủy"
+    )
+
+    // Nạp Âm Ngũ Hành (60 Can Chi → Ngũ hành bản mệnh)
+    // Key: "CanChi" (VD: "Giáp Tý"), Value: "Ngũ hành tên" (VD: "Hải Trung Kim")
+    val NAP_AM_MAP = mapOf(
+        // Giáp Tý - Ất Sửu
+        "Giáp Tý" to "Hải Trung Kim", "Ất Sửu" to "Hải Trung Kim",
+        "Bính Dần" to "Lư Trung Hỏa", "Đinh Mão" to "Lư Trung Hỏa",
+        "Mậu Thìn" to "Đại Lâm Mộc", "Kỷ Tỵ" to "Đại Lâm Mộc",
+        "Canh Ngọ" to "Lộ Bàng Thổ", "Tân Mùi" to "Lộ Bàng Thổ",
+        "Nhâm Thân" to "Kiếm Phong Kim", "Quý Dậu" to "Kiếm Phong Kim",
+        "Giáp Tuất" to "Sơn Đầu Hỏa", "Ất Hợi" to "Sơn Đầu Hỏa",
+        "Bính Tý" to "Giản Hạ Thủy", "Đinh Sửu" to "Giản Hạ Thủy",
+        "Mậu Dần" to "Thành Đầu Thổ", "Kỷ Mão" to "Thành Đầu Thổ",
+        "Canh Thìn" to "Bạch Lạp Kim", "Tân Tỵ" to "Bạch Lạp Kim",
+        "Nhâm Ngọ" to "Dương Liễu Mộc", "Quý Mùi" to "Dương Liễu Mộc",
+        "Giáp Thân" to "Tuyền Trung Thủy", "Ất Dậu" to "Tuyền Trung Thủy",
+        "Bính Tuất" to "Ốc Thượng Thổ", "Đinh Hợi" to "Ốc Thượng Thổ",
+        "Mậu Tý" to "Tích Lịch Hỏa", "Kỷ Sửu" to "Tích Lịch Hỏa",
+        "Canh Dần" to "Tùng Bách Mộc", "Tân Mão" to "Tùng Bách Mộc",
+        "Nhâm Thìn" to "Trường Lưu Thủy", "Quý Tỵ" to "Trường Lưu Thủy",
+        "Giáp Ngọ" to "Sa Trung Kim", "Ất Mùi" to "Sa Trung Kim",
+        "Bính Thân" to "Sơn Hạ Hỏa", "Đinh Dậu" to "Sơn Hạ Hỏa",
+        "Mậu Tuất" to "Bình Địa Mộc", "Kỷ Hợi" to "Bình Địa Mộc",
+        "Canh Tý" to "Bích Thượng Thổ", "Tân Sửu" to "Bích Thượng Thổ",
+        "Nhâm Dần" to "Kim Bạc Kim", "Quý Mão" to "Kim Bạc Kim",
+        "Giáp Thìn" to "Phú Đăng Hỏa", "Ất Tỵ" to "Phú Đăng Hỏa",
+        "Bính Ngọ" to "Thiên Hà Thủy", "Đinh Mùi" to "Thiên Hà Thủy",
+        "Mậu Thân" to "Đại Trạch Thổ", "Kỷ Dậu" to "Đại Trạch Thổ",
+        "Canh Tuất" to "Thoa Xuyến Kim", "Tân Hợi" to "Thoa Xuyến Kim",
+        "Nhâm Tý" to "Tang Đố Mộc", "Quý Sửu" to "Tang Đố Mộc",
+        "Giáp Dần" to "Đại Khê Thủy", "Ất Mão" to "Đại Khê Thủy",
+        "Bính Thìn" to "Sa Trung Thổ", "Đinh Tỵ" to "Sa Trung Thổ",
+        "Mậu Ngọ" to "Thiên Thượng Hỏa", "Kỷ Mùi" to "Thiên Thượng Hỏa",
+        "Canh Thân" to "Thạch Lựu Mộc", "Tân Dậu" to "Thạch Lựu Mộc",
+        "Nhâm Tuất" to "Đại Hải Thủy", "Quý Hợi" to "Đại Hải Thủy"
+    )
+
+    // Ngũ Hành tên chuẩn từ Nạp Âm (để tính sinh khắc)
+    // Key: Nạp Âm name → Ngũ hành chính (Kim/Mộc/Thủy/Hỏa/Thổ)
+    fun napAmToNguHanh(napAm: String): String {
+        return when {
+            napAm.contains("Kim") -> "Kim"
+            napAm.contains("Mộc") -> "Mộc"
+            napAm.contains("Thủy") -> "Thủy"
+            napAm.contains("Hỏa") -> "Hỏa"
+            napAm.contains("Thổ") -> "Thổ"
+            else -> "Không xác định"
+        }
+    }
+
+    // Tính sinh khắc giữa 2 ngũ hành
+    fun sinhKhac(hanh1: String, hanh2: String): String {
+        val sinh = mapOf(
+            "Kim" to "Thủy", "Thủy" to "Mộc", "Mộc" to "Hỏa",
+            "Hỏa" to "Thổ", "Thổ" to "Kim"
+        )
+        val khac = mapOf(
+            "Kim" to "Mộc", "Mộc" to "Thổ", "Thổ" to "Thủy",
+            "Thủy" to "Hỏa", "Hỏa" to "Kim"
+        )
+        return when {
+            hanh1 == hanh2 -> "đồng hành"
+            sinh[hanh1] == hanh2 -> "sinh"
+            sinh[hanh2] == hanh1 -> "được sinh"
+            khac[hanh1] == hanh2 -> "khắc"
+            khac[hanh2] == hanh1 -> "bị khắc"
+            else -> "không xác định"
+        }
+    }
 }

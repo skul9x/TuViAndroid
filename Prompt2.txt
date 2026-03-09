@@ -254,29 +254,38 @@
 
         Nội dung lá số:
 
-                1. THÔNG TIN CƠ BẢN:
-        - Đương số: Nguyễn Duy Trường  (Nam)
-        - Ngày sinh (Dương lịch): 5/3/1992 lúc 10h (Giờ Tỵ)
-        - Ngày sinh (Âm lịch): 2/2/1992 (Nhâm Thân)
-        - Cục: Kim Tứ Cục
-        - Mệnh đóng tại: Tuất
-        - Thân đóng tại: Thân
-        - Đại vận hiện tại: Đại vận thứ 4 (34–43 tuổi), Can: Quý, Cung: Sửu, Hướng: Thuận
+                0. METADATA LÁ SỐ:
+        - Mệnh Ngũ Hành (Nạp Âm): Kiếm Phong Kim (Kim)
+        - Cục: Mộc Tam Cục
+        - Quan hệ Mệnh – Cục: Mệnh (Kim) khắc Cục (Mộc)
+        - Ngũ hành 14 chính tinh: Tử Vi=Thổ, Thiên Cơ=Mộc, Thái Dương=Hỏa, Vũ Khúc=Kim, Thiên Đồng=Thủy, Liêm Trinh=Hỏa, Thiên Phủ=Thổ, Thái Âm=Thủy, Tham Lang=Mộc, Cự Môn=Thủy, Thiên Tướng=Thủy, Thiên Lương=Mộc, Thất Sát=Kim, Phá Quân=Thủy
+        - Bộ sao đã hình thành: Sát Phá Tham (Dậu–Sửu–Tỵ); Cơ Nguyệt Đồng Lương (Tý–Thìn–Thân–Thân)
+        - Trục cung: Trục Mệnh–Thiên Di: Sửu–Mùi | Tam hợp Mệnh–Tài–Quan: Sửu–Dậu–Tỵ | Trục Phúc–Tài–Quan: Mão–Dậu–Tỵ | Trục Phu Thê–Tài Bạch: Hợi–Dậu | Trục Điền–Phúc: Thìn–Mão
+        - Danh sách Đại Vận: 3–12: Quý Sửu | 13–22: Nhâm Tý | 23–32: Tân Hợi | 33–42: Canh Tuất | 43–52: Kỷ Dậu | 53–62: Mậu Thân | 63–72: Đinh Mùi | 73–82: Bính Ngọ | 83–92: Ất Tỵ | 93–102: Giáp Thìn
+
+        1. THÔNG TIN CƠ BẢN:
+        - Đương số: Nguyễn Thị Ngọc (Nữ)
+        - Ngày sinh (Dương lịch): 23/10/1992 lúc 18h (Giờ Dậu)
+        - Ngày sinh (Âm lịch): 28/9/1992 (Nhâm Thân)
+        - Cục: Mộc Tam Cục
+        - Mệnh đóng tại: Sửu
+        - Thân đóng tại: Mùi
+        - Đại vận hiện tại: Đại vận thứ 4 (33–42 tuổi), Can: Canh, Cung: Tuất, Hướng: Nghịch
         - Khoảng thời gian xem vận: Năm 2026
 
         2. CÁC CUNG VÀ SAO:
-        - Cung Tý (Phúc Đức): Vũ Khúc (V), Thiên Phủ (M), Quan Phù, Kình Dương, Lực Sỹ, Tử, (Hóa Kỵ), Long Trì, Đầu Quân, ĐV. Lộc Tồn, L.Thiên Khốc, L.Thiên Hư
-- Cung Sửu (Điền Trạch): Thái Dương (Đ), Thái Âm (Đ), Tử Phù, Thanh Long, Mộ, Thiên Hỷ, Nguyệt Đức, Đại Vận, ĐV. Kình Dương, (ĐV. H Khoa)
-- Cung Dần (Quan Lộc) (Gặp Triệt): Tham Lang (Đ), Tuế Phá, Tiểu Hao, Tuyệt, Thiên Mã, Thiên Hư, Triệt, Phượng Các, Giải Thần, Thiên Riêu, Thiên Y, (ĐV. H Kỵ), L.Bạch Hổ
-- Cung Mão (Nô Bộc) (Gặp Triệt): Thiên Cơ (M), Cự Môn (M), Long Đức, Tướng Quân, Thai, Thiên Khôi, Triệt, Thiên Thương, ĐV. Thiên Khôi, ĐV. Văn Xương, (ĐV. H Quyền), L.Đào Hoa, L.Long Đức, L.Thiên Đức, (L.Hóa Quyền)
-- Cung Thìn (Thiên Di): Tử Vi (V), Thiên Tướng (V), Bạch Hổ, Tấu Thư, Dưỡng, Địa Kiếp, (Hóa Quyền), Hoa Cái, Đường Phù, Thiên Thọ, Thiên La, L.Đà La
-- Cung Tỵ (Tật Ách): Thiên Lương (H), Phúc Đức, Phi Liêm, Tràng Sinh, Thiên Việt, Tả Phù, Văn Xương, (Hóa Lộc), (Hóa Khoa), Linh Tinh, Kiếp Sát, Ân Quang, Thiên Sứ, Thiên Đức, ĐV. Thiên Việt, L.Lộc Tồn, L.Phúc Đức, (L.Hóa Khoa)
-- Cung Ngọ (Tài Bạch): Thất Sát (M), Điếu Khách, Hỷ Thần, Mộc Dục, Địa Không, Thiên Phúc, Thiên Tài, Tam Thai, L.Thái Tuế, L.Kình Dương, L.Văn Khúc
-- Cung Mùi (Tử Tức): Trực Phù, Bệnh Phù, Quan Đới, Hỏa Tinh, Hồng Loan, Quả Tú, Quốc Ấn, Phong Cáo
-- Cung Thân (Phu Thê (Thân)): Liêm Trinh (V), Thái Tuế, Đại Hao, Lâm Quan, Địa Giải, Bát Tọa, L.Tang Môn, L.Thiên Mã, L.Văn Xương, (L.Hóa Kỵ)
-- Cung Dậu (Huynh Đệ): Thiếu Dương, Phục Binh, Đế Vượng, Hữu Bật, Văn Khúc, Đào Hoa, Thiên Không, Thiên Giải, Thiên Trù, Thiên Quý, Văn Tinh, Phá Toái, L.Hồng Loan, L.Thiên Việt
-- Cung Tuất (Mệnh) (Gặp Tuần): Phá Quân (Đ), Tang Môn, Đà La, Quan Phủ, Suy, Thiên Khốc, Tuần, Thiên Hình, Thiên Quan, Địa Võng, (ĐV. H Lộc)
-- Cung Hợi (Phụ Mẫu) (Gặp Tuần): Thiên Đồng (Đ), Thiếu Âm, Lộc Tồn, Bác Sỹ, Bệnh, Tuần, Cô Thần, Lưu Hà, Thai Phụ, ĐV. Đà La, ĐV. Văn Khúc, ĐV. Thiên Mã, L.Kiếp Sát, L.Thiên Khôi, L.Nguyệt Đức, (L.Hóa Lộc)
+        - Cung Tý [Thủy] (Huynh Đệ): Thiên Cơ (Đ), Quan Phù, Kình Dương, Quan Phủ, Dưỡng, Tả Phù, (Hóa Khoa), Long Trì, L.Thiên Khốc, L.Thiên Hư, (L.Hóa Quyền)
+- Cung Sửu [Thổ] (Mệnh): Tử Vi (Đ), Phá Quân (V), Tử Phù, Phục Binh, Thai, Văn Xương, Văn Khúc, (Hóa Quyền), Linh Tinh, Thiên Hỷ, Nguyệt Đức, (L.Hóa Khoa)
+- Cung Dần [Mộc] (Phụ Mẫu) (Gặp Triệt): Tuế Phá, Đại Hao, Tuyệt, Hữu Bật, Thiên Mã, Thiên Hư, Địa Không, Triệt, Phượng Các, Giải Thần, ĐV. Thiên Việt, L.Bạch Hổ
+- Cung Mão [Mộc] (Phúc Đức) (Gặp Triệt): Thiên Phủ (B), Long Đức, Bệnh Phù, Mộ, Thiên Khôi, Triệt, Địa Giải, Ân Quang, Tam Thai, Thai Phụ, ĐV. Văn Khúc, L.Đào Hoa, L.Long Đức, L.Thiên Đức
+- Cung Thìn [Thổ] (Điền Trạch): Thái Âm (H), Bạch Hổ, Hỷ Thần, Tử, Thiên Giải, Hoa Cái, Đường Phù, Thiên La, (ĐV. H Khoa), L.Đà La
+- Cung Tỵ [Hỏa] (Quan Lộc): Liêm Trinh (H), Tham Lang (H), Phúc Đức, Phi Liêm, Bệnh, Thiên Việt, Thiên Hình, Kiếp Sát, Thiên Đức, L.Lộc Tồn, L.Phúc Đức, (L.Hóa Kỵ)
+- Cung Ngọ [Hỏa] (Nô Bộc): Cự Môn (V), Điếu Khách, Tấu Thư, Suy, Thiên Phúc, Thiên Thương, ĐV. Thiên Khôi, L.Thái Tuế, L.Kình Dương, L.Văn Khúc
+- Cung Mùi [Thổ] (Thiên Di [Thân cư]): Thiên Tướng (M), Trực Phù, Tướng Quân, Đế Vượng, Hồng Loan, Quả Tú, Quốc Ấn, ĐV. Đà La
+- Cung Thân [Kim] (Tật Ách): Thiên Đồng (M), Thiên Lương (V), Thái Tuế, Tiểu Hao, Lâm Quan, Địa Kiếp, (Hóa Lộc), Thiên Sứ, ĐV. Lộc Tồn, ĐV. Thiên Mã, (ĐV. H Kỵ), L.Tang Môn, L.Thiên Mã, L.Văn Xương, (L.Hóa Lộc)
+- Cung Dậu [Kim] (Tài Bạch): Vũ Khúc (Đ), Thất Sát (H), Thiếu Dương, Thanh Long, Quan Đới, (Hóa Kỵ), Đào Hoa, Thiên Không, Thiên Riêu, Thiên Y, Thiên Trù, Thiên Tài, Đầu Quân, Văn Tinh, Phá Toái, ĐV. Kình Dương, (ĐV. H Quyền), L.Hồng Loan, L.Thiên Việt
+- Cung Tuất [Thổ] (Tử Tức) (Gặp Tuần): Thái Dương (H), Tang Môn, Đà La, Lực Sỹ, Mộc Dục, Thiên Khốc, Tuần, Thiên Quan, Địa Võng, [Cung Đại Vận], (ĐV. H Lộc)
+- Cung Hợi [Thủy] (Phu Thê) (Gặp Tuần): Thiếu Âm, Lộc Tồn, Bác Sỹ, Tràng Sinh, Tuần, Hỏa Tinh, Cô Thần, Lưu Hà, Phong Cáo, Thiên Quý, Bát Tọa, ĐV. Văn Xương, L.Kiếp Sát, L.Thiên Khôi, L.Nguyệt Đức
 
         3. YÊU CẦU BỔ SUNG VỀ VẬN HẠN:
         - Phân tích vận năm 2026 (theo đại vận hiện tại và lưu tinh năm)

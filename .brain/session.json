@@ -1,22 +1,22 @@
 {
-  "updated_at": "2026-03-08T19:58:00Z",
+  "updated_at": "2026-03-09T03:00:00Z",
   "working_on": {
-    "feature": "Metadata Marker Ambiguity Fix",
-    "current_plan_path": "plans/260308-1949-metadata-marker-fix/",
-    "current_phase": "Post-Verification",
+    "feature": "AI Metadata Refinement",
     "task": "Brain Save",
     "status": "finished"
   },
   "pending_tasks": [
-    { "task": "User testing of real reading outputs", "priority": "high" },
-    { "task": "Check if Tứ hóa binding to stars is necessary (Point #4 in feedback)", "priority": "medium" }
+    { "task": "Integrate real-world user data (Career, Marital Status) for reverse-validation", "priority": "medium" },
+    { "task": "Advanced Star Group detection enhancements (e.g., Tứ Linh, Thiên Hình...)", "priority": "low" }
   ],
   "recent_changes": [
-    { "type": "fix", "description": "Standardized [Cung Đại Vận] and [Thân cư] markers in TuViLogic.kt." },
-    { "type": "config", "description": "Updated Gemini prompt with marker definitions." },
-    { "type": "build", "description": "Successful APK build and unit test verification." }
+    { "type": "feature", "description": "Expanded (B) brightness label to (Bình) to clear LLM ambiguity." },
+    { "type": "feature", "description": "Added explicit [Vô chính diệu] marker for empty palaces in prompt logic." },
+    { "type": "test", "description": "Verified with 11/11 tests pass in DataLayerVerificationTest (added 2 new tests)." }
   ],
   "decisions_made": [
-    { "decision": "Adopt square brackets for markers", "reason": "Consistent with prompt conventions and visually distinct for LLM." }
+    { "decision": "Inject metadata as Section 0", "reason": "Forces LLM to read core architecture facts before interpreting star positions." },
+    { "decision": "Pre-detect major star groups (Sát Phá Tham, etc.)", "reason": "Reduces LLM calculation errors and ensures classical pattern recognition." },
+    { "decision": "Explicitly define (Bình) label", "reason": "Reviewer feedback confirmed AI might not guess single-character (B) abbreviation correctly." }
   ]
 }

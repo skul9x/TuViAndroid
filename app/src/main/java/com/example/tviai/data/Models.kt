@@ -47,6 +47,7 @@ data class CungInfo(
     val index: Int = 0,
     val name: String = "",         // Tý, Sửu...
     val chucNang: String = "",     // Mệnh, Phụ Mẫu...
+    val nguHanhCung: String = "",  // Ngũ hành cung (Thủy, Thổ, Mộc...)
     val chinhTinh: MutableList<String> = mutableListOf(),
     val phuTinh: MutableList<String> = mutableListOf(),
     var score: Int = 0
@@ -66,7 +67,10 @@ data class UserInfoResult(
     val viewingMonth: Int = 0,
     val viewingMode: String = "YEAR",
     val readingStyle: String,
-    val daiVanInfo: String = ""
+    val daiVanInfo: String = "",
+    val menhNguHanh: String = "",       // VD: "Kiếm Phong Kim"
+    val cucMenhRelation: String = "",   // VD: "Mệnh đồng hành Cục"
+    val daiVanFullList: String = ""     // Danh sách tất cả đại vận
 )
 
 data class LasoData(

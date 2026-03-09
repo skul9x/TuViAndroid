@@ -1,5 +1,20 @@
 # Changelog
 
+## [2026-03-09]
+### Added — Data Structure Enhancement (Level-Up AI Tử Vi)
+- **Ngũ Hành Cung**: Each of 12 cung now includes its Five Element (e.g., Tuất → Thổ) in the prompt output.
+- **Ngũ Hành Sao**: All 14 chính tinh mapped to Five Elements (e.g., Tử Vi → Thổ, Phá Quân → Thủy).
+- **Nạp Âm Ngũ Hành**: Full 60 Giáp Tý Nạp Âm lookup table added to `Constants.kt`. Destiny element now calculated (e.g., "Kiếm Phong Kim (Kim)").
+- **Cục-Mệnh Sinh Khắc**: Auto-calculated relationship between Mệnh and Cục (e.g., "Mệnh (Kim) đồng hành Cục (Kim)").
+- **Bộ Sao Detection**: Auto-detect formed star groups: Sát Phá Tham, Tử Phủ Vũ Tướng, Cơ Nguyệt Đồng Lương, Nhật Nguyệt.
+- **Trục Cung**: Auto-calculated palace axes: Mệnh–Thiên Di, Mệnh–Tài–Quan, Phúc–Tài–Quan, Phu Thê–Tài Bạch, Điền–Phúc.
+- **Full Đại Vận List**: Complete lifecycle đại vận list (10 decades) injected into prompt for AI to analyze 人生周期.
+- **METADATA Section**: New "Section 0" in prompt output aggregates all metadata before the lá số data.
+
+### Changed
+- **GeminiClient.kt**: Synced prompt with user's simplified `Prompt.txt` (shorter, cleaner rules).
+- **Prompt Simplified**: Removed verbose rule descriptions, simplified star classification, streamlined conclusion format.
+
 ## [2026-03-07]
 ### Added
 - **Classical Methodology Prompt**: Replaced the AI prompt with a comprehensive system based on *Thiên Lương – Vân Đằng Thái Thứ Lang – Tử Vi Đẩu Số Toàn Thư*.
@@ -80,3 +95,23 @@
 #### Changed
 - **Unit Tests**: Updated `TuViLogicTest.kt` assertions to verify the new naming convention.
 - **APK Export**: Re-built and verified updated `app-debug.apk` (v1.0.1-prompt-fix).
+
+### [2026-03-09]
+#### Fixed
+- **Logic Conflicts**: Resolved 3 minor logic conflicts and 2 ambiguous rules based on expert feedback.
+- **Rule #10 Exception**: Allowed AI to identify astrological patterns (Cách cục) if required stars exist in trigons (tam hợp) or opposite palaces (xung chiếu).
+- **Rule #8 Exception**: Allowed AI to apply Five Elements (Ngũ hành sinh khắc) to determine if Destiny (Mệnh) and Element (Cục) are harmonious or conflicting. Moderated rule language to avoid freezing the AI.
+- **Rule #10**: Renumbered missing Rule 10 to Rule 9 to fix list numbering.
+- **Rule #10 (New)**: Added a mandatory rule to always correlate the Destiny palace (Mệnh) with the Mệnh-Tài-Quan trigon (tam hợp) to prevent isolated analysis.
+- **VCD Refinement**: Clarified that Empty Palaces (Vô chính diệu) must prioritize opposite palace stars before checking trigons.
+- **Conclusion Terminology**: Softened final destiny classifications to "Thuộc nhóm xu hướng:" instead of absolute statements.
+- **Annual Stars Marker**: Explicitly defined `L.` prefix as stars belonging to the current viewed year.
+
+### [2026-03-09 - Part 2]
+#### Fixed
+- **Brightness Label Logic**: Expanded single-letter `(B)` marker to `(Bình)` in `TuViLogic.kt` to ensure AI correctly interprets "Bình Hòa" status.
+- **Vô Chính Diệu Identification**: Added explicit `[Vô chính diệu]` label in `GeminiClient.kt` to palaces without main stars, preventing AI from misinterpreting empty data as missing attributes.
+- **Prompt Specification**: Updated `QUY ƯỚC KÝ HIỆU` in prompt to explicitly define `(Bình)` for the LLM.
+
+#### Changed
+- **Unit Tests**: Added `testBrightnessLabel_BinhExpansion` and `testVoChinhDieu_Annotation` to `DataLayerVerificationTest.kt`. Verified 11/11 tests pass.

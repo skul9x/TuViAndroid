@@ -43,9 +43,13 @@ class TuViLogic {
         val chiNamIndex = LunarConverter.getChiNamIndex(lunarYear)
         val chiGioIndex = LunarConverter.getChiGioIndex(input.hour)
         
-        // Init 12 cung
+        // Init 12 cung (with Ngũ Hành Cung)
         val cungList = MutableList(12) { i ->
-            CungInfo(index = i, name = DIA_CHI[i])
+            CungInfo(
+                index = i,
+                name = DIA_CHI[i],
+                nguHanhCung = Constants.NGU_HANH_CUNG[DIA_CHI[i]] ?: ""
+            )
         }
         
         // 2. An Cung Menh/Than
@@ -123,6 +127,25 @@ class TuViLogic {
         
         // 5.9 Attach Brightness (Miếu/Vượng...)
         anDoSang(cungList)
+
+        // 6b. Calculate Nạp Âm (Mệnh Ngũ Hành)
+        val canChiNam = LunarConverter.getCanChiNam(lunarYear)
+        val napAmName = Constants.NAP_AM_MAP[canChiNam] ?: ""
+        val menhNguHanhStr = if (napAmName.isNotEmpty()) "$napAmName (${Constants.napAmToNguHanh(napAmName)})" else ""
+
+        // 6c. Calculate Cục-Mệnh relationship
+        val cucNguHanh = cucName.split(" ").firstOrNull() ?: ""
+        val menhHanh = Constants.napAmToNguHanh(napAmName)
+        val cucMenhRel = if (cucNguHanh.isNotEmpty() && menhHanh.isNotEmpty() && menhHanh != "Không xác định") {
+            val rel = Constants.sinhKhac(menhHanh, cucNguHanh)
+            "Mệnh ($menhHanh) $rel Cục ($cucNguHanh)"
+        } else ""
+
+        // 6d. Generate Full Đại Vận List
+        val isYangYear = (canNamIndex % 2 == 0)
+        val isThuanDV = if (input.gender == Gender.NAM) isYangYear else !isYangYear
+        val cucVal = cucNumber
+        val fullDaiVanList = buildFullDaiVanList(menhIndex, cucVal, isThuanDV, canNamIndex)
         
         return LasoData(
             info = UserInfoResult(
@@ -131,7 +154,7 @@ class TuViLogic {
                 solarDate = "$solarDay/$solarMonth/$solarYear",
                 time = "${input.hour}h (Giờ ${LunarConverter.getChiGio(input.hour)})",
                 lunarDate = "$lunarDay/$lunarMonth/$lunarYear",
-                canChi = LunarConverter.getCanChiNam(lunarYear),
+                canChi = canChiNam,
                 cuc = cucName,
                 menhTai = DIA_CHI[menhIndex],
                 thanTai = DIA_CHI[thanIndex],
@@ -139,7 +162,10 @@ class TuViLogic {
                 viewingMonth = input.viewingMonth,
                 viewingMode = input.viewingMode.name,
                 readingStyle = input.readingStyle.displayName,
-                daiVanInfo = daiVanMeta
+                daiVanInfo = daiVanMeta,
+                menhNguHanh = menhNguHanhStr,
+                cucMenhRelation = cucMenhRel,
+                daiVanFullList = fullDaiVanList
             ),
             cung = cungList,
             scores = scores
@@ -978,7 +1004,8 @@ class TuViLogic {
                 val brightnessList = com.example.tviai.core.Constants.STAR_BRIGHTNESS[starName]
                 if (brightnessList != null) {
                     val brightness = brightnessList[i] // i is index 0..11 (Ty..Hoi)
-                    "$starName ($brightness)"
+                    val brightnessLabel = if (brightness == "B") "Bình" else brightness
+                    "$starName ($brightnessLabel)"
                 } else {
                     starName
                 }
@@ -995,5 +1022,36 @@ class TuViLogic {
             cung.phuTinh.forEach { score += STAR_SCORES[it] ?: 0 }
             score
         }
+    }
+
+    private fun buildFullDaiVanList(
+        menhIndex: Int,
+        cucNumber: Int,
+        isThuan: Boolean,
+        canNamIndex: Int
+    ): String {
+        val startCanDan = when (canNamIndex % 5) {
+            0 -> 2; 1 -> 4; 2 -> 6; 3 -> 8; 4 -> 0; else -> 0
+        }
+
+        val sb = StringBuilder()
+        // Generate up to 10 decades (covers 0-100+ years old)
+        for (i in 0 until 10) {
+            val startAge = cucNumber + i * 10
+            val endAge = startAge + 9
+
+            var pos = if (isThuan) (menhIndex + i) % 12 else (menhIndex - i) % 12
+            if (pos < 0) pos += 12
+
+            var distFromDan = (pos - 2) % 12
+            if (distFromDan < 0) distFromDan += 12
+            val canDV = (startCanDan + distFromDan) % 10
+            val canStr = THIEN_CAN[canDV]
+            val cungStr = DIA_CHI[pos]
+
+            sb.append("$startAge–$endAge: $canStr $cungStr")
+            if (i < 9) sb.append(" | ")
+        }
+        return sb.toString()
     }
 }

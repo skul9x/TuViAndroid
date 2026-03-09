@@ -1,6 +1,7 @@
 package com.example.tviai.core
 
 import com.example.tviai.data.LasoData
+import com.example.tviai.data.CungInfo
 import com.example.tviai.data.ReadingStyle
 import com.example.tviai.data.SettingsDataStore
 import com.google.ai.client.generativeai.GenerativeModel
@@ -187,12 +188,41 @@ class GeminiClient(
 
         val cungDetails = cungList.joinToString("\n") { c ->
             val starList = (c.chinhTinh + c.phuTinh).joinToString(", ")
+            val voChinhDieu = if (c.chinhTinh.isEmpty()) " [Vô chính diệu]" else ""
             val specialContext = StringBuilder()
             if (c.phuTinh.contains("Tuần")) specialContext.append(" (Gặp Tuần)")
             if (c.phuTinh.contains("Triệt")) specialContext.append(" (Gặp Triệt)")
             
-            "- Cung ${c.name} (${c.chucNang})$specialContext: $starList"
+            "- Cung ${c.name} [${c.nguHanhCung}] (${c.chucNang})$voChinhDieu$specialContext: $starList"
         }
+
+        // Build ngũ hành sao annotation for chính tinh
+        val nguHanhSaoStr = Constants.NGU_HANH_SAO.entries.joinToString(", ") { (sao, hanh) ->
+            "$sao=$hanh"
+        }
+
+        // Detect bộ sao đã hình thành
+        val boSaoList = detectBoSao(cungList)
+
+        // Build trục cung info
+        val menhCung = cungList.find { it.chucNang.contains("Mệnh") }
+        val trucCungStr = if (menhCung != null) {
+            val menhIdx = menhCung.index
+            val thienDiIdx = (menhIdx + 6) % 12
+            val taiIdx = cungList.find { it.chucNang.contains("Tài Bạch") }?.index ?: -1
+            val quanIdx = cungList.find { it.chucNang.contains("Quan Lộc") }?.index ?: -1
+            val phucIdx = cungList.find { it.chucNang.contains("Phúc Đức") }?.index ?: -1
+            val phuTheIdx = cungList.find { it.chucNang.contains("Phu Thê") }?.index ?: -1
+            val dienIdx = cungList.find { it.chucNang.contains("Điền Trạch") }?.index ?: -1
+
+            buildString {
+                append("Trục Mệnh–Thiên Di: ${Constants.DIA_CHI[menhIdx]}–${Constants.DIA_CHI[thienDiIdx]}")
+                if (taiIdx >= 0 && quanIdx >= 0) append(" | Tam hợp Mệnh–Tài–Quan: ${Constants.DIA_CHI[menhIdx]}–${Constants.DIA_CHI[taiIdx]}–${Constants.DIA_CHI[quanIdx]}")
+                if (phucIdx >= 0 && taiIdx >= 0 && quanIdx >= 0) append(" | Trục Phúc–Tài–Quan: ${Constants.DIA_CHI[phucIdx]}–${Constants.DIA_CHI[taiIdx]}–${Constants.DIA_CHI[quanIdx]}")
+                if (phuTheIdx >= 0 && taiIdx >= 0) append(" | Trục Phu Thê–Tài Bạch: ${Constants.DIA_CHI[phuTheIdx]}–${Constants.DIA_CHI[taiIdx]}")
+                if (dienIdx >= 0 && phucIdx >= 0) append(" | Trục Điền–Phúc: ${Constants.DIA_CHI[dienIdx]}–${Constants.DIA_CHI[phucIdx]}")
+            }
+        } else ""
 
         val vanHanRequest = if (info.viewingMode == "MONTH") {
             "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear} (theo đại vận + tiểu vận + lưu thái tuế + lưu hóa tinh nếu có dữ liệu)"
@@ -215,6 +245,15 @@ class GeminiClient(
         } else ""
 
         val lasoContent = """
+        0. METADATA LÁ SỐ:
+        - Mệnh Ngũ Hành (Nạp Âm): ${info.menhNguHanh}
+        - Cục: ${info.cuc}
+        - Quan hệ Mệnh – Cục: ${info.cucMenhRelation}
+        - Ngũ hành 14 chính tinh: $nguHanhSaoStr
+        - Bộ sao đã hình thành: ${if (boSaoList.isEmpty()) "Không phát hiện" else boSaoList.joinToString("; ")}
+        - Trục cung: $trucCungStr
+        - Danh sách Đại Vận: ${info.daiVanFullList}
+
         1. THÔNG TIN CƠ BẢN:
         - Đương số: ${info.name} (${info.gender})
         - Ngày sinh (Dương lịch): ${info.solarDate} lúc ${info.time}
@@ -254,12 +293,15 @@ class GeminiClient(
         3. Không suy đoán khi thiếu dữ liệu.
         Nếu thiếu thông tin quan trọng → hỏi lại tối đa 3 câu.
 
-        4. Không tự phân loại lại sao. Chỉ dùng cách phân loại truyền thống:
-        • 14 Chính tinh: Tử Vi, Thiên Cơ, Thái Dương, Vũ Khúc, Thiên Đồng, Liêm Trinh, Thiên Phủ, Thái Âm, Tham Lang, Cự Môn, Thiên Tướng, Thiên Lương, Thất Sát, Phá Quân.
-        • Sát tinh chính: Kình Dương, Đà La, Hỏa Tinh, Linh Tinh, Địa Không, Địa Kiếp.
-        • Cát tinh chính: Tả Phụ, Hữu Bật, Văn Xương, Văn Khúc, Lộc Tồn, Thiên Khôi, Thiên Việt.
-        • Tứ hóa: Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ (đã ký hiệu sẵn trong dữ liệu).
-        • Các sao còn lại: Phụ tinh — không tự ý nâng cấp thành cát tinh hoặc sát tinh.
+        4. Phân biệt rõ:
+
+        Chính tinh
+        Phụ tinh
+        Cát tinh
+        Sát tinh
+        Tứ hóa
+        Sao lưu
+        Sao đại vận
 
         5. Không bỏ qua các tương tác tinh hệ:
 
@@ -295,10 +337,6 @@ class GeminiClient(
         Nếu dữ liệu không có → ghi rõ "Không có trong dữ liệu được cung cấp".
         $rule9
 
-        10. ⛔ KHÔNG ĐƯỢC tự suy diễn cách cục khi dữ liệu không đủ.
-        Chỉ xác nhận một cách cục khi CÁC SAO tạo cách xuất hiện ĐÚNG CUNG theo điều kiện.
-        Nếu không đủ điều kiện → ghi rõ: "Không đủ dữ kiện để xác nhận cách [tên cách]".
-
         =====================================
         QUY TRÌNH PHÂN TÍCH BẮT BUỘC
 
@@ -309,7 +347,7 @@ class GeminiClient(
 
         Liệt kê:
 
-        • chính tinh từng cung (đối với cung vô chính diệu, bắt buộc ghi: "Cung [Tên]: Vô chính diệu → xung chiếu [Tên sao chính tinh cung đối diện]")
+        • chính tinh từng cung
         • tứ hóa
         • cung Mệnh
         • cung Thân
@@ -320,7 +358,7 @@ class GeminiClient(
 
         Xác định:
 
-        • Đánh giá lực Mệnh dựa trên: trạng thái miếu/vượng/đắc/hãm của chính tinh tại Mệnh; số lượng cát tinh nâng đỡ (Tả Hữu, Xương Khúc, Khôi Việt...); số lượng sát tinh phá (Kình Đà, Hỏa Linh, Không Kiếp...); ảnh hưởng Tuần / Triệt (nếu có).
+        • Mệnh mạnh hay yếu
         • Thân cư cung nào
         • cục sinh hay khắc mệnh
         • có sát tinh nặng hay không
@@ -351,11 +389,6 @@ class GeminiClient(
         • vị trí cung
         • điều kiện đạt cách
         • có sát tinh phá cách không
-
-        ⛔ QUY TẮC KIỂM TRA CÁCH CỤC:
-        • Chỉ xác nhận cách khi các sao tạo cách xuất hiện đúng vị trí trong dữ liệu.
-        • Nếu không đủ điều kiện → ghi: "Không đủ dữ kiện để xác nhận cách".
-        • Không tự suy diễn cách cục theo trường phái khác.
 
         =====================================
         PHƯƠNG PHÁP LUẬN MỖI CUNG
@@ -457,19 +490,7 @@ class GeminiClient(
         • Bạo phát
         • Khởi nghiệp thành công
 
-        Chỉ được phân loại khi có ít nhất 2–3 yếu tố tinh hệ hỗ trợ rõ ràng.
-        Phải liệt kê cụ thể các yếu tố đó.
-        Nếu không đủ → ghi: "Lá số trung bình, chưa đủ dấu hiệu đặc biệt".
-
-        =====================================
-        TRƯỚC KHI KẾT LUẬN — KIỂM TRA MÂU THUẪN
-
-        Rà soát lại toàn bộ phân tích để đảm bảo KHÔNG có mâu thuẫn giữa:
-        • Đánh giá lực Mệnh (Bước 2) và kết luận tổng thể
-        • Đánh giá từng cung (phần B) và phân loại lá số (phần D)
-        • Nhận định ở cung Tài bạch và kết luận về khả năng giàu có
-
-        Nếu phát hiện mâu thuẫn → ưu tiên căn cứ tinh hệ, sửa lại kết luận cho nhất quán.
+        Chỉ được kết luận khi có căn cứ tinh hệ.
 
         =====================================
         FORMAT ĐẦU RA
@@ -498,18 +519,76 @@ class GeminiClient(
         =====================================
 
         QUY ƯỚC KÝ HIỆU TRONG DỮ LIỆU:
-        • (M) = Miếu, (V) = Vượng, (Đ) = Đắc, (H) = Hãm — trạng thái của chính tinh
+        • (M) = Miếu, (V) = Vượng, (Đ) = Đắc, (Bình) = Bình, (H) = Hãm — trạng thái của chính tinh
         • (Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ) — Tứ hóa bản mệnh
         • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. H Lộc = Đại Vận Hóa Lộc)
         • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
         • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
-        • [Cung Đại Vận] = Marker đánh dấu cung đại vận hiện tại (KHÔNG phải sao)
-        • [Thân cư] = Cung mà Thân đóng (VD: "Phu Thê [Thân cư]" = Thân cư tại Phu Thê)
         • Cung không có chính tinh = Vô chính diệu → xem chính tinh cung đối chiếu (xung chiếu) để luận
 
         Nội dung lá số:
 
         $lasoContent
         """.trimIndent()
+    }
+
+    private fun detectBoSao(cungList: List<CungInfo>): List<String> {
+        val result = mutableListOf<String>()
+
+        // Helper: find which cung indices have a given chính tinh (strip brightness suffix)
+        fun findStar(name: String): Int? {
+            return cungList.indexOfFirst { cung ->
+                cung.chinhTinh.any { it.startsWith(name) }
+            }.takeIf { it >= 0 }
+        }
+
+        // Helper: check if two cung indices are in tam hợp or đồng cung
+        fun isTamHopOrSame(a: Int, b: Int): Boolean {
+            if (a == b) return true
+            val diff = Math.abs(a - b)
+            return diff == 4 || diff == 8 || diff == 0
+        }
+
+        // 1. Sát Phá Tham
+        val satIdx = findStar("Thất Sát")
+        val phaIdx = findStar("Phá Quân")
+        val thamIdx = findStar("Tham Lang")
+        if (satIdx != null && phaIdx != null && thamIdx != null) {
+            if (isTamHopOrSame(satIdx, phaIdx) && isTamHopOrSame(phaIdx, thamIdx)) {
+                result.add("Sát Phá Tham (${Constants.DIA_CHI[satIdx]}–${Constants.DIA_CHI[phaIdx]}–${Constants.DIA_CHI[thamIdx]})")
+            }
+        }
+
+        // 2. Tử Phủ Vũ Tướng
+        val tuViIdx = findStar("Tử Vi")
+        val phuIdx = findStar("Thiên Phủ")
+        val vuIdx = findStar("Vũ Khúc")
+        val tuongIdx = findStar("Thiên Tướng")
+        if (tuViIdx != null && phuIdx != null && vuIdx != null && tuongIdx != null) {
+            if (isTamHopOrSame(tuViIdx, phuIdx) && isTamHopOrSame(vuIdx, tuongIdx)) {
+                result.add("Tử Phủ Vũ Tướng (${Constants.DIA_CHI[tuViIdx]}–${Constants.DIA_CHI[phuIdx]}–${Constants.DIA_CHI[vuIdx]}–${Constants.DIA_CHI[tuongIdx]})")
+            }
+        }
+
+        // 3. Cơ Nguyệt Đồng Lương
+        val coIdx = findStar("Thiên Cơ")
+        val nguyetIdx = findStar("Thái Âm")
+        val dongIdx = findStar("Thiên Đồng")
+        val luongIdx = findStar("Thiên Lương")
+        if (coIdx != null && nguyetIdx != null && dongIdx != null && luongIdx != null) {
+            if (isTamHopOrSame(coIdx, nguyetIdx) && isTamHopOrSame(dongIdx, luongIdx)) {
+                result.add("Cơ Nguyệt Đồng Lương (${Constants.DIA_CHI[coIdx]}–${Constants.DIA_CHI[nguyetIdx]}–${Constants.DIA_CHI[dongIdx]}–${Constants.DIA_CHI[luongIdx]})")
+            }
+        }
+
+        // 4. Nhật Nguyệt (Thái Dương + Thái Âm)
+        val nhatIdx = findStar("Thái Dương")
+        if (nhatIdx != null && nguyetIdx != null) {
+            if (isTamHopOrSame(nhatIdx, nguyetIdx) || nhatIdx == nguyetIdx) {
+                result.add("Nhật Nguyệt (${Constants.DIA_CHI[nhatIdx]}–${Constants.DIA_CHI[nguyetIdx]})")
+            }
+        }
+
+        return result
     }
 }
