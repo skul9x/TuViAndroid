@@ -16,6 +16,7 @@ Sửa wording Rule #8 trong prompt AI (`GeminiClient.kt`) để phân biệt rõ
 |-------|------|--------|----------|
 | 01 | Sửa code GeminiClient.kt | ⬜ Pending | 0% |
 | 02 | Verify & Build | ⬜ Pending | 0% |
+| 03 | Audit & Perf Fix | ✅ DONE | 100% |
 
 ---
 

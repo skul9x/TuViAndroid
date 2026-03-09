@@ -1,21 +1,45 @@
 {
-  "updated_at": "2026-03-09T22:30:00Z",
+  "updated_at": "2026-03-09T23:15:00Z",
   "working_on": {
-    "feature": "Logic Audit & Bug Fix",
-    "task": "Thiên Thọ Keyword Fix & Comprehensive Formula Verification",
+    "feature": "Performance & Reliability Fix",
+    "task": "Fix Main Thread block and Database Indexing",
     "status": "finished"
   },
   "pending_tasks": [
-    { "task": "Integrate real-world user data for reverse-validation (Career/Life events)", "priority": "high" },
-    { "task": "Implement L.Lộc Tồn and L.Kình Đà for advanced annual luck analysis", "priority": "medium" },
-    { "task": "Refine Lunar Month (Lưu Nguyệt) logic if ROI justifies complexity", "priority": "low" }
+    {
+      "task": "Rule #8 Prompt Update (GeminiClient.kt) - expert wording alignment",
+      "priority": "high"
+    },
+    {
+      "task": "Integrate real-world user data for reverse-validation (Career/Life events)",
+      "priority": "medium"
+    }
   ],
   "recent_changes": [
-    { "type": "fix", "description": "Fixed 'Thiên Thọ' star placement bug caused by keyword mismatch ('(Thân)' vs '[Thân cư]')." },
-    { "type": "audit", "description": "Performed a deep manual audit of 25+ astrology formulas in TuViLogic.kt; all verified correct against standard references." },
-    { "type": "build", "description": "Clean build successful. app-debug.apk generated after logic fix." }
+    {
+      "type": "fix",
+      "description": "Offloaded calculateLaso() calculation to Dispatchers.Default using withContext(), preventing UI freezes on compilation/sheet generation."
+    },
+    {
+      "type": "perf",
+      "description": "Added SQL Index to 'timestamp' in HistoryEntity to speed up history queries."
+    },
+    {
+      "type": "hotfix",
+      "description": "Identified Room schema mismatch crash on startup after indexing. Resolution: User performed manual wipe/reinstall."
+    }
+  ],
+  "errors_encountered": [
+    {
+      "error": "Room Database Schema Mismatch (IllegalStateException)",
+      "solution": "Adding indices changed the schema; next time increment DB version and add fallbackToDestructiveMigration(). Current fix: Manual wipe.",
+      "resolved": true
+    }
   ],
   "decisions_made": [
-    { "decision": "Retained existing school-specific formulas", "reason": "After deep audit, verified that current Linh Tinh/Thiên Y placement follows valid (though variant) schools of thought." }
+    {
+      "decision": "Postponed automated migration implementation",
+      "reason": "User preferred manual reinstall fix over adding migration logic code at this stage."
+    }
   ]
 }

@@ -12,12 +12,14 @@ import com.example.tviai.data.ViewingMode
 import com.example.tviai.data.SettingsDataStore
 import com.example.tviai.data.UserInput
 import java.util.Calendar
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class TuViUiState(
     val userInput: UserInput = UserInput(
@@ -123,7 +125,9 @@ class TuViViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val result = tuViLogic.anSao(_uiState.value.userInput)
+                val result = withContext(Dispatchers.Default) {
+                    tuViLogic.anSao(_uiState.value.userInput)
+                }
                 _uiState.update { it.copy(currentLaso = result, isLoading = false) }
                 // Save to history automatically
                 historyRepository.saveLaso(result)

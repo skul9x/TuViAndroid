@@ -4,29 +4,42 @@
     "awf_version": "4.0.2"
   },
   "project": {
-    "name": "TuViAndroid",
-    "type": "Android (Kotlin)",
-    "status": "Level 5.0 Final Release & GitHub Synced"
+    "name": "TuViAndroid-main",
+    "type": "Android Application (Kotlin/Compose)",
+    "status": "Production-Ready / Level 5.0"
   },
-  "business_rules": [
-    "Dưới 13 tuổi hoặc chưa vào đại vận: CHỈ luận Sức khỏe/Tính cách/Học tập. KHÔNG luận Sự nghiệp/Tài bạch/Phu thê.",
-    "AI cấm tự tính toán dữ liệu (Rule #8): Phải dùng dữ liệu metadata được cấp sẵn (Ngũ hành, Cục-Mệnh relation, Bộ sao...).",
-    "Bảng tra Tứ Hóa 10 Can: CHỈ dùng để giải thích, KHÔNG dùng để tự an sao hay tính thêm.",
-    "Cung vô chính diệu: AI áp dụng 4 bước VCD (Mượn xung chiếu giảm 30%, Phụ tinh làm chủ, Đất trống gặp mưa...).",
-    "Xác nhận cách cục: Chỉ khi đủ sao và khớp mạng lưới Tam phương tứ chính (Hội hợp) được cung cấp.",
-    "BƯỚC 4 Validation: Phải rà soát mâu thuẫn giữa các phương diện (Mệnh vs Thân, Mệnh vs Quan/Tài...) sau khi luận xong 12 cung.",
-    "Xếp hạng Cách cục: AI phải so sánh LỰC (Miếu/Hãm), VỊ TRÍ (Mệnh cung) và TỨ HÓA để phân biệt Chủ-Thứ (Bước 3b).",
-    "Phân loại lá số: Phải dựa trên cơ sở tinh hệ rõ ràng, không cảm tính.",
-    "Vận năm viewingYear: Bắt buộc phân tích mục E1 theo 5 bước (Đại vận -> Lưu niên -> Trùng điệp -> Tác động -> Kết luận)."
-  ],
+  "tech_stack": {
+    "frontend": "Jetpack Compose",
+    "backend": "Gemini AI (Google SDK)",
+    "database": "Room Persistence Library (SQLite)",
+    "conventions": "MVVM, Repository Pattern, Clean Architecture"
+  },
+  "database_schema": {
+    "tables": [
+      {
+        "name": "laso_history",
+        "description": "Lưu trữ thông tin lá số đã lập",
+        "columns": [
+          "id",
+          "name",
+          "birthDate",
+          "gender",
+          "cuc",
+          "jsonData",
+          "timestamp"
+        ],
+        "indices": [
+          "timestamp (DESC)"
+        ]
+      }
+    ]
+  },
   "features": [
-    "AI Horoscope Reading Level 5.0 (Full Classical Methodology)",
-    "Mastery Prompt Engine (Priority Rules, Interaction Weights, 4-step VCD, Conflict Validation)",
-    "Automatic Tứ Hóa Summary (Bản Mệnh, Đại Vận, Lưu Niên aggregation)",
-    "Advanced Scoring Model (Palace Strength 1-10, Analysis Reliability High/Mid/Low)",
-    "Advanced Star Detection (Tam phương tứ chính logic for Sát Phá Tham, Tử Phủ Vũ Tướng...)",
-    "Phi Tinh Tứ Hóa (10-Can flying star causality mapping)",
-    "6-Layer Metadata Infusion (Ngũ hành, axes, Nap Am, Axes, Bộ Sao, Full Đại Vận)"
+    "Lập lá số Nam Phái (12 cung)",
+    "Luận giải AI đa tầng (Expert prompt v5.0)",
+    "Quản lý lịch sử lá số",
+    "Tứ hóa, axes, tam hợp logic",
+    "Performance optimized calculations"
   ],
   "knowledge_items": {
     "patterns": [
@@ -34,8 +47,8 @@
       "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
       "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
       "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
-      "Dynamic Yearly Transit Injection (E1 Section mapping)"
+      "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)"
     ],
-    "milestones": "Completed: Level 5.0 Final Polish, Full Logic Audit & Critical Fixes (2026-03-09)"
+    "milestones": "Completed: Level 5.0 Final Polish, Full Logic Audit & Performance Fixes (2026-03-09)"
   }
 }

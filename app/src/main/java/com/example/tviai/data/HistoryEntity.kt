@@ -1,9 +1,10 @@
 package com.example.tviai.data
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "laso_history")
+@Entity(tableName = "laso_history", indices = [Index(value = ["timestamp"])])
 data class HistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026-03-09 - Night: Performance Optimization & Reliability Audit]
+### Fixed — Performance
+- **Main Thread Decoupling**: Offloaded heavy astrology calculations (`anSao`) from the UI Thread to `Dispatchers.Default` using Kotlin Coroutines. Prevents app freezes during sheet generation.
+- **Database Indexing**: Added a SQL index to the `timestamp` column in the `laso_history` table to prevent full table scans when rendering history lists.
+### Fixed — Bug
+- **Room Schema Mismatch**: Resolved a crash on startup/history access caused by adding the database index without a migration. (Confirmed fix: Manual data wipe/reinstall).
+
 ## [2026-03-09 - Late Night: GitHub Deployment & Final Verification]
 ### Added
 - **GitHub Repository**: Initialized Git and pushed the complete codebase to `https://github.com/skul9x/TuViAndroid.git` (branch `main`).
