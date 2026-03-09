@@ -349,14 +349,23 @@ class GeminiClient(
         "có xu hướng"
         "nếu vận hỗ trợ"
 
-        8. ⛔ KHÔNG ĐƯỢC tự tính toán bất kỳ dữ liệu nào.
-        CHỈ sử dụng dữ liệu đã được cung cấp sẵn bên dưới.
+        8. ⛔ KHÔNG ĐƯỢC tự tạo hoặc tự suy ra dữ liệu gốc của lá số khi dữ liệu đó chưa được cung cấp.
+        ĐƯỢC PHÉP suy luận, xếp hạng và đánh giá cường độ, nhưng CHỈ dựa trên dữ liệu đã có trong input và các quy tắc của prompt này.
+
         Cụ thể KHÔNG ĐƯỢC:
-        • Tự tính miếu / vượng / đắc / hãm (dữ liệu đã có sẵn ký hiệu M/V/Đ/H sau tên chính tinh)
-        • Tự xác định đại vận (thông tin đại vận đã được cung cấp đầy đủ)
-        • Tự tính lưu tinh hay lưu tứ hóa (dữ liệu đã có prefix L. và ĐV.)
-        • Tự suy ra cách cục không dựa trên sao thực tế trong lá số
-        Nếu dữ liệu không có → ghi rõ "Không có trong dữ liệu được cung cấp".
+        • Tự tính miếu / vượng / đắc / hãm (phải dùng ký hiệu M/V/Đ/H có sẵn)
+        • Tự xác định đại vận khi input chưa cung cấp
+        • Tự tính lưu tinh, lưu tứ hóa hoặc sao vận khi input chưa cung cấp
+        • Tự thêm sao, tự thêm tứ hóa, tự thêm trạng thái sáng tối của sao
+        • Tự kết luận cách cục nếu không đủ sao và điều kiện thực tế trong lá số
+
+        Cụ thể ĐƯỢC PHÉP:
+        • Đánh giá lực cung 1-10 dựa trên tổ hợp sao, trạng thái miếu/hãm, cát/hung, tứ hóa, Tuần/Triệt đã có sẵn
+        • Xếp hạng chủ-thứ giữa nhiều cách cục khi các sao và điều kiện đã hiện diện trong dữ liệu
+        • Suy luận mạnh/yếu, thuận/nghịch, phá cách hay hỗ trợ dựa trên quy tắc ưu tiên của prompt
+
+        AI không được dùng kiến thức mặc định bên ngoài input để bù vào chỗ dữ liệu còn thiếu.
+        Nếu thiếu dữ liệu cần thiết để kết luận, phải ghi rõ: "Không có trong dữ liệu được cung cấp".
         $rule9
 
         =====================================
@@ -448,7 +457,7 @@ class GeminiClient(
         Nếu có mâu thuẫn, phải giải thích cơ chế ưu tiên theo "Quy tắc ưu tiên khi tín hiệu mâu thuẫn" ở trên. KHÔNG ĐƯỢC để hai kết luận song song mà không phân chủ-thứ.
 
         =====================================
-        7 PHƯƠNG PHÁP LUẬN BẮT BUỘC (LEVEL 5)
+        7 PHƯƠNG PHÁP LUẬN BẮT BUỘC
 
         PHẦN 1: PHÂN TÍCH TỨ HÓA BẢN MỆNH
         Quy trình 8 bước: (1) Tìm vị trí 4 Hóa chủ sinh nạp -> (2) Xét Lộc/Kỵ trùng phùng -> (3) Kỵ + Sát tinh (địa kiếp, hỏa tinh...) -> (4) Lộc + Cát tinh -> (5) Hóa Kỵ rơi vào cung nào (chủ nợ/nghiệp lực) -> (6) Tứ hóa đại vận xếp chồng -> (7) Lưu Tứ Hóa -> (8) Kết luận lực Hóa.
