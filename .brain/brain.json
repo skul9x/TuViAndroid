@@ -42,16 +42,17 @@
     "Tứ hóa, axes, tam hợp logic",
     "Performance optimized calculations"
   ],
-  "knowledge_items": {
-    "patterns": [
-      "Metadata-driven LLM orchestration with 4-step mandatory workflow",
-      "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
-      "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
-      "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
-      "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
-      "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
-      "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness."
-    ],
-    "milestones": "Completed: Thiên Thọ fix, Major Cycle (Đại Vận) verification & Expert Prompt v5.0 Alignment (2026-03-10)"
-  }
+    "knowledge_items": {
+      "patterns": [
+        "Metadata-driven LLM orchestration with 4-step mandatory workflow",
+        "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
+        "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
+        "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
+        "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
+        "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
+        "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness.",
+        "Brightness School (AlTuVi): Synced Cự Môn(H) at Tỵ, Thiên Lương(Đ) at Mùi, Thiên Đồng(H) at Dậu. Integrated 9 new auxiliary stars (Tang Môn, Bạch Hổ, Tiểu Hao, Đại Hao, Thiên Khốc, Thiên Hư, Thiên Hình, Thiên Riêu, Thiên Mã) based on 12-palace tables."
+      ],
+      "milestones": "Completed: Star Brightness Synchronization (AlTuVi) & Auxiliary Star Expansion (2026-03-10)"
+    }
 }

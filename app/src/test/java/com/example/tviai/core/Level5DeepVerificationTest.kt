@@ -132,10 +132,11 @@ class Level5DeepVerificationTest {
         println("Dương + Nam = Thuận hành (cùng dương)")
         println("=" .repeat(60))
         
-        println("Expected: 'Dương Nam – Thuận hành'")
+        println("Expected: 'Dương Nam\\nÂm dương nghịch lý\\nMệnh đóng tại cung Âm'")
         println("Actual:   '${result.info.amDuong}'")
         
-        assertEquals("Dương Nam – Thuận hành", result.info.amDuong)
+        assertTrue("Phải có Dương Nam", result.info.amDuong.contains("Dương Nam"))
+        assertTrue("Phải có Âm dương nghịch lý", result.info.amDuong.contains("Âm dương nghịch lý"))
         println("Match: ✅")
         println()
     }
@@ -338,13 +339,15 @@ class Level5DeepVerificationTest {
         // Also verify Am Duong for female
         println()
         println("Âm Dương Nữ: '${result.info.amDuong}'")
-        // Nhâm = Dương, Nữ -> Dương Nữ – Nghịch hành
-        val expectedAmDuong = "Dương Nữ – Nghịch hành"
-        println("Expected:    '$expectedAmDuong'") 
-        println("Match: ${if (result.info.amDuong == expectedAmDuong) "✅" else "❌"}")
+        // Nhâm = Dương, Nữ -> Dương Nữ
+        // Mệnh cũng tại Hợi (cung Âm) -> Dương gặp Âm -> Âm dương nghịch lý
+        val expectedAmDuongMale = "Dương Nữ\nÂm dương nghịch lý\nMệnh đóng tại cung Âm"
+        println("Expected to contain: Dương Nữ, Âm dương nghịch lý") 
+        println("Match: ${if (result.info.amDuong.contains("Dương Nữ") && result.info.amDuong.contains("Âm dương nghịch lý")) "✅" else "❌"}")
         
         assertEquals(expectedTieuHanCung, result.info.tieuHanCung)
-        assertEquals(expectedAmDuong, result.info.amDuong)
+        assertTrue("Phải chứa Dương Nữ", result.info.amDuong.contains("Dương Nữ"))
+        assertTrue("Phải chứa Âm dương nghịch lý", result.info.amDuong.contains("Âm dương nghịch lý"))
     }
 
     @Test

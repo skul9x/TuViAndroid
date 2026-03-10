@@ -187,13 +187,28 @@ class GeminiClient(
         val selectedStylePrompt = stylePrompts[style] ?: stylePrompts[ReadingStyle.NGHIEM_TUC]!!
 
         val cungDetails = cungList.joinToString("\n") { c ->
-            val starList = (c.chinhTinh + c.phuTinh).joinToString(", ")
             val voChinhDieu = if (c.chinhTinh.isEmpty()) " [Vô chính diệu]" else ""
             val specialContext = StringBuilder()
-            if (c.phuTinh.contains("Tuần")) specialContext.append(" (Gặp Tuần)")
-            if (c.phuTinh.contains("Triệt")) specialContext.append(" (Gặp Triệt)")
+            if (c.phuTinh.any { it.startsWith("Tuần") }) specialContext.append(" (Gặp Tuần)")
+            if (c.phuTinh.any { it.startsWith("Triệt") }) specialContext.append(" (Gặp Triệt)")
             
-            "- Cung ${c.name} [${c.nguHanhCung}] (${c.chucNang})$voChinhDieu$specialContext: $starList"
+            // Separate stars
+            val fixedPhu = c.phuTinh.filter { 
+                !it.startsWith("ĐV.") && !it.startsWith("L.") && 
+                !it.startsWith("(ĐV.") && !it.startsWith("(L.") 
+            }
+            val daiVanStars = c.phuTinh.filter { it.startsWith("ĐV.") || it.startsWith("(ĐV.") }
+            val luuStars = c.phuTinh.filter { it.startsWith("L.") || it.startsWith("(L.") }
+            
+            val sb = StringBuilder()
+            sb.append("- Cung ${c.name} [${c.nguHanhCung}] (${c.chucNang})$voChinhDieu$specialContext:\n")
+            sb.append("  + Cố định: ${(c.chinhTinh + fixedPhu).joinToString(", ")}\n")
+            if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty()) {
+                val transits = (daiVanStars + luuStars).joinToString(", ")
+                sb.append("  + Vận Hạn: $transits")
+            }
+            
+            sb.toString()
         }
 
         // Build ngũ hành sao annotation for chính tinh

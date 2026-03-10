@@ -82,7 +82,7 @@ class TuViLogic {
         anThienHinh(cungList, lunarMonth)
         
         // 5.8 An Hỏa / Linh (Năm + Giờ)
-        anHoaLinh(cungList, chiNamIndex, chiGioIndex)
+        anHoaLinh(cungList, chiNamIndex, chiGioIndex, canNamIndex, input.gender)
 
         // 5.8b An Phụ Tinh Mở Rộng
         // Note: anPhuTinhMoRong now needs hourIndex for Phong Cao/Quoc An logic?
@@ -118,18 +118,17 @@ class TuViLogic {
             birthYear = input.solarYear // Use solar year to approx birth year logic or better calculate exact Age.
             // Age calculation usually matches ViewingYear - BirthYear + 1.
         )
-
         // 5.8d An Sao Lưu (Năm Xem)
         anSaoLuu(cungList, input.viewingYear)
-        
+
         // 6. Calculate Scores
         val scores = calculateScores(cungList)
-        
-        // 5.9 Attach Brightness (Miếu/Vượng...)
-        anDoSang(cungList)
 
         // 6. Calculate Can Chi for 12 palaces (Level 5)
         anCanChiCung(cungList, canNamIndex)
+
+        // 5.9 Attach Brightness (Miếu/Vượng...)
+        anDoSang(cungList)
 
         // 7. Calculate Tieu Han (Level 5)
         val isYangYear = (canNamIndex % 2 == 0)
@@ -140,14 +139,26 @@ class TuViLogic {
         // 8. Pre-compute Phi Tinh Tu Hoa (Level 5)
         val phiTinhData = precomputePhiTinh(cungList)
 
-        // 9. Calculate metadata amDuong
-        val amDuongStr = buildString {
-            append(if (isYangYear) "Dương " else "Âm ")
-            append(if (input.gender == Gender.NAM) "Nam" else "Nữ")
-            append(" – ")
-            append(if (isThuanDV) "Thuận hành" else "Nghịch hành")
-        }
+        // 9. Calculate metadata amDuong (Âm Dương Thuận/Nghịch lý)
+        // Năm Âm/Dương
+        val isYangYearForMenh = (canNamIndex % 2 == 0)
+        
+        // Cung Mệnh Âm/Dương (Tý, Dần, Thìn, Ngọ, Thân, Tuất là Dương -> index 0, 2, 4, 6, 8, 10)
+        val isYangPalace = (menhIndex % 2 == 0)
 
+        // Tính thuận lý / nghịch lý: Năm Dương đóng cung Dương -> Thuận lý, Năm Âm đóng cung Âm -> Thuận lý
+        val isHoaHop = (isYangYearForMenh == isYangPalace)
+        val harmonyStr = if (isHoaHop) "Âm dương thuận lý" else "Âm dương nghịch lý"
+
+        val amDuongStr = buildString {
+            append(if (isYangYearForMenh) "Dương " else "Âm ")
+            append(if (input.gender == Gender.NAM) "Nam" else "Nữ")
+            append("\n")
+            append(harmonyStr)
+            append("\n")
+            append("Mệnh đóng tại cung ")
+            append(if (isYangPalace) "Dương" else "Âm")
+        }
         // 10. Calculate Nạp Âm (Mệnh Ngũ Hành)
         val canChiNam = LunarConverter.getCanChiNam(lunarYear)
         val napAmName = Constants.NAP_AM_MAP[canChiNam] ?: ""
@@ -525,21 +536,23 @@ class TuViLogic {
         // User didn't strictly ask, but it's good practice. But I'll stick to strict requirements to avoid unexpected diffs.
     }
 
-    private fun anHoaLinh(cungList: MutableList<CungInfo>, chiNamIndex: Int, hourIndex: Int) {
+    private fun anHoaLinh(cungList: MutableList<CungInfo>, chiNamIndex: Int, hourIndex: Int, canNamIndex: Int, gender: Gender) {
         val groupMod = chiNamIndex % 4
         
-        // Hỏa Tinh (Thuận từ giờ Tý)
-        // Hour 0 (Ty) -> Start
-        // Hour n -> Start + n
+        val isYangYear = (canNamIndex % 2 == 0)
+        // Dương Nam, Âm Nữ: Thuận lý
+        // Âm Nam, Dương Nữ: Nghịch lý
+        val isThuanLy = (gender == Gender.NAM && isYangYear) || (gender == Gender.NU && !isYangYear)
+        
+        // Hỏa Tinh
         val hoaStart = com.example.tviai.core.Constants.HOA_TINH_KHOI[groupMod] ?: 2
-        val hoaPos = (hoaStart + hourIndex) % 12
+        var hoaPos = if (isThuanLy) (hoaStart + hourIndex) % 12 else (hoaStart - hourIndex) % 12
+        if (hoaPos < 0) hoaPos += 12
         cungList[hoaPos].phuTinh.add("Hỏa Tinh")
         
-        // Linh Tinh (Nghịch từ giờ Tý)
-        // Hour 0 (Ty) -> Start
-        // Hour n -> Start - n
+        // Linh Tinh
         val linhStart = com.example.tviai.core.Constants.LINH_TINH_KHOI[groupMod] ?: 10
-        var linhPos = (linhStart - hourIndex) % 12
+        var linhPos = if (isThuanLy) (linhStart - hourIndex) % 12 else (linhStart + hourIndex) % 12
         if (linhPos < 0) linhPos += 12
         cungList[linhPos].phuTinh.add("Linh Tinh")
     }
@@ -688,7 +701,7 @@ class TuViLogic {
         val thoPos = (thanIndex + chiNamIndex) % 12
         cungList[thoPos].phuTinh.add("Thiên Thọ")
         
-        // 13. Đầu Quân (Thái Tuế nghịch đến Tháng Sinh, thuận đến Giờ Sinh)
+        // 13. Đẩu Quân (Thái Tuế nghịch đến Tháng Sinh, thuận đến Giờ Sinh)
         // Thái Tuế at Chi Năm (chiNamIndex).
         // Count CCW to Month: (chiNam - (month - 1) + 12) % 12 ?
         // Summary: "Từ Thái Tuế (coi là Tý/Tháng 1), đếm nghịch đến tháng sinh".
@@ -704,7 +717,7 @@ class TuViLogic {
         // So move (hourIndex) steps?
         // Let's assume hourIndex 0 (Tý) -> Stay.
         dauQuanPos = (dauQuanPos + hourIndex) % 12
-        cungList[dauQuanPos].phuTinh.add("Đầu Quân")
+        cungList[dauQuanPos].phuTinh.add("Đẩu Quân")
         
         // 14. Thiên Đức, Nguyệt Đức
         // Thiên Đức: Theo Chi Năm (Use MAP)
@@ -1007,22 +1020,59 @@ class TuViLogic {
 
 
     private fun anDoSang(cungList: MutableList<CungInfo>) {
-        // Iterate every cung
         for (i in 0 until 12) {
             val cung = cungList[i]
-            val newChinhTinh = cung.chinhTinh.map { starName ->
-                // Check if this star has brightness data
-                val brightnessList = com.example.tviai.core.Constants.STAR_BRIGHTNESS[starName]
+            val hasTriet = cung.phuTinh.contains("Triệt")
+            val hasTuan = cung.phuTinh.contains("Tuần")
+
+            // 1. Chính Tinh
+            val newChinhTinh = cung.chinhTinh.map { starWithPotentialLabels ->
+                // Basic star name: handle cases like "Tử Vi" or "Hóa Lộc"
+                // If it already has (label), extract the part before it.
+                val starName = if (starWithPotentialLabels.contains(" (")) {
+                    starWithPotentialLabels.substringBefore(" (")
+                } else {
+                    starWithPotentialLabels
+                }
+                
+                val brightnessList = Constants.STAR_BRIGHTNESS[starName]
+                val brightness = brightnessList?.get(i) ?: ""
+                val brightnessLabel = if (brightness == "B") "Bình" else brightness
+                
+                var enhancedStar = "$starName ($brightnessLabel)"
+                if (hasTriet) enhancedStar += " [BỊ TRIỆT LỘ]"
+                if (hasTuan) enhancedStar += " [BỊ TUẦN KHÔNG]"
+                enhancedStar
+            }
+
+            // 2. Phụ Tinh
+            val newPhuTinh = cung.phuTinh.map { starName ->
+                // Handle prefixes like "L." or "ĐV."
+                var actualStarName = starName
+                var prefix = ""
+                
+                if (starName.startsWith("L.")) {
+                    prefix = "L."
+                    actualStarName = starName.substring(2)
+                } else if (starName.startsWith("ĐV.")) {
+                    prefix = "ĐV."
+                    actualStarName = starName.substring(3)
+                }
+
+                val brightnessList = Constants.PHU_TINH_BRIGHTNESS[actualStarName]
                 if (brightnessList != null) {
-                    val brightness = brightnessList[i] // i is index 0..11 (Ty..Hoi)
+                    val brightness = brightnessList[i]
                     val brightnessLabel = if (brightness == "B") "Bình" else brightness
-                    "$starName ($brightnessLabel)"
+                    "$prefix$actualStarName ($brightnessLabel)"
                 } else {
                     starName
                 }
             }
-            // Update the list
-            cungList[i] = cung.copy(chinhTinh = newChinhTinh.toMutableList())
+
+            cungList[i] = cung.copy(
+                chinhTinh = newChinhTinh.toMutableList(),
+                phuTinh = newPhuTinh.toMutableList()
+            )
         }
     }
 
@@ -1136,7 +1186,7 @@ class TuViLogic {
                         // Find which palace contains this star
                         val targetCung = cungList.find { c -> 
                             c.chinhTinh.any { it.startsWith(starGroup) } || 
-                            c.phuTinh.any { it == starGroup }
+                            c.phuTinh.any { it.startsWith(starGroup) }
                         }
                         if (targetCung != null) {
                             phiStrs.add("H.${hoaNames[i]}→${targetCung.name}")

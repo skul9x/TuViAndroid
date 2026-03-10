@@ -175,7 +175,7 @@ object Constants {
         2 to 3,  // Dan Ngo Tuat -> Mao (3)
         0 to 10, // Than Ty Thin -> Tuat (10)
         1 to 10, // Ty Dau Suu -> Tuat (10)
-        3 to 9   // Hoi Mao Mui -> Dau (9)
+        3 to 10  // Hoi Mao Mui -> Tuat (10)
     )
 
     // Lưu Hà (Theo Can Năm)
@@ -239,7 +239,7 @@ object Constants {
         5 to 9, // Ky -> Dau
         6 to 11, // Canh -> Hoi
         7 to 0, // Tan -> Ty
-        8 to 9, // Nham -> Dau (Previously 2 Dan. User override: "Van Tinh at Dau for Nham")
+        8 to 2, // Nham -> Dan (User requested rule)
         9 to 3  // Quy -> Mao
     )
     
@@ -285,16 +285,44 @@ object Constants {
         "Thiên Cơ" to listOf("Đ", "Đ", "V", "M", "V", "B", "M", "Đ", "Đ", "M", "V", "H"), // Ty->Hoi
         "Thái Dương" to listOf("H", "Đ", "V", "V", "V", "V", "M", "Đ", "B", "H", "H", "H"),
         "Vũ Khúc" to listOf("V", "M", "V", "Đ", "M", "B", "B", "M", "V", "Đ", "M", "H"),
-        "Thiên Đồng" to listOf("V", "H", "M", "Đ", "H", "Đ", "H", "H", "M", "Đ", "H", "Đ"),
+        "Thiên Đồng" to listOf("V", "H", "M", "Đ", "H", "Đ", "H", "H", "M", "H", "H", "Đ"),
         "Liêm Trinh" to listOf("V", "Đ", "M", "H", "V", "H", "V", "Đ", "V", "H", "V", "H"), // Than=V (Index 8) CORRECTED
         "Thiên Phủ" to listOf("M", "M", "M", "B", "M", "Đ", "V", "M", "M", "B", "M", "Đ"),
         "Thái Âm" to listOf("V", "Đ", "H", "H", "H", "H", "H", "B", "Đ", "V", "M", "M"), // Suu=Đ (Index 1) CORRECTED from M
         "Tham Lang" to listOf("H", "M", "Đ", "H", "V", "H", "H", "M", "Đ", "H", "V", "H"),
-        "Cự Môn" to listOf("V", "H", "M", "M", "H", "B", "V", "H", "M", "M", "H", "V"),
+        "Cự Môn" to listOf("V", "H", "M", "M", "H", "H", "V", "H", "M", "M", "H", "V"),
         "Thiên Tướng" to listOf("V", "M", "M", "H", "V", "Đ", "V", "M", "M", "H", "V", "Đ"),
-        "Thiên Lương" to listOf("V", "M", "V", "Đ", "M", "H", "M", "V", "V", "H", "M", "H"),
+        "Thiên Lương" to listOf("V", "M", "V", "Đ", "M", "H", "M", "Đ", "V", "H", "M", "H"),
         "Thất Sát" to listOf("M", "Đ", "M", "H", "H", "V", "M", "Đ", "M", "H", "H", "V"),
         "Phá Quân" to listOf("M", "V", "H", "H", "Đ", "H", "M", "V", "H", "H", "Đ", "H")
+    )
+
+    // Độ sáng của Phụ Tinh (Miếu M, Vượng V, Đắc Đ, Hãm H, Bình B)
+    // Theo Tử Vi Đẩu Số Toàn Thư (Nam Phái)
+    val PHU_TINH_BRIGHTNESS = mapOf(
+        //                     Tý   Sửu  Dần  Mão  Thìn Tỵ   Ngọ  Mùi  Thân Dậu  Tuất Hợi
+        "Kình Dương" to listOf("H", "Đ", "M", "H", "Đ", "M", "H", "Đ", "M", "H", "Đ", "M"),
+        "Đà La"      to listOf("H", "Đ", "H", "H", "Đ", "H", "H", "Đ", "H", "H", "Đ", "H"),
+        "Hỏa Tinh"   to listOf("H", "Đ", "M", "Đ", "Đ", "Đ", "M", "H", "H", "Đ", "M", "H"),
+        "Linh Tinh"  to listOf("H", "Đ", "M", "H", "Đ", "Đ", "M", "H", "H", "Đ", "H", "H"),
+        "Địa Không"  to listOf("H", "H", "Đ", "H", "H", "Đ", "H", "H", "Đ", "H", "H", "Đ"),
+        "Địa Kiếp"   to listOf("H", "H", "Đ", "H", "H", "Đ", "H", "H", "Đ", "H", "H", "Đ"),
+        "Văn Xương"  to listOf("Đ", "M", "H", "V", "Đ", "M", "H", "V", "Đ", "M", "Đ", "V"),
+        "Văn Khúc"   to listOf("Đ", "M", "B", "V", "Đ", "M", "H", "V", "Đ", "M", "H", "V"),
+        "Lộc Tồn"    to listOf("M", "H", "V", "M", "H", "V", "M", "H", "V", "M", "H", "V"),
+        "Tả Phù"     to listOf("V", "V", "B", "B", "M", "B", "V", "V", "B", "B", "M", "B"),
+        "Hữu Bật"    to listOf("V", "V", "B", "B", "M", "B", "V", "V", "B", "B", "M", "B"),
+        // Lục Bại Tinh + Phụ tinh bổ sung (theo AlTuVi + online research)
+        //                     Tý   Sửu  Dần  Mão  Thìn Tỵ   Ngọ  Mùi  Thân Dậu  Tuất Hợi
+        "Tang Môn"   to listOf("H", "H", "Đ", "Đ", "H", "H", "H", "H", "Đ", "Đ", "H", "H"),
+        "Bạch Hổ"    to listOf("H", "H", "Đ", "Đ", "H", "H", "H", "H", "Đ", "Đ", "H", "H"),
+        "Tiểu Hao"   to listOf("H", "H", "Đ", "Đ", "H", "H", "H", "H", "Đ", "Đ", "H", "H"),
+        "Đại Hao"    to listOf("H", "H", "Đ", "Đ", "H", "H", "H", "H", "Đ", "Đ", "H", "H"),
+        "Thiên Khốc" to listOf("Đ", "Đ", "H", "Đ", "H", "H", "Đ", "Đ", "H", "Đ", "H", "H"),
+        "Thiên Hư"   to listOf("Đ", "H", "H", "H", "H", "H", "Đ", "H", "H", "H", "H", "H"),
+        "Thiên Hình" to listOf("H", "H", "M", "M", "H", "H", "H", "H", "H", "M", "M", "H"),
+        "Thiên Riêu" to listOf("B", "H", "B", "M", "B", "B", "B", "H", "B", "M", "M", "M"),
+        "Thiên Mã"   to listOf("H", "H", "V", "H", "H", "V", "H", "H", "Đ", "H", "H", "H")
     )
 
     // Ngũ Hành của 12 Địa Chi (Cung)

@@ -61,3 +61,18 @@ Tài liệu này lưu lại các quy tắc logic đã được kiểm chứng v�
     - Nhóm Hợi, Mão, Mùi  → Khởi tại **Sửu** (index 1).
 - **Chiều đếm:** Nam thuận, Nữ nghịch (+1/-1 index mỗi năm).
 - **Lưu ý:** Đây là tầng vận hạn bổ trợ cho Đại Hạn và Lưu Niên Thái Tuế trong Nam Phái.
+
+## 9. Hệ Thống Độ Sáng (Star Brightness)
+- **Tiêu chuẩn:** Phái **AlTuVi** (Việt hóa / Hiện đại) kết hợp các nguồn Tử Vi Đẩu Số Toàn Thư.
+- **9 Phụ Tinh mới (Brightness Table):**
+    - **Tang Môn, Bạch Hổ, Tiểu Hao, Đại Hao:** Đắc địa tại **Dần, Thân, Mão, Dậu**. Còn lại Hãm địa.
+    - **Thiên Khốc:** Đắc địa tại **Tý, Sửu, Mão, Ngọ, Mùi, Dậu**. Còn lại Hãm địa.
+    - **Thiên Hư:** Đắc địa tại **Tý, Ngọ**. Còn lại Hãm địa.
+    - **Thiên Hình:** Miếu địa tại **Dần, Mão, Dậu, Tuất**. Còn lại Hãm địa.
+    - **Thiên Riêu:** Miếu địa tại **Mão, Dậu, Tuất, Hợi**. Bình hòa tại các cung khác. Hãm tại Sửu, Mùi.
+    - **Thiên Mã:** Miếu/Vượng tại **Dần, Tỵ**. Đắc tại **Thân**. Hãm tại **Hợi**. (Chỉ đóng 4 cung Tứ Sinh).
+- **Chỉnh sửa Chính Tinh (AlTuVi Sync):**
+    - **Cự Môn** tại Tỵ: Hãm (H).
+    - **Thiên Lương** tại Mùi: Đắc (Đ).
+    - **Thiên Đồng** tại Dậu: Hãm (H).
+- **Văn Xương / Văn Khúc:** Bảng độ sáng được tách riêng, phản ánh sự khác biệt về hành và vị trí đắc địa thực tế.

@@ -1,9 +1,10 @@
 {
-  "updated_at": "2026-03-10T02:15:00Z",
+  "updated_at": "2026-03-10T11:05:00+07:00",
   "working_on": {
-    "feature": "Core Logic Fixes & Prompt Engineering",
-    "task": "Fix Thiên Thọ/Thiên Tài logic and verify Major Cycle stars",
-    "status": "finished"
+    "feature": "Star Brightness Synchronization & Research",
+    "status": "finished",
+    "files": ["Constants.kt", "TuViLogicTest.kt"],
+    "notes": "Synced star brightness with AlTuVi phái. Added full 12-palace tables for 9 auxiliary stars."
   },
   "pending_tasks": [
     {
@@ -12,6 +13,18 @@
     }
   ],
   "recent_changes": [
+    {
+      "timestamp": "2026-03-10T04:05:00Z",
+      "type": "feature",
+      "description": "Star Brightness Sync: Updated Constants.kt to match AlTuVi reference image. Fixed 3 main stars, separated Xuong/Khuc tables, and added 9 new auxiliary stars with comprehensive 12-palace research data.",
+      "files": ["Constants.kt", "TuViLogicTest.kt"]
+    },
+    {
+      "timestamp": "2026-03-10T03:30:00Z",
+      "type": "feature",
+      "description": "Implemented Star Brightness (Miếu/Hãm) for Phụ Tinh and Tuần/Triệt notation for Chính Tinh.",
+      "files": ["Constants.kt", "TuViLogic.kt", "GeminiClient.kt"]
+    },
     {
       "type": "fix",
       "description": "Refactored Thiên Thọ and Thiên Tài calculation to use direct palace indices (menhIndex, thanIndex) instead of string searching in Palace contents. This fixed the bug where Thiên Thọ was missing from the prompt."

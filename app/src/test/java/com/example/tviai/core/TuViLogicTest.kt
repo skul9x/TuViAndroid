@@ -89,7 +89,7 @@ class TuViLogicTest {
         val phucDuc = getCung(0)
         assertTrue("Phúc Đức (Tý) must have Vũ Khúc (V)", phucDuc.chinhTinh.any { it.contains("Vũ Khúc (V)") })
         assertTrue("Phúc Đức (Tý) must have Thiên Phủ (M)", phucDuc.chinhTinh.any { it.contains("Thiên Phủ (M)") })
-        assertTrue("Phúc Đức (Tý) must have Đầu Quân", phucDuc.phuTinh.contains("Đầu Quân"))
+        assertTrue("Phúc Đức (Tý) must have Đẩu Quân", phucDuc.phuTinh.contains("Đẩu Quân"))
         
         // Cung Điền Trạch (Sửu - 1): Thái Dương (Đ), Thái Âm (Đ)
         val dienTrach = getCung(1)
@@ -100,7 +100,11 @@ class TuViLogicTest {
         val huynhDe = getCung(9)
         assertTrue("Huynh Đệ (Dậu) must have Đào Hoa", huynhDe.phuTinh.contains("Đào Hoa"))
         assertTrue("Huynh Đệ (Dậu) must have Thiên Không", huynhDe.phuTinh.contains("Thiên Không"))
-        assertTrue("Huynh Đệ (Dậu) must have Văn Tinh", huynhDe.phuTinh.contains("Văn Tinh"))
+        assertTrue("Huynh Đệ (Dậu) must have Văn Khúc (M)", huynhDe.phuTinh.contains("Văn Khúc (M)"))
+        
+        // 5. Verify Static Correction
+        // Văn Tinh at Dần (2) (Tử Tức)
+        assertTrue("Dần (Tử Tức) must have Văn Tinh", getCung(2).phuTinh.contains("Văn Tinh"))
         
         // 2. Verify Dynamic Stars (2026 - Bính Ngọ)
         // L.Thái Tuế tại Ngọ (6) - Cung Tài Bạch (WAIT: Check logic. Thái Tuế is at Chi Year Name 2026 -> Ngọ (6). Correct.)
@@ -111,11 +115,11 @@ class TuViLogicTest {
         assertTrue("Tài Bạch (Ngọ) must have L.Thái Tuế. Stars: $taiBachStars", taiBach.phuTinh.contains("L.Thái Tuế"))
         
         // L.Kình Dương tại Ngọ (6) (Can Bính -> Lộc Tỵ -> Kình Ngọ)
-        assertTrue("Tài Bạch (Ngọ) must have L.Kình Dương. Stars: $taiBachStars (Can Chi Nam Xem: ${LunarConverter.getCanChiNam(2026)})", taiBach.phuTinh.contains("L.Kình Dương"))
+        assertTrue("Tài Bạch (Ngọ) must have L.Kình Dương (H). Stars: $taiBachStars (Can Chi Nam Xem: ${LunarConverter.getCanChiNam(2026)})", taiBach.phuTinh.any { it.contains("L.Kình Dương (H)") })
         
         // L.Thiên Mã tại Thân (8) (Năm Ngọ -> Mã Thân) - Cung Phu Thê
         val phuThe = getCung(8) // Thân
-        assertTrue("Phu Thê (Thân) must have L.Thiên Mã", phuThe.phuTinh.contains("L.Thiên Mã"))
+        assertTrue("Phu Thê (Thân) must have L.Thiên Mã", phuThe.phuTinh.any { it.contains("L.Thiên Mã") })
         
         // 3. Verify Static Stars (New)
         // Cung Nô Bộc (Mão - 3): Thiên Thương
@@ -137,10 +141,6 @@ class TuViLogicTest {
         assertTrue("Thân must be Phu Thê [Thân cư]", phuTheCheck.chucNang.contains("Phu Thê [Thân cư]"))
         assertTrue("Liêm Trinh at Thân must be (V)", phuTheCheck.chinhTinh.any { it.contains("Liêm Trinh (V)") })
 
-        // 5. Verify Static Correction
-        // Văn Tinh at Dậu (9) (Phụ Mẫu)
-        assertTrue("Dậu (Phụ Mẫu) must have Văn Tinh", getCung(9).phuTinh.contains("Văn Tinh"))
-
         // 6. Verify Noise Removal
         // L.Tuế Phá should NOT be present (removed loop)
         val hasTuoiPha = result.cung.any { it.phuTinh.contains("L.Tuế Phá") }
@@ -151,7 +151,7 @@ class TuViLogicTest {
         val mao = getCung(3)
         assertTrue("Mão must have L.Long Đức", mao.phuTinh.contains("L.Long Đức"))
         assertTrue("Mão must have L.Thiên Đức", mao.phuTinh.contains("L.Thiên Đức"))
-        assertTrue("Mão must have ĐV. Văn Xương", mao.phuTinh.contains("ĐV. Văn Xương"))
+        assertTrue("Mão must have ĐV. Văn Xương", mao.phuTinh.any { it.contains("ĐV. Văn Xương") })
         
         // Cung Tỵ (5): L.Phúc Đức
         val ty = getCung(5)
@@ -159,16 +159,16 @@ class TuViLogicTest {
         
         // Cung Ngọ (6): L.Văn Khúc
         val ngo = getCung(6)
-        assertTrue("Ngọ must have L.Văn Khúc", ngo.phuTinh.contains("L.Văn Khúc"))
+        assertTrue("Ngọ must have L.Văn Khúc", ngo.phuTinh.any { it.contains("L.Văn Khúc") })
         
         // Cung Thân (8): L.Văn Xương
         val thanCung = getCung(8)
-        assertTrue("Thân must have L.Văn Xương", thanCung.phuTinh.contains("L.Văn Xương"))
+        assertTrue("Thân must have L.Văn Xương", thanCung.phuTinh.any { it.contains("L.Văn Xương") })
         
         // Cung Hợi (11): L.Nguyệt Đức, ĐV. Văn Khúc, ĐV. Thiên Mã
         val hoi = getCung(11)
         assertTrue("Hợi must have L.Nguyệt Đức", hoi.phuTinh.contains("L.Nguyệt Đức"))
-        assertTrue("Hợi must have ĐV. Văn Khúc", hoi.phuTinh.contains("ĐV. Văn Khúc"))
+        assertTrue("Hợi must have ĐV. Văn Khúc", hoi.phuTinh.any { it.contains("ĐV. Văn Khúc") })
         assertTrue("Hợi must have ĐV. Thiên Mã", hoi.phuTinh.contains("ĐV. Thiên Mã"))
 
         // 7. Verify Phase 10: Tieu Han (New Fix)

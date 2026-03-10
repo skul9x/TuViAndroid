@@ -215,9 +215,10 @@ class DataLayerVerificationTest {
     @Test
     fun testLayer8_AmDuongMenh() {
         val result = logic.anSao(testInput)
-        // Nhâm Thân -> Nhâm là Dương, Male -> Dương Nam, Thuận hành
+        // Nhâm Thân -> Nhâm là Dương, Male -> Dương Nam
+        // Mệnh đóng tại Hợi (cung Âm) -> Dương gặp Âm -> Âm dương nghịch lý
         assertTrue("Âm Dương phải là Dương Nam", result.info.amDuong.contains("Dương Nam"))
-        assertTrue("Phải có hướng hành", result.info.amDuong.contains("Thuận hành"))
+        assertTrue("Phải có Âm dương nghịch lý", result.info.amDuong.contains("Âm dương nghịch lý"))
     }
 
     @Test
