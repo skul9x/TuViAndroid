@@ -1256,13 +1256,14 @@ class GeminiClient(
                 if (flags.length() > 0) put("flags", flags)
                 
                 val starArr = JSONArray()
-                c.chinhTinh.forEach { starArr.put(parseStarToJson(it, true)) }
-                fixedPhu.forEach { starArr.put(parseStarToJson(it, false)) }
+                c.chinhTinh.filter { it.isNotBlank() }.forEach { starArr.put(parseStarToJson(it, true)) }
+                fixedPhu.filter { it.isNotBlank() }.forEach { starArr.put(parseStarToJson(it, false)) }
                 put("fixed_stars", starArr)
                 
-                if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty()) {
+                val validTransits = (daiVanStars + luuStars).filter { it.isNotBlank() }
+                if (validTransits.isNotEmpty()) {
                     val transitArr = JSONArray()
-                    (daiVanStars + luuStars).forEach { transitArr.put(parseStarToJson(it, false)) }
+                    validTransits.forEach { transitArr.put(parseStarToJson(it, false)) }
                     put("transit_stars", transitArr)
                 }
             }
