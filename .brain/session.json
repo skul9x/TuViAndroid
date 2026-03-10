@@ -1,18 +1,28 @@
 {
-  "updated_at": "2026-03-10T11:05:00+07:00",
+  "updated_at": "2026-03-10T12:05:00+07:00",
   "working_on": {
-    "feature": "Star Brightness Synchronization & Research",
+    "feature": "JSON Prompt Transformation",
     "status": "finished",
-    "files": ["Constants.kt", "TuViLogicTest.kt"],
-    "notes": "Synced star brightness with AlTuVi phái. Added full 12-palace tables for 9 auxiliary stars."
+    "files": ["GeminiClient.kt", "build.gradle.kts", "DataLayerVerificationTest.kt", "Level5DeepVerificationTest.kt"],
+    "notes": "Converted the entire prose-based AI prompt into a structured JSON format. Integrated org.json library for JVM testing. Fixed amDuong logic test assertions."
   },
   "pending_tasks": [
     {
-      "task": "Integrate real-world user data for reverse-validation (Career/Life events)",
+      "task": "Test JSON prompt quality in real Gemini-1.5-Pro chat",
+      "priority": "high"
+    },
+    {
+      "task": "Finalize documentation (docs/api/prompt_structure.md)",
       "priority": "medium"
     }
   ],
   "recent_changes": [
+    {
+      "timestamp": "2026-03-10T12:00:00Z",
+      "type": "architecture",
+      "description": "JSON Prompt Refactoring: Switched from prose text to structured JSON configuration. Added 10+ helper functions for JSON segments. Included 'org.json' library in tests.",
+      "files": ["GeminiClient.kt", "build.gradle.kts", "DataLayerVerificationTest.kt", "Level5DeepVerificationTest.kt"]
+    },
     {
       "timestamp": "2026-03-10T04:05:00Z",
       "type": "feature",

@@ -9,6 +9,8 @@ import com.google.ai.client.generativeai.type.GenerateContentResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import org.json.JSONObject
+import org.json.JSONArray
 
 class GeminiClient(
     private var apiKeys: List<String>,
@@ -171,6 +173,52 @@ class GeminiClient(
     }
 
     private fun constructPrompt(data: LasoData): String {
+        val info = data.info
+        val cungList = data.cung
+        val style = ReadingStyle.fromString(info.readingStyle)
+
+        val stylePrompts = mapOf(
+            ReadingStyle.NGHIEM_TUC to "Điềm đạm – phân tích mệnh lý – không văn hoa. Xưng hô: 'Tại hạ' hoặc 'Tôi', gọi người xem là 'Đương số'.",
+            ReadingStyle.DOI_THUONG to "Đời thường – dân dã – dễ hiểu. Xưng hô: 'Tôi', gọi người xem là 'Bạn'.",
+            ReadingStyle.HAI_HUOC to "Hài hước – trẻ trung – vui nhộn. Xưng hô: 'Ad' hoặc 'Tui', gọi người xem là 'Bồ'.",
+            ReadingStyle.KIEM_HIEP to "Kiếm hiệp – cổ trang – văn phong phim chưởng. Xưng hô: 'Bần đạo' hoặc 'Lão phu', gọi người xem là 'Thí chủ'.",
+            ReadingStyle.CHUA_LANH to "Nhẹ nhàng – chữa lành (healing) – khích lệ tinh thần. Xưng hô: 'Mình', gọi người xem là 'Bạn'.",
+            ReadingStyle.CHUYEN_GIA to "Điềm đạm – chuyên sâu – phân tích mệnh lý ở mức cấu trúc cao nhất. Xưng hô: 'Tôi', gọi người xem là 'Đương số'."
+        )
+        val selectedStylePrompt = stylePrompts[style] ?: stylePrompts[ReadingStyle.NGHIEM_TUC]!!
+
+        val json = JSONObject()
+        json.put("role", "AI chuyên luận Tử Vi Đẩu Số theo hệ thống tinh hệ cổ điển")
+        json.put("style", JSONObject().apply {
+            put("tone", selectedStylePrompt)
+        })
+        json.put("methodology_sources", JSONArray(listOf("Thiên Lương", "Vân Đằng Thái Thứ Lang", "Tử Vi Đẩu Số Toàn Thư")))
+        json.put("objective", "Phân tích lá số theo cấu trúc tinh hệ – không suy đoán cảm tính")
+        json.put("absolute_rules", buildAbsoluteRulesJson(data))
+        json.put("priority_rules", JSONArray(listOf(
+            "Chính tinh > Phụ tinh (chính tinh quyết định bản chất cung)",
+            "Miếu/Vượng > Đắc > Bình > Hãm (sáng quyết định lực)",
+            "Tứ hóa bản mệnh > Tứ hóa đại vận > Tứ hóa lưu niên",
+            "Đồng cung > Tam hợp > Xung chiếu > Giáp cung",
+            "Cách cục lớn > Tiểu cách (cách lớn chi phối toàn cục)"
+        )))
+        json.put("analysis_pipeline", buildPipelineJson())
+        json.put("analysis_methods", buildMethodsJson())
+        json.put("palace_analysis_method", buildPalaceMethodJson())
+        json.put("analysis_order", JSONArray(listOf(
+            "Mệnh (phân tích kỹ nhất, bao gồm Mệnh–Thân–Cục)",
+            "Phu Thê", "Quan Lộc", "Tài Bạch", "Thiên Di", "Tật Ách",
+            "Điền Trạch", "Phúc Đức", "Phụ Mẫu", "Huynh Đệ", "Nô Bộc", "Tử Tức"
+        )))
+        json.put("output_format", buildOutputFormatJson(data))
+        json.put("notation_rules", buildNotationJson())
+        json.put("common_mistakes", buildMistakesJson())
+        json.put("chart_data", buildChartDataJson(data))
+
+        return json.toString(2)
+    }
+
+    private fun constructPromptLegacy(data: LasoData): String {
         val info = data.info
         val cungList = data.cung
         val style = ReadingStyle.fromString(info.readingStyle)
@@ -797,5 +845,416 @@ class GeminiClient(
         }
 
         return result
+    }
+
+    // =============================================
+    // JSON PROMPT BUILDER HELPERS
+    // =============================================
+
+    private fun buildAbsoluteRulesJson(data: LasoData): JSONObject {
+        val info = data.info
+        val birthYear = info.solarDate.split("/").last().toIntOrNull() ?: info.viewingYear
+        val approxAge = info.viewingYear - birthYear + 1
+        val isChild = approxAge < 13 || info.daiVanInfo.contains("Chưa vào đại vận")
+
+        return JSONObject().apply {
+            put("must_do", JSONArray(listOf(
+                "Mọi nhận định BẮT BUỘC phải có căn cứ sao",
+                "Phân biệt rõ: Chính tinh, Phụ tinh, Cát tinh, Sát tinh, Tứ hóa, Sao lưu, Sao đại vận",
+                "Không bỏ qua tương tác tinh hệ: đồng cung, tam hợp, xung chiếu, hội chiếu, giáp cung",
+                "Sát tinh phải phân tích theo cơ chế: sát+cát, sát+vận, sát phá cách hay tạo đột phá",
+                "Phải dùng ngôn ngữ xác suất: 'thường', 'có xu hướng', 'nếu vận hỗ trợ'"
+            )))
+            put("must_not", JSONArray(listOf(
+                "Không dùng câu chung chung ('số giàu', 'số khổ') nếu không chỉ rõ tinh hệ và cơ chế",
+                "Không suy đoán khi thiếu dữ liệu. Thiếu thông tin quan trọng → hỏi lại tối đa 3 câu",
+                "Không thần bí hóa sát tinh",
+                "Không khẳng định tuyệt đối"
+            )))
+            put("data_integrity", JSONObject().apply {
+                put("forbidden", JSONArray(listOf(
+                    "Tự tính miếu/vượng/đắc/hãm (phải dùng ký hiệu M/V/Đ/H có sẵn)",
+                    "Tự xác định đại vận khi input chưa cung cấp",
+                    "Tự tính lưu tinh, lưu tứ hóa hoặc sao vận khi input chưa cung cấp",
+                    "Tự thêm sao, tứ hóa, trạng thái sáng tối",
+                    "Tự kết luận cách cục nếu không đủ sao và điều kiện thực tế"
+                )))
+                put("allowed", JSONArray(listOf(
+                    "Đánh giá lực cung 1-10 dựa trên tổ hợp sao + trạng thái + tứ hóa + Tuần/Triệt đã có sẵn",
+                    "Xếp hạng chủ-thứ giữa nhiều cách cục khi sao và điều kiện đã có trong dữ liệu",
+                    "Suy luận mạnh/yếu, thuận/nghịch, phá cách hay hỗ trợ dựa trên quy tắc ưu tiên"
+                )))
+                put("fallback", "Nếu thiếu dữ liệu → ghi rõ: 'Không có trong dữ liệu được cung cấp'")
+            })
+            if (isChild) {
+                put("child_rule", JSONObject().apply {
+                    put("condition", "Đương số dưới 13 tuổi hoặc chưa vào đại vận")
+                    put("forbidden_topics", JSONArray(listOf("Tiền Bạc (Tài bạch)", "Sự Nghiệp (Quan lộc)", "Tình Duyên (Phu thê)")))
+                    put("focus_topics", JSONArray(listOf("Sức khỏe", "Tính cách bẩm sinh", "Khả năng tiếp thu/học tập", "Môi trường cha mẹ nuôi dưỡng")))
+                    put("tone", "Tư vấn cho Phụ huynh. VD: 'Bé có xu hướng...', 'Cha mẹ nên...'")
+                })
+            }
+        }
+    }
+
+    private fun buildPipelineJson(): JSONObject {
+        return JSONObject().apply {
+            put("step_1_summary", JSONObject().apply {
+                put("name", "Tóm tắt cấu trúc lá số")
+                put("items", JSONArray(listOf("Chính tinh từng cung", "Tứ hóa", "Cung Mệnh", "Cung Thân", "Tam hợp Mệnh–Tài–Quan")))
+            })
+            put("step_2_power", JSONObject().apply {
+                put("name", "Đánh giá lực lá số")
+                put("items", JSONArray(listOf("Mệnh mạnh hay yếu", "Thân cư cung nào", "Cục sinh hay khắc mệnh", "Sát tinh nặng hay không", "Cát tinh nâng đỡ không")))
+            })
+            put("step_3_configurations", JSONObject().apply {
+                put("name", "Kiểm tra cách cục")
+                put("major_list", JSONArray(listOf("Tử Phủ Vũ Tướng", "Phủ Tướng Triều Viên", "Cơ Nguyệt Đồng Lương", "Nhật Nguyệt Tịnh Minh", "Sát Phá Tham", "Liêm Tham", "Cự Nhật", "Vũ Khúc tài tinh", "Thiên Phủ tài khố", "Thái Âm tài tinh")))
+                put("extended", JSONObject().apply {
+                    put("dai_quy", JSONArray(Constants.CACH_CUC_DAI_QUY))
+                    put("dai_phu", JSONArray(Constants.CACH_CUC_DAI_PHU))
+                    put("vo", JSONArray(Constants.CACH_CUC_VO))
+                    put("hung_pha", JSONArray(Constants.CACH_CUC_HUNG))
+                    put("dac_biet", JSONArray(Constants.CACH_CUC_DAC_BIET))
+                })
+                put("validation_warning", "Nhóm sao hội hợp trong metadata CHỈ là gợi ý. AI phải TỰ XÁC ĐỊNH bằng: kiểm tra độ sáng (Miếu/Vượng hay Hãm), Tuần/Triệt che mờ/phá vỡ, Tứ Hóa hỗ trợ hay phá hoại")
+                put("check_sat_tinh_pha_cach", true)
+            })
+            put("step_3b_ranking", JSONObject().apply {
+                put("name", "Xếp hạng cách cục (khi ≥2 cách)")
+                put("criteria", JSONArray(listOf(
+                    "① So sánh LỰC: Cách nào nhiều sao Miếu/Vượng → mạnh hơn",
+                    "② So sánh VỊ TRÍ: Cách nào nằm tam hợp Mệnh–Tài–Quan → trực tiếp nhất",
+                    "③ So sánh TỨ HÓA: Cách nào được Hóa Lộc/Quyền bản mệnh hoặc đại vận chiếu → nâng tầm",
+                    "④ Kết luận: 'Cách cục chính' (>60% cuộc đời) vs 'Cách bổ trợ'"
+                )))
+                put("forbidden", "KHÔNG luận ngang nhau nếu mâu thuẫn mà không phân chủ-thứ")
+            })
+            put("step_4_contradiction_check", JSONObject().apply {
+                put("name", "Kiểm tra mâu thuẫn (BẮT BUỘC sau 12 cung)")
+                put("pairs", JSONArray(listOf(
+                    "Mệnh vs Thân: Bẩm sinh vs Hành động khớp không?",
+                    "Mệnh vs Quan vs Tài: Tâm – Tầm – Lộc logic không?",
+                    "Phu Thê vs Phúc Đức: Duyên nợ khớp phúc phần không?",
+                    "Tật Ách vs Mệnh: Sức khỏe tương ứng cường độ Mệnh không?"
+                )))
+                put("resolution", "Giải thích theo quy tắc ưu tiên. KHÔNG để hai kết luận song song không phân chủ-thứ")
+            })
+        }
+    }
+
+    private fun buildMethodsJson(): JSONObject {
+        return JSONObject().apply {
+            put("m1_tu_hoa", JSONObject().apply {
+                put("name", "Phân tích Tứ Hóa Bản Mệnh")
+                put("steps", JSONArray(listOf(
+                    "(1) Tìm vị trí 4 Hóa chủ sinh nạp", "(2) Xét Lộc/Kỵ trùng phùng",
+                    "(3) Kỵ + Sát tinh (địa kiếp, hỏa tinh...)", "(4) Lộc + Cát tinh",
+                    "(5) Hóa Kỵ rơi cung nào (chủ nợ/nghiệp lực)", "(6) Tứ hóa đại vận xếp chồng",
+                    "(7) Lưu Tứ Hóa", "(8) Kết luận lực Hóa"
+                )))
+            })
+            put("m2_ngu_hanh", JSONObject().apply {
+                put("name", "Phân tích Ngũ Hành 4 tầng")
+                put("layers", JSONArray(listOf("Nạp âm bản mệnh", "Cục", "Ngũ hành cung", "Ngũ hành sao")))
+                put("example", "Mệnh Kim đóng cung Thủy (sinh xuất) hội sao Hỏa (khắc) → dù miếu cũng chiết giảm lực")
+            })
+            put("m3_gender", JSONObject().apply {
+                put("name", "Quy tắc luận theo giới tính")
+                put("male", JSONObject().apply {
+                    put("focus", JSONArray(listOf("Quan", "Tài", "Di")))
+                    put("fear", "Triệt đóng Mệnh, Cô Quả hội chiếu")
+                })
+                put("female", JSONObject().apply {
+                    put("focus", JSONArray(listOf("Phu", "Tử", "Phúc")))
+                    put("fear", "Sát Phá Tham hội Đào Hoa/Hồng Loan/Sát tinh (dễ trắc trở tình duyên)")
+                })
+            })
+            put("m4_tuan_triet", JSONObject().apply {
+                put("name", "Phân tích Tuần – Triệt")
+                put("tuan", "Giảm 30-50% lực sao (cát giảm cát, hung giảm hung). Ổn định sau 30 tuổi")
+                put("triet", "Giảm 60-80% lực sao (ngăn chặn hoàn toàn lực mạnh nhất). Nặng nhất trước 30 tuổi")
+                put("triet_at_menh", "Thiếu thời lận đận")
+            })
+            put("m5_phi_tinh", JSONObject().apply {
+                put("name", "Phi Tinh Tứ Hóa (chuyên sâu)")
+                put("source", "Pre-computed trong metadata")
+                put("rules", JSONObject().apply {
+                    put("loc_a_to_b", "A mang lại lợi ích/tình cảm cho B")
+                    put("ky_a_to_b", "A gây áp lực/rắc rối/phiền muộn cho B")
+                    put("tu_hoa", "Cung tự tan biến hoặc tự mâu thuẫn")
+                })
+            })
+            put("m6_fortune_layers", JSONObject().apply {
+                put("name", "Vận hạn đa tầng (xếp chồng)")
+                put("steps", JSONArray(listOf(
+                    "(1) Xác định Mệnh Đại Vận", "(2) Tìm Tứ Hóa Đại Vận",
+                    "(3) Tìm Lưu Niên Tứ Hóa năm xem",
+                    "(4) Tìm Trùng điệp (Song Kỵ, Song Lộc hội tụ một cung)",
+                    "(5) Xét cung Tiểu Hạn"
+                )))
+            })
+            put("m7_cross_check", JSONObject().apply {
+                put("name", "Kiểm chứng chéo")
+                put("checks", JSONArray(listOf(
+                    "Tam giác Mệnh-Quan-Tài: Cái Tâm và Cái Tầm",
+                    "Mệnh (bẩm sinh) vs Thân (hành động hậu thiên)",
+                    "Mệnh tốt Thân xấu → Tiền cát hậu hung"
+                )))
+            })
+        }
+    }
+
+    private fun buildPalaceMethodJson(): JSONObject {
+        return JSONObject().apply {
+            put("steps", JSONArray(listOf(
+                "Xác định chính tinh + trạng thái miếu/vượng/đắc/hãm",
+                "Liệt kê phụ tinh quan trọng và tứ hóa",
+                "Phân tích tương tác: đồng cung, tam hợp, xung chiếu, giáp cung, hội sát tinh",
+                "Đánh giá lực cung: mạnh/trung/yếu, thuận/nghịch",
+                "Chuyển sang biểu hiện thực tế: tính cách, nghề nghiệp, tài chính, quan hệ, sức khỏe, tâm lý"
+            )))
+            put("interaction_weights", JSONObject().apply {
+                put("dong_cung", JSONObject().apply { put("value", 1.0); put("note", "100% lực – mạnh nhất") })
+                put("tam_hop", JSONObject().apply { put("value", 0.75); put("note", "70-80% lực") })
+                put("xung_chieu", JSONObject().apply { put("value", 0.65); put("note", "60-70% lực – ảnh hưởng gián tiếp") })
+                put("giap_cung", JSONObject().apply { put("value", 0.45); put("note", "40-50% lực – hỗ trợ/kìm hãm từ hai bên") })
+                put("nhi_hop", JSONObject().apply { put("value", 0.3); put("note", "Yếu nhất") })
+            })
+            put("warnings", JSONArray(listOf(
+                "Sát tinh xung chiếu gây hại ÍT HƠN sát tinh đồng cung",
+                "Cát tinh tam hợp hội chiếu có lực MẠNH HƠN cát tinh giáp cung"
+            )))
+        }
+    }
+
+    private fun buildOutputFormatJson(data: LasoData): JSONObject {
+        val info = data.info
+        val vanHanRequest = if (info.viewingMode == "MONTH") {
+            "Vận tháng ${info.viewingMonth} năm ${info.viewingYear}"
+        } else {
+            "Vận năm ${info.viewingYear}"
+        }
+        return JSONObject().apply {
+            put("sections", JSONObject().apply {
+                put("A", "Tóm tắt lá số (5-10 dòng): tinh hệ nổi bật, điểm mạnh, điểm yếu, căn cứ sao")
+                put("B", "Luận chi tiết 12 cung")
+                put("C", "Cách cục lớn")
+                put("D", "Phân loại lá số")
+                put("E", "Kết luận tổng thể: sức mạnh, khả năng giàu có, quyền lực, hướng sự nghiệp")
+                put("E1", "$vanHanRequest (BẮT BUỘC – KHÔNG ĐƯỢC BỎ QUA)")
+            })
+            put("palace_format", JSONObject().apply {
+                put("structure", "[Cung] → (Căn cứ: sao, trạng thái, tam hợp, sát/cát) → Logic tinh hệ → Biểu hiện thực tế")
+                put("force_score", "1-10 (1=rất yếu, 10=rất mạnh)")
+                put("trend", JSONArray(listOf("Thuận", "Nghịch", "Biến động")))
+                put("confidence", JSONObject().apply {
+                    put("Cao", "≥3 căn cứ tinh hệ khớp, không mâu thuẫn")
+                    put("Trung bình", "1-2 căn cứ, hoặc mâu thuẫn nhẹ")
+                    put("Thấp", "Thiếu dữ liệu hoặc nhiều mâu thuẫn")
+                })
+            })
+            put("classification_categories", JSONArray(listOf(
+                "Đại phú", "Đại quý", "Phú quý nhờ vận", "Giàu nhưng lao tâm",
+                "Quyền lực", "Học thuật", "Bạo phát", "Khởi nghiệp thành công"
+            )))
+            put("fortune_year_format", JSONObject().apply {
+                put("steps", JSONArray(listOf(
+                    "(1) Đại vận hiện tại → ảnh hưởng nền",
+                    "(2) Lưu niên ${info.viewingYear} → sao lưu + lưu tứ hóa",
+                    "(3) Trùng điệp tứ hóa → Song Lộc/Song Kỵ/Lộc Kỵ giao nhau",
+                    "(4) Tác động lên Mệnh – Quan – Tài – Phu Thê",
+                    "(5) Kết luận: thuận lợi / rủi ro chính trong năm"
+                )))
+            })
+        }
+    }
+
+    private fun buildNotationJson(): JSONObject {
+        return JSONObject().apply {
+            put("brightness", JSONObject().apply {
+                put("M", "Miếu"); put("V", "Vượng"); put("Đ", "Đắc"); put("Bình", "Bình"); put("H", "Hãm")
+            })
+            put("transformations", JSONObject().apply {
+                put("ban_menh", "(Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ)")
+                put("dai_van", "ĐV. prefix")
+                put("luu_nien", "L. prefix")
+            })
+            put("specials", JSONArray(listOf("Tuần = Tuần Không (giảm lực)", "Triệt = Triệt Không (giảm lực)")))
+            put("vo_chinh_dieu_rules", JSONArray(listOf(
+                "Bước 1: Mượn chính tinh cung đối chiếu (xung chiếu) — giảm 30% lực so với sao ở bản cung",
+                "Bước 2: Phụ tinh trong cung vô chính diệu trở thành 'chủ thực tế' — phân tích kỹ hơn",
+                "Bước 3: Vô chính diệu + nhiều sát tinh → cung rất yếu, biến động lớn",
+                "Bước 4: Vô chính diệu + nhiều cát tinh → 'đất trống gặp mưa' — muộn phát nhưng có thể phát"
+            )))
+            put("group_labels", JSONObject().apply {
+                put("tam_hop", "Sao phân bố đều trên 3 cung tam hợp")
+                put("nhom", "Sao hội tụ nhưng CHƯA đủ điều kiện cách cục (cần AI đánh giá thêm)")
+            })
+        }
+    }
+
+    private fun buildMistakesJson(): JSONArray {
+        return JSONArray().apply {
+            put(JSONObject().apply { put("wrong", "Tử Vi là sao vua nên ở đâu cũng tốt"); put("correct", "PHẢI xét miếu/hãm, cung vị") })
+            put(JSONObject().apply { put("wrong", "Kình Dương luôn xấu"); put("correct", "Kình Dương miếu (Ngọ) có thể tạo Mã Đầu Đới Kiếm") })
+            put(JSONObject().apply { put("wrong", "Hóa Kỵ luôn xấu"); put("correct", "Kỵ ở Quan/Tài có thể chỉ là 'chuyên tâm, bám víu'") })
+            put(JSONObject().apply { put("wrong", "Luận Vô Chính Diệu mà không nhắc chính tinh đối cung"); put("correct", "PHẢI nhắc chính tinh đối cung") })
+            put(JSONObject().apply { put("wrong", "Gộp cát tinh + sát tinh → 'trung bình'"); put("correct", "PHẢI phân tích cơ chế: cát giảm sát hay sát phá cát") })
+        }
+    }
+
+    private fun buildChartDataJson(data: LasoData): JSONObject {
+        val info = data.info
+        val cungList = data.cung
+
+        // Reuse existing helpers
+        val boSaoList = detectBoSao(cungList)
+        val nguHanhSaoObj = JSONObject()
+        Constants.NGU_HANH_SAO.forEach { (sao, hanh) -> nguHanhSaoObj.put(sao, hanh) }
+
+        // Build truc cung
+        val menhCung = cungList.find { it.chucNang.contains("Mệnh") }
+        val trucCungStr = if (menhCung != null) {
+            val menhIdx = menhCung.index
+            val thienDiIdx = (menhIdx + 6) % 12
+            val taiIdx = cungList.find { it.chucNang.contains("Tài Bạch") }?.index ?: -1
+            val quanIdx = cungList.find { it.chucNang.contains("Quan Lộc") }?.index ?: -1
+            val phucIdx = cungList.find { it.chucNang.contains("Phúc Đức") }?.index ?: -1
+            val phuTheIdx = cungList.find { it.chucNang.contains("Phu Thê") }?.index ?: -1
+            val dienIdx = cungList.find { it.chucNang.contains("Điền Trạch") }?.index ?: -1
+            buildString {
+                append("Trục Mệnh–Thiên Di: ${Constants.DIA_CHI[menhIdx]}–${Constants.DIA_CHI[thienDiIdx]}")
+                if (taiIdx >= 0 && quanIdx >= 0) append(" | Tam hợp Mệnh–Tài–Quan: ${Constants.DIA_CHI[menhIdx]}–${Constants.DIA_CHI[taiIdx]}–${Constants.DIA_CHI[quanIdx]}")
+                if (phucIdx >= 0 && taiIdx >= 0 && quanIdx >= 0) append(" | Trục Phúc–Tài–Quan: ${Constants.DIA_CHI[phucIdx]}–${Constants.DIA_CHI[taiIdx]}–${Constants.DIA_CHI[quanIdx]}")
+                if (phuTheIdx >= 0 && taiIdx >= 0) append(" | Trục Phu Thê–Tài Bạch: ${Constants.DIA_CHI[phuTheIdx]}–${Constants.DIA_CHI[taiIdx]}")
+                if (dienIdx >= 0 && phucIdx >= 0) append(" | Trục Điền–Phúc: ${Constants.DIA_CHI[dienIdx]}–${Constants.DIA_CHI[phucIdx]}")
+            }
+        } else ""
+
+        // Can Chi 12 cung
+        val canChi12Obj = JSONObject()
+        cungList.forEach { canChi12Obj.put(it.name, it.canChi) }
+
+        // Van Han request
+        val vanHanRequest = if (info.viewingMode == "MONTH") {
+            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear} (theo đại vận + tiểu vận + lưu thái tuế + lưu hóa tinh nếu có dữ liệu)"
+        } else {
+            "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
+        }
+
+        return JSONObject().apply {
+            // Person
+            put("person", JSONObject().apply {
+                put("name", info.name)
+                put("gender", info.gender)
+                put("birth_solar", "${info.solarDate} lúc ${info.time}")
+                put("birth_lunar", "${info.lunarDate} (${info.canChi})")
+                put("cuc", info.cuc)
+                put("menh_position", info.menhTai)
+                put("than_position", info.thanTai)
+                put("dai_van", info.daiVanInfo)
+                put("viewing_period", if (info.viewingMode == "MONTH") "Tháng ${info.viewingMonth} năm ${info.viewingYear}" else "Năm ${info.viewingYear}")
+            })
+
+            // Metadata
+            put("metadata", JSONObject().apply {
+                put("menh_ngu_hanh", info.menhNguHanh)
+                put("am_duong", info.amDuong)
+                put("cuc_menh_relation", info.cucMenhRelation)
+                put("ngu_hanh_14_sao", nguHanhSaoObj)
+                put("nhom_sao", if (boSaoList.isEmpty()) JSONArray(listOf("Không phát hiện")) else JSONArray(boSaoList))
+                put("truc_cung", trucCungStr)
+                put("can_chi_12_cung", canChi12Obj)
+                put("tieu_han_cung", "${info.tieuHanCung} (năm ${info.viewingYear})")
+                put("dai_van_list", info.daiVanFullList)
+            })
+
+            // Phi Tinh (keep as string for token efficiency)
+            put("phi_tinh_tu_hoa", info.phiTinhTuHoa.ifEmpty { "Không có dữ liệu phi tinh" })
+
+            // Tu Hoa Summary
+            put("tu_hoa_summary", buildTuHoaSummaryJson(cungList))
+
+            // Tu Hoa 10 Can Table
+            put("tu_hoa_10_can", JSONObject().apply {
+                put("_warning", "CHỈ dùng GIẢI THÍCH cơ chế phi tinh. KHÔNG dùng để tự tính thêm tứ hóa")
+                Constants.THIEN_CAN.forEachIndexed { index, can ->
+                    val hoa = Constants.TU_HOA_MAP[index] ?: listOf("", "", "", "")
+                    put(can, JSONObject().apply {
+                        put("Lộc", hoa[0]); put("Quyền", hoa[1]); put("Khoa", hoa[2]); put("Kỵ", hoa[3])
+                    })
+                }
+            })
+
+            // Palaces (12 cung)
+            put("palaces", buildPalacesJsonArray(cungList))
+
+            // Fortune request
+            put("fortune_request", vanHanRequest)
+        }
+    }
+
+    private fun buildTuHoaSummaryJson(cungList: List<CungInfo>): JSONObject {
+        val result = JSONObject()
+
+        // Helper to find cung containing a suffix
+        fun findCungForSuffix(suffix: String): String? {
+            val cung = cungList.find { c -> c.phuTinh.contains(suffix.trim()) }
+            return cung?.let { "Cung ${it.name} (${it.chucNang})" }
+        }
+
+        // Ban Menh
+        val bmObj = JSONObject()
+        listOf("(Hóa Lộc)", "(Hóa Quyền)", "(Hóa Khoa)", "(Hóa Kỵ)").forEach { suffix ->
+            findCungForSuffix(suffix)?.let { bmObj.put(suffix, it) }
+        }
+        result.put("ban_menh", bmObj)
+
+        // Dai Van
+        val dvObj = JSONObject()
+        listOf("(ĐV. Hóa Lộc)", "(ĐV. Hóa Quyền)", "(ĐV. Hóa Khoa)", "(ĐV. Hóa Kỵ)").forEach { suffix ->
+            findCungForSuffix(suffix)?.let { dvObj.put(suffix, it) }
+        }
+        result.put("dai_van", dvObj)
+
+        // Luu Nien
+        val lnObj = JSONObject()
+        listOf("(L.Hóa Lộc)", "(L.Hóa Quyền)", "(L.Hóa Khoa)", "(L.Hóa Kỵ)").forEach { suffix ->
+            findCungForSuffix(suffix)?.let { lnObj.put(suffix, it) }
+        }
+        result.put("luu_nien", lnObj)
+
+        return result
+    }
+
+    private fun buildPalacesJsonArray(cungList: List<CungInfo>): JSONArray {
+        val palaces = JSONArray()
+        for (c in cungList) {
+            val flags = JSONArray()
+            if (c.chinhTinh.isEmpty()) flags.put("Vô chính diệu")
+            if (c.phuTinh.any { it.startsWith("Tuần") }) flags.put("Gặp Tuần")
+            if (c.phuTinh.any { it.startsWith("Triệt") }) flags.put("Gặp Triệt")
+
+            val fixedPhu = c.phuTinh.filter {
+                !it.startsWith("ĐV.") && !it.startsWith("L.") &&
+                !it.startsWith("(ĐV.") && !it.startsWith("(L.")
+            }
+            val daiVanStars = c.phuTinh.filter { it.startsWith("ĐV.") || it.startsWith("(ĐV.") }
+            val luuStars = c.phuTinh.filter { it.startsWith("L.") || it.startsWith("(L.") }
+
+            val palace = JSONObject().apply {
+                put("name", c.name)
+                put("element", c.nguHanhCung)
+                put("function", c.chucNang)
+                if (flags.length() > 0) put("flags", flags)
+                put("fixed_stars", JSONArray(c.chinhTinh + fixedPhu))
+                if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty()) {
+                    put("transit_stars", JSONArray(daiVanStars + luuStars))
+                }
+            }
+            palaces.put(palace)
+        }
+        return palaces
     }
 }

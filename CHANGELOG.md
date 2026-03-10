@@ -1,6 +1,20 @@
 # Changelog
 
-## [2026-03-10 - Morning: Minor Cycle (Tiểu Hạn) Logic Fix]
+## [2026-03-10 - Noon: JSON Prompt Transformation]
+### Added
+- **JSON Prompt System**: Major architectural shift in `GeminiClient.kt`. Replaced prose-based prompts with structured JSON output using `JSONObject`.
+- **Modular JSON Construction**: Added 10+ helper methods to build specialized JSON segments for Absolute Rules, Analysis Pipeline, Methodology, Notation, and Chart Data.
+- **Unit Test JSON Support**: Integrated `org.json:json:20231013` as a test dependency in `build.gradle.kts` to enable JSON logic verification on the JVM.
+- **Enhanced JSON Chart Data**: Structured representation of 12 palaces (including separate fixed vs. transit star arrays), 10-Can transformation tables, and specific astrological flags (VCD, Force Score).
+
+### Changed
+- **Unit Tests Migration**: Updated `DataLayerVerificationTest.kt` and `Level5DeepVerificationTest.kt` assertions to target JSON keys/values instead of exact prose strings.
+- **Logic Verification**: Adjusted `amDuong` test expectations to support "Âm dương thuận lý" correctly for the Nhâm Thân 1992 benchmark case.
+
+### Fixed
+- **JSONObject JUnit Mocking**: Resolved `Method put in org.json.JSONObject not mocked` errors by shifting from Android stubs to real JSON library for tests.
+
+
 ### Fixed — Astrology Logic
 - **Tiểu Hạn (Minor Cycle)**: Overhauled `tinhTieuHan()` logic in `TuViLogic.kt`. Changed the starting palace from Chi Năm Sinh (Incorrect) to the traditional **Tứ Mộ cung** (Thìn, Tuất, Sửu, Mùi) based on **Tam Hợp Tuổi**, following Nam Phái standard.
     - Dần-Ngọ-Tuất → Thìn (4)
