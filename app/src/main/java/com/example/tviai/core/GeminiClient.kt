@@ -213,6 +213,12 @@ class GeminiClient(
         json.put("output_format", buildOutputFormatJson(data))
         json.put("notation_rules", buildNotationJson())
         json.put("common_mistakes", buildMistakesJson())
+        json.put("reasoning_rules", JSONObject().apply {
+            put("always_show_evidence", true)
+            put("evidence_format", "(Căn cứ: sao + trạng thái + cung)")
+            put("minimum_evidence", 2)
+            put("conflict_resolution", "priority_rules")
+        })
         json.put("chart_data", buildChartDataJson(data))
 
         return json.toString(2)
@@ -1167,11 +1173,11 @@ class GeminiClient(
                 put("truc_cung", trucCungStr)
                 put("can_chi_12_cung", canChi12Obj)
                 put("tieu_han_cung", "${info.tieuHanCung} (năm ${info.viewingYear})")
-                put("dai_van_list", info.daiVanFullList)
+                put("dai_van_list", parseDaiVanToJson(info.daiVanFullList))
             })
 
-            // Phi Tinh (keep as string for token efficiency)
-            put("phi_tinh_tu_hoa", info.phiTinhTuHoa.ifEmpty { "Không có dữ liệu phi tinh" })
+            // Phi Tinh
+            put("phi_tinh_tu_hoa", if (info.phiTinhTuHoa.isNotEmpty()) parsePhiTinhToJson(info.phiTinhTuHoa) else JSONObject().apply { put("status", "Không có dữ liệu phi tinh") })
 
             // Tu Hoa Summary
             put("tu_hoa_summary", buildTuHoaSummaryJson(cungList))
@@ -1248,13 +1254,108 @@ class GeminiClient(
                 put("element", c.nguHanhCung)
                 put("function", c.chucNang)
                 if (flags.length() > 0) put("flags", flags)
-                put("fixed_stars", JSONArray(c.chinhTinh + fixedPhu))
+                
+                val starArr = JSONArray()
+                c.chinhTinh.forEach { starArr.put(parseStarToJson(it, true)) }
+                fixedPhu.forEach { starArr.put(parseStarToJson(it, false)) }
+                put("fixed_stars", starArr)
+                
                 if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty()) {
-                    put("transit_stars", JSONArray(daiVanStars + luuStars))
+                    val transitArr = JSONArray()
+                    (daiVanStars + luuStars).forEach { transitArr.put(parseStarToJson(it, false)) }
+                    put("transit_stars", transitArr)
                 }
             }
             palaces.put(palace)
         }
         return palaces
     }
+    
+    private val SAT_TINH = setOf("Kình Dương", "Đà La", "Hỏa Tinh", "Linh Tinh",
+        "Địa Không", "Địa Kiếp", "Thiên Hình", "Kiếp Sát")
+
+    private val CAT_TINH = setOf("Văn Xương", "Văn Khúc", "Tả Phù", "Hữu Bật",
+        "Thiên Khôi", "Thiên Việt", "Lộc Tồn", "Thiên Mã", "Đào Hoa",
+        "Hồng Loan", "Thiên Hỷ", "Long Trì", "Phượng Các", "Thiên Đức",
+        "Nguyệt Đức", "Ân Quang", "Thiên Quý", "Thiên Quan", "Thiên Phúc",
+        "Quốc Ấn", "Đường Phù", "Thai Phụ", "Phong Cáo", "Tam Thai",
+        "Bát Tọa", "Thiên Giải", "Địa Giải", "Giải Thần")
+
+    private fun parsePhiTinhToJson(raw: String): JSONObject {
+        val result = JSONObject()
+        raw.trim().lines().filter { it.isNotBlank() }.forEach { line ->
+            // Format: "Tý(Canh): H.Lộc→Thìn, H.Quyền→Mão, H.Khoa→Tuất, H.Kỵ→Dần"
+            val match = Regex("""^(\S+)\((\S+)\):\s*(.+)$""").find(line.trim())
+            if (match != null) {
+                val (cung, can, rest) = match.destructured
+                val obj = JSONObject().apply { put("can", can) }
+                rest.split(",").map { it.trim() }.forEach { part ->
+                    val hoaMatch = Regex("""H\.(\S+)→(\S+)""").find(part)
+                    if (hoaMatch != null) {
+                        val (hoaType, target) = hoaMatch.destructured
+                        obj.put(hoaType.lowercase(), target) // loc, quyen, khoa, ky
+                    }
+                }
+                result.put(cung, obj)
+            }
+        }
+        return result
+    }
+
+    private fun parseDaiVanToJson(raw: String): JSONArray {
+        val result = JSONArray()
+        raw.split("|").map { it.trim() }.filter { it.isNotBlank() }.forEach { entry ->
+            // Format: "5–14: Tân Sửu"
+            val match = Regex("""^(\d+[–-]\d+):\s*(\S+)\s+(\S+)$""").find(entry.trim())
+            if (match != null) {
+                val (age, can, cung) = match.destructured
+                result.put(JSONObject().apply {
+                    put("age", age)
+                    put("can", can)
+                    put("cung", cung)
+                })
+            }
+        }
+        return result
+    }
+
+    private fun parseStarToJson(raw: String, isChinhTinh: Boolean): JSONObject {
+        val obj = JSONObject()
+        var working = raw.trim()
+
+        // Extract flags like [BỊ TRIỆT LỘ], [BỊ TUẦN KHÔNG]
+        val flags = JSONArray()
+        Regex("""\[([^\]]+)\]""").findAll(working).forEach { flags.put(it.groupValues[1]) }
+        working = working.replace(Regex("""\s*\[[^\]]+\]"""), "")
+
+        // Check if Tứ Hóa: "(Hóa Lộc)", "(ĐV. Hóa Kỵ)", "(L.Hóa Lộc)"
+        if (working.startsWith("(") && working.endsWith(")")) {
+            obj.put("name", working.removeSurrounding("(", ")"))
+            obj.put("type", "tu_hoa")
+            return obj
+        }
+
+        // Extract state: "Thiên Tướng (M)" → name="Thiên Tướng", state="M"
+        val stateMatch = Regex("""^(.+?)\s*\(([MVĐHB]|Bình)\)$""").find(working)
+        val name: String
+        if (stateMatch != null) {
+            name = stateMatch.groupValues[1].trim()
+            obj.put("state", stateMatch.groupValues[2])
+        } else {
+            name = working
+        }
+
+        val baseName = name.removePrefix("ĐV. ").removePrefix("L.")
+
+        obj.put("name", name)
+        obj.put("type", when {
+            isChinhTinh -> "main_star"
+            baseName in SAT_TINH -> "sat_tinh"
+            baseName in CAT_TINH -> "cat_tinh"
+            else -> "sub_star"
+        })
+        if (flags.length() > 0) obj.put("flags", flags)
+        return obj
+    }
+
 }

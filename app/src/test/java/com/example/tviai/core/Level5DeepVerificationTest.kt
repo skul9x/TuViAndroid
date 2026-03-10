@@ -397,6 +397,7 @@ class Level5DeepVerificationTest {
             "interaction_weights",
             "vo_chinh_dieu_rules",
             "common_mistakes",
+            "reasoning_rules",
             "force_score",
             "tu_hoa_summary"
         )
