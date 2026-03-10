@@ -171,7 +171,11 @@ class TuViLogicTest {
         assertTrue("Hợi must have ĐV. Văn Khúc", hoi.phuTinh.contains("ĐV. Văn Khúc"))
         assertTrue("Hợi must have ĐV. Thiên Mã", hoi.phuTinh.contains("ĐV. Thiên Mã"))
 
-        // 3. Verify Basic Info
+        // 7. Verify Phase 10: Tieu Han (New Fix)
+        // Nhâm Thân (8) -> Khởi Tuất (10). Tuổi 35 (Nam) -> (10 + 34) % 12 = 8 (Thân)
+        assertEquals("Thân", result.info.tieuHanCung)
+
+        // 8. Verify Basic Info
         assertEquals("Nhâm Thân", result.info.canChi) 
     }
 }

@@ -1108,19 +1108,20 @@ class TuViLogic {
     private fun tinhTieuHan(chiNamSinh: Int, viewingYear: Int, birthYear: Int, gender: Gender, isThuan: Boolean): Int {
         val age = viewingYear - birthYear + 1
         
-        // Start from Chi Nam Sinh
-        // Nam Thuan/Nu Nghich: counting direction depends on gender and parity, but standard rule:
-        // Nam: starts from Chi Nam đếm nghịch đến cung tuổi? No. 
-        // Standard rule for Tieu Han: 
-        // Start from cung Chi Nam Sinh, count Forward for Nam, Backward for Nu?
-        // Actually standard Southern School (Nam Phai):
-        // Start from cung Dan/Ngo/Tuat, etc.? No.
-        // Rule: Start from Chi Nam Sinh. If Nam: count Forward. If Nu: count Backward.
-        // Age 1 is at start. Age 2 is next.
-        // So steps = (age - 1).
-        
+        // Khởi Tiểu Hạn theo Tam Hợp Tuổi (chuẩn Nam Phái)
+        val startPos = when (chiNamSinh) {
+            2, 6, 10 -> 4   // Dần, Ngọ, Tuất -> Thìn (4)
+            8, 0, 4  -> 10  // Thân, Tý, Thìn -> Tuất (10)
+            5, 9, 1  -> 7   // Tỵ, Dậu, Sửu -> Mùi (7)
+            11, 3, 7 -> 1   // Hợi, Mão, Mùi -> Sửu (1)
+            else -> 0
+        }
+
+        // Nam thuận, Nữ nghịch
         val direction = if (gender == Gender.NAM) 1 else -1
-        var pos = (chiNamSinh + (age - 1) * direction) % 12
+
+        // Vị trí Tiểu Hạn cho năm xem (Tuổi 1 tại startPos)
+        var pos = (startPos + (age - 1) * direction) % 12
         if (pos < 0) pos += 12
         return pos
     }

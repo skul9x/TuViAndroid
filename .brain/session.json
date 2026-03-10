@@ -1,15 +1,11 @@
 {
   "updated_at": "2026-03-09T23:15:00Z",
   "working_on": {
-    "feature": "Performance & Reliability Fix",
-    "task": "Fix Main Thread block and Database Indexing",
+    "feature": "Core Logic Fixes & Prompt Alignment",
+    "task": "Fix tinhTieuHan logic and verify Rule #8 prompt",
     "status": "finished"
   },
   "pending_tasks": [
-    {
-      "task": "Rule #8 Prompt Update (GeminiClient.kt) - expert wording alignment",
-      "priority": "high"
-    },
     {
       "task": "Integrate real-world user data for reverse-validation (Career/Life events)",
       "priority": "medium"
@@ -18,17 +14,17 @@
   "recent_changes": [
     {
       "type": "fix",
-      "description": "Offloaded calculateLaso() calculation to Dispatchers.Default using withContext(), preventing UI freezes on compilation/sheet generation."
+      "description": "Fixed tinhTieuHan calculation to start from Tứ Mộ (Tam Hợp)宫 instead of Chi Năm Sinh. Updated unit tests in Level5DeepVerificationTest.kt and TuViLogicTest.kt."
     },
     {
-      "type": "perf",
-      "description": "Added SQL Index to 'timestamp' in HistoryEntity to speed up history queries."
+      "type": "prompt",
+      "description": "Verified and confirmed Rule #8 prompt alignment with expert wording in GeminiClient.kt."
     },
     {
-      "type": "hotfix",
-      "description": "Identified Room schema mismatch crash on startup after indexing. Resolution: User performed manual wipe/reinstall."
+      "type": "fix",
+      "description": "Offloaded calculateLaso() calculation to Dispatchers.Default using withContext(), preventing UI freezes."
     }
-  ],
+],
   "errors_encountered": [
     {
       "error": "Room Database Schema Mismatch (IllegalStateException)",

@@ -1,5 +1,14 @@
 # Changelog
 
+## [2026-03-10 - Morning: Minor Cycle (Tiểu Hạn) Logic Fix]
+### Fixed — Astrology Logic
+- **Tiểu Hạn (Minor Cycle)**: Overhauled `tinhTieuHan()` logic in `TuViLogic.kt`. Changed the starting palace from Chi Năm Sinh (Incorrect) to the traditional **Tứ Mộ cung** (Thìn, Tuất, Sửu, Mùi) based on **Tam Hợp Tuổi**, following Nam Phái standard.
+    - Dần-Ngọ-Tuất → Thìn (4)
+    - Thân-Tý-Thìn → Tuất (10)
+    - Tỵ-Dậu-Sửu → Mùi (7)
+    - Hợi-Mão-Mùi → Sửu (1)
+- **Unit Tests**: Updated `Level5DeepVerificationTest.kt` and `TuViLogicTest.kt` to reflect correct Tiểu Hạn positions for both Male and Female cases. Verified 100% test pass rate.
+
 ## [2026-03-09 - Night: Performance Optimization & Reliability Audit]
 ### Fixed — Performance
 - **Main Thread Decoupling**: Offloaded heavy astrology calculations (`anSao`) from the UI Thread to `Dispatchers.Default` using Kotlin Coroutines. Prevents app freezes during sheet generation.

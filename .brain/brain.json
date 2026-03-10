@@ -37,6 +37,7 @@
   "features": [
     "Lập lá số Nam Phái (12 cung)",
     "Luận giải AI đa tầng (Expert prompt v5.0)",
+    "Hệ thống vận hạn (Đại vận, Tiểu hạn chuẩn Tứ Mộ, Lưu niên)",
     "Quản lý lịch sử lá số",
     "Tứ hóa, axes, tam hợp logic",
     "Performance optimized calculations"
@@ -47,8 +48,9 @@
       "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
       "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
       "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
-      "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)"
+      "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
+      "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)"
     ],
-    "milestones": "Completed: Level 5.0 Final Polish, Full Logic Audit & Performance Fixes (2026-03-09)"
+    "milestones": "Completed: Minor Cycle (Tiểu Hạn) Logic Fix & APK Build (2026-03-10)"
   }
 }

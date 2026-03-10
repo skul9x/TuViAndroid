@@ -99,17 +99,17 @@ class Level5DeepVerificationTest {
         println("Giới tính: Nam. Nhâm = Dương -> Thuận hành")
         println("=" .repeat(60))
         
-        // Standard rule: Nam starts from Chi sinh, count FORWARD
-        // Start: Thân (8). Age 1 = Thân. Age 2 = Dậu. ...
+        // Correct standard rule: Nam starts from Tam Hợp Tuổi (Tứ Mộ), count FORWARD
+        // Chi sinh: Thân (8) -> Tam Hợp: Thân-Tý-Thìn -> Khởi: Tuất (10)
+        // Age 1 = Tuất. Age 2 = Hợi. ...
         // steps = age - 1 = 34
-        // pos = (8 + 34) % 12 = 42 % 12 = 6 = Ngọ
-        val expectedTieuHanCung = "Ngọ"
+        // pos = (10 + 34) % 12 = 44 % 12 = 8 = Thân
+        val expectedTieuHanCung = "Thân"
         
-        println("Công thức: (chiNamSinh + (age-1) * direction) %% 12")
-        println("         = (8 + 34 * 1) %% 12")
-        println("         = (8 + 34) %% 12") 
-        println("         = 42 %% 12")
-        println("         = 6 = Ngọ")
+        println("Công thức: (startPos + (age-1) * direction) %% 12")
+        println("         = (10 + 34 * 1) %% 12")
+        println("         = 44 %% 12")
+        println("         = 8 = Thân")
         println()
         println("Expected Tiểu Hạn cung: $expectedTieuHanCung")
         println("Actual   Tiểu Hạn cung: ${result.info.tieuHanCung}")
@@ -118,7 +118,7 @@ class Level5DeepVerificationTest {
         println("Match: ${if (match) "✅" else "❌"}")
         println()
         
-        assertEquals("Tiểu Hạn 2026 phải ở cung Ngọ", expectedTieuHanCung, result.info.tieuHanCung)
+        assertEquals("Tiểu Hạn 2026 phải ở cung Thân", expectedTieuHanCung, result.info.tieuHanCung)
     }
     
     @Test
@@ -319,16 +319,15 @@ class Level5DeepVerificationTest {
         println("Giới tính: Nữ -> direction = -1 (đếm nghịch)")
         println("=" .repeat(60))
         
-        // Nữ: count BACKWARD
-        // pos = (8 + 34 * (-1)) % 12 = (8 - 34) % 12 = (-26) % 12
-        // In Kotlin: (-26) % 12 = -2, then + 12 = 10 = Tuất
-        val expectedTieuHanCung = "Tuất"
+        // Nữ: count BACKWARD from startPos (Tuất 10)
+        // pos = (10 + 34 * (-1)) % 12 = (10 - 34) % 12 = -24 % 12 = 0 = Tý
+        val expectedTieuHanCung = "Tý"
         
-        println("Công thức: (chiNamSinh + (age-1) * direction) %% 12")
-        println("         = (8 + 34 * (-1)) %% 12")
-        println("         = (8 - 34) %% 12") 
-        println("         = -26 %% 12")
-        println("         = 10 (after correction) = Tuất")
+        println("Công thức: (startPos + (age-1) * direction) %% 12")
+        println("         = (10 + 34 * (-1)) %% 12")
+        println("         = (10 - 34) %% 12") 
+        println("         = -24 %% 12")
+        println("         = 0 = Tý")
         println()
         println("Expected Tiểu Hạn cung: $expectedTieuHanCung")
         println("Actual   Tiểu Hạn cung: ${result.info.tieuHanCung}")

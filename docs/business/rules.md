@@ -52,3 +52,12 @@ Tài liệu này lưu lại các quy tắc logic đã được kiểm chứng v�
   1. **LỰC (Sao Miếu/Vượng):** Cách nào có nhiều sao Miếu/Vượng hơn thì mạnh hơn.
   2. **VỊ TRÍ (Mệnh-Tài-Quan):** Cách nào nằm trong cụm Mệnh-Tài-Quan thì có ảnh hưởng chủ đạo hơn cách ở cung phụ.
   3. **TỨ HÓA (Kích hoạt):** Cách nào được Tứ Hóa (Hóa Lộc/Quyền) hội tụ thì được nâng lên tầm cao mới.
+
+## 8. Hệ Thống Tiểu Hạn (Minor Cycles)
+- **Cung Khởi (1 tuổi):** Dựa trên Tam Hợp của Chi Năm Sinh (Luôn rơi vào cung Tứ Mộ).
+    - Nhóm Dần, Ngọ, Tuất → Khởi tại **Thìn** (index 4).
+    - Nhóm Thân, Tý, Thìn → Khởi tại **Tuất** (index 10).
+    - Nhóm Tỵ, Dậu, Sửu   → Khởi tại **Mùi** (index 7).
+    - Nhóm Hợi, Mão, Mùi  → Khởi tại **Sửu** (index 1).
+- **Chiều đếm:** Nam thuận, Nữ nghịch (+1/-1 index mỗi năm).
+- **Lưu ý:** Đây là tầng vận hạn bổ trợ cho Đại Hạn và Lưu Niên Thái Tuế trong Nam Phái.
