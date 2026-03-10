@@ -105,7 +105,7 @@ class TuViLogic {
         // This code DOES NOT COMPILE because 'hourIndex' is used but not passed.
         // I need to fix `anPhuTinhMoRong` signature.
         
-        anPhuTinhMoRong(cungList, canNamIndex, chiNamIndex, lunarMonth, lunarDay, chiGioIndex)
+        anPhuTinhMoRong(cungList, canNamIndex, chiNamIndex, lunarMonth, lunarDay, chiGioIndex, menhIndex, thanIndex)
 
         // 5.8c An Sao Đại Vận
         val daiVanMeta = anSaoDaiVan(
@@ -550,7 +550,9 @@ class TuViLogic {
         chiNamIndex: Int,
         lunarMonth: Int,
         lunarDay: Int,
-        hourIndex: Int
+        hourIndex: Int,
+        menhIndex: Int,
+        thanIndex: Int
     ) {
         // 1. Đào Hoa (Theo Chi Năm)
         com.example.tviai.core.Constants.DAO_HOA_MAP[chiNamIndex]?.let { pos ->
@@ -674,29 +676,17 @@ class TuViLogic {
         cungList[thienQuyPos].phuTinh.add("Thiên Quý")
         
         // 12. Thiên Tài, Thiên Thọ
-        val menhCung = cungList.find { it.chucNang.contains("Mệnh") }
-        val thanCung = cungList.find { it.chucNang.contains("Thân cư") }
+        val taiPos = (menhIndex + chiNamIndex) % 12
+        cungList[taiPos].phuTinh.add("Thiên Tài")
         
-        if (menhCung != null) {
-            val taiPos = (menhCung.index + chiNamIndex) % 12
-            cungList[taiPos].phuTinh.add("Thiên Tài")
-            
-            // Thiên Thương (Nô Bộc), Thiên Sứ (Tật Ách)
-            val noBocPos = (menhCung.index + 5) % 12 // Nghịch 5? No, Mệnh(1)->Huynh(2)..Nô(6). Mệnh+5 -> Nô.
-            // Check direction: Mệnh->Phụ->Phúc (Nghịch).
-            // Mệnh(i) -> Nô(i-5).
-            // But wait, anCungMenhThan set positions relative to Menh.
-            // Let's use name search to be safe.
-            val noBocCung = cungList.find { it.chucNang.contains("Nô Bộc") }
-            val tatAchCung = cungList.find { it.chucNang.contains("Tật Ách") }
-            noBocCung?.phuTinh?.add("Thiên Thương")
-            tatAchCung?.phuTinh?.add("Thiên Sứ")
-        }
+        // Thiên Thương (Nô Bộc), Thiên Sứ (Tật Ách)
+        val noBocCung = cungList.find { it.chucNang.contains("Nô Bộc") }
+        val tatAchCung = cungList.find { it.chucNang.contains("Tật Ách") }
+        noBocCung?.phuTinh?.add("Thiên Thương")
+        tatAchCung?.phuTinh?.add("Thiên Sứ")
         
-        if (thanCung != null) {
-            val thoPos = (thanCung.index + chiNamIndex) % 12
-            cungList[thoPos].phuTinh.add("Thiên Thọ")
-        }
+        val thoPos = (thanIndex + chiNamIndex) % 12
+        cungList[thoPos].phuTinh.add("Thiên Thọ")
         
         // 13. Đầu Quân (Thái Tuế nghịch đến Tháng Sinh, thuận đến Giờ Sinh)
         // Thái Tuế at Chi Năm (chiNamIndex).

@@ -49,8 +49,9 @@
       "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
       "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
       "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
-      "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)"
+      "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
+      "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness."
     ],
-    "milestones": "Completed: Minor Cycle (Tiểu Hạn) Logic Fix & APK Build (2026-03-10)"
+    "milestones": "Completed: Thiên Thọ fix, Major Cycle (Đại Vận) verification & Expert Prompt v5.0 Alignment (2026-03-10)"
   }
 }

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-03-10]
+### Fixed
+- **Star Calculation:** 
+    - Fixed **Thiên Thọ** and **Thiên Tài** calculation logic by using direct palace indices.
+    - Corrected **Tiểu Hạn** (Minor Cycle) starting position to follow Nam Phái standard (Tam Hợp Tuổi -> Tứ Mộ).
+- **Stability:** Fixed UI thread blocking by offloading astrological calculations to `Dispatchers.Default`.
+
+### Added
+- **Major Cycle (Đại Vận):** Implemented advanced Major Cycle star placing logic (ĐV. Lộc Tồn, ĐV. Tứ Hóa, etc.) based on decade-specific Stems.
+- **AI Integration:** Updated `GeminiClient` with **Expert Prompt v5.0**, including strict rules against hallucination and mandatory 4-step analysis workflow.
+
+### Build
+- Successful debug APK generation with integrated fixes.
+
+
 ## [2026-01-31]
 ### Added
 - **Advanced Tu Vi Logic:**

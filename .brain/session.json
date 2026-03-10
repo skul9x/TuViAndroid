@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-03-09T23:15:00Z",
+  "updated_at": "2026-03-10T02:15:00Z",
   "working_on": {
-    "feature": "Core Logic Fixes & Prompt Alignment",
-    "task": "Fix tinhTieuHan logic and verify Rule #8 prompt",
+    "feature": "Core Logic Fixes & Prompt Engineering",
+    "task": "Fix Thiên Thọ/Thiên Tài logic and verify Major Cycle stars",
     "status": "finished"
   },
   "pending_tasks": [
@@ -14,28 +14,32 @@
   "recent_changes": [
     {
       "type": "fix",
-      "description": "Fixed tinhTieuHan calculation to start from Tứ Mộ (Tam Hợp)宫 instead of Chi Năm Sinh. Updated unit tests in Level5DeepVerificationTest.kt and TuViLogicTest.kt."
+      "description": "Refactored Thiên Thọ and Thiên Tài calculation to use direct palace indices (menhIndex, thanIndex) instead of string searching in Palace contents. This fixed the bug where Thiên Thọ was missing from the prompt."
+    },
+    {
+      "type": "verification",
+      "description": "Verified Major Cycle (Đại Vận) calculation logic. Confirmed that calculating Stem of Major Cycle via Ngũ Dần Độn and an-ing stars for each decade is correct and advanced."
     },
     {
       "type": "prompt",
-      "description": "Verified and confirmed Rule #8 prompt alignment with expert wording in GeminiClient.kt."
+      "description": "Integrated and verified Expert Prompt v5.0 with strict Rule #8 to prevent AI hallucination and ensure methodology strictness."
     },
     {
       "type": "fix",
-      "description": "Offloaded calculateLaso() calculation to Dispatchers.Default using withContext(), preventing UI freezes."
+      "description": "Fixed tinhTieuHan calculation to start from Tứ Mộ (Tam Hợp)宫 instead of Chi Năm Sinh."
     }
-],
+  ],
   "errors_encountered": [
     {
-      "error": "Room Database Schema Mismatch (IllegalStateException)",
-      "solution": "Adding indices changed the schema; next time increment DB version and add fallbackToDestructiveMigration(). Current fix: Manual wipe.",
+      "error": "Missing Thiên Thọ star in prompt",
+      "solution": "Identified that .find { it.contains('Thân cư') } failed because of palace labeling order. Fixed by passing raw indices to the calculation method.",
       "resolved": true
     }
   ],
   "decisions_made": [
     {
-      "decision": "Postponed automated migration implementation",
-      "reason": "User preferred manual reinstall fix over adding migration logic code at this stage."
+      "decision": "Use Raw Indices for Star Placing",
+      "reason": "String-based lookup in palace functions is too fragile for core astrological calculations."
     }
   ]
 }
