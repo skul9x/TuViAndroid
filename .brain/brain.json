@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "schema_version": "1.1.0",
+    "awf_version": "4.0.2"
+  },
+  "project": {
+    "name": "TuViAndroid-main",
+    "type": "Android Application (Kotlin/Compose)",
+    "status": "Production-Ready / Level 5.0"
+  },
+  "tech_stack": {
+    "frontend": "Jetpack Compose",
+    "backend": "Gemini AI (Google SDK)",
+    "database": "Room Persistence Library (SQLite)",
+    "conventions": "MVVM, Repository Pattern, Clean Architecture"
+  },
+  "database_schema": {
+    "tables": [
+      {
+        "name": "laso_history",
+        "description": "Lưu trữ thông tin lá số đã lập",
+        "columns": [
+          "id",
+          "name",
+          "birthDate",
+          "gender",
+          "cuc",
+          "jsonData",
+          "timestamp"
+        ],
+        "indices": [
+          "timestamp (DESC)"
+        ]
+      }
+    ]
+  },
+  "features": [
+    "Lập lá số Nam Phái (12 cung)",
+    "JSON Structured Prompting v2.0: Toàn bộ prompt được mapping thành nested JSON objects/arrays (Palaces, Stars, Phi Tinh, Dai Van)",
+    "Hệ thống vận hạn (Đại vận, Tiểu hạn chuẩn Tứ Mộ, Lưu niên)",
+    "Quản lý lịch sử lá số",
+    "Tứ hóa, axes, tam hợp logic",
+    "Performance optimized calculations",
+    "Reasoning Rules Enforcement: AI phải trích dẫn căn cứ sao cụ thể cho mọi kết luận"
+  ],
+    "knowledge_items": {
+      "patterns": [
+        "JSON-driven metadata orchestration for LLM instructions",
+        "Nested JSON Mapping: Convert raw astrological strings into structured objects for better AI parsing accuracy",
+        "Metadata-driven LLM orchestration with 4-step mandatory workflow",
+        "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
+        "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
+        "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
+        "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
+        "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
+        "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness.",
+        "Brightness School (AlTuVi): Synced Cự Môn(H) at Tỵ, Thiên Lương(Đ) at Mùi, Thiên Đồng(H) at Dậu. Integrated 9 new auxiliary stars based on 12-palace tables.",
+        "Star Classification: Categorize stars into main_star, sat_tinh, cat_tinh, tu_hoa, sub_star directly in JSON."
+      ],
+      "milestones": "Completed: JSON Prompt Optimization v2.0 (Structured Mapping & Parsing) (2026-03-10)"
+    }
+}

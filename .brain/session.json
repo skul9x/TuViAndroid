@@ -1,0 +1,46 @@
+{
+  "updated_at": "2026-03-10T12:30:00+07:00",
+  "working_on": {
+    "feature": "JSON Prompt Optimization v2.0",
+    "status": "finished",
+    "files": ["GeminiClient.kt", "Level5DeepVerificationTest.kt"],
+    "notes": "Mapped phi_tinh_tu_hoa, dai_van_list, and stars into nested JSON objects/arrays. Added reasoning_rules and star_type classification. Verified with 11 tests."
+  },
+  "pending_tasks": [
+    {
+      "task": "Test JSON v2.0 prompt with Gemini-1.5-Pro / Gemini-3-Flash for reasoning quality",
+      "priority": "high"
+    },
+    {
+      "task": "Build final production APK after UI polish",
+      "priority": "medium"
+    }
+  ],
+  "recent_changes": [
+    {
+      "timestamp": "2026-03-10T12:30:00Z",
+      "type": "architecture",
+      "description": "JSON Prompt v2.0: Structured mapping for astrological data. Added automatic parsing for Dai Van (list), Phi Tinh (object), and Stars (type/state/flags).",
+      "files": ["GeminiClient.kt", "Level5DeepVerificationTest.kt"]
+    },
+    {
+      "timestamp": "2026-03-10T05:00:00Z",
+      "type": "refactor",
+      "description": "Initial JSON Prompt Refactoring: Switched from prose text to structured JSON configuration.",
+      "files": ["GeminiClient.kt"]
+    }
+  ],
+  "errors_encountered": [
+    {
+      "error": "Syntax error in GeminiClient.kt after multi_replace",
+      "solution": "Restored missing closing brace '}' for buildPalacesJsonArray method.",
+      "resolved": true
+    }
+  ],
+  "decisions_made": [
+    {
+      "decision": "On-the-fly String Parsing in GeminiClient",
+      "reason": "Avoids modifying core TuViLogic while providing clean JSON structure to the AI."
+    }
+  ]
+}
