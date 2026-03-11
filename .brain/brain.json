@@ -41,7 +41,8 @@
     "Quản lý lịch sử lá số",
     "Tứ hóa, axes, tam hợp logic",
     "Performance optimized calculations",
-    "Reasoning Rules Enforcement: AI phải trích dẫn căn cứ sao cụ thể cho mọi kết luận"
+    "Reasoning Rules Enforcement: AI phải trích dẫn căn cứ sao cụ thể cho mọi kết luận",
+    "Prompt Optimization v3.0: Refined child logic, data deduplication, and structural spatial mapping (Implemented 2026-03-11)."
   ],
     "knowledge_items": {
       "patterns": [
@@ -55,8 +56,9 @@
         "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
         "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness.",
         "Brightness School (AlTuVi): Synced Cự Môn(H) at Tỵ, Thiên Lương(Đ) at Mùi, Thiên Đồng(H) at Dậu. Integrated 9 new auxiliary stars based on 12-palace tables.",
-        "Star Classification: Categorize stars into main_star, sat_tinh, cat_tinh, tu_hoa, sub_star directly in JSON."
+        "Star Classification: Categorize stars into main_star, sat_tinh, cat_tinh, tu_hoa, sub_star directly in JSON.",
+        "Prompt v3.0 Strategy: Differentiate 'star' vs 'special_flag' (Tuần/Triệt), structural source fields for transit stars, and axis object mapping for spatial reasoning."
       ],
-      "milestones": "Completed: JSON Prompt Optimization v2.0 (Structured Mapping & Parsing) (2026-03-10)"
+      "milestones": "Completed: Prompt Optimization v3.0 (Top 5 Priority Fixes) (2026-03-11)"
     }
 }

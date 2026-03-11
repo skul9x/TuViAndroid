@@ -1,5 +1,36 @@
 # Changelog
 
+## [2026-03-11 - Prompt Optimization v3.0 Implementation]
+### Added
+- **Finalized Prompt v3.0 Core**: Successfully implemented all 5 planned priority fixes in `GeminiClient.kt`.
+    - **Child Rule (v3.0)**: Forced AI to skip career/wealth logic for đương số < 13y, focusing on health and parents.
+    - **JSON Axis Mapping**: Converted raw text axis info into a structured `axis_mapping` object for superior spatial reasoning.
+    - **Special Flags for Tuần/Triệt**: Integrated `flags` metadata at the palace level, allowing AI to detect constraints instantly.
+    - **Clean Source Tracking**: Differentiated `fixed_stars` vs `transit_stars` with explicit types and sources.
+    - **Prompt Template (`Prompt3.txt`)**: Updated with a more professional tone ("Điềm đạm - Phân tích mệnh lý") and shifted focus to monthly analysis ("Tháng 4 năm 2026").
+
+### Changed
+- **Logic Cleanup**: Removed legacy `trucCungStr` calculation in favor of the new axis mapping object.
+- **Rule Synchronization**: Adjusted wording in `priority_rules` to ensure 100% compatibility with expert verification tests.
+
+### Fixed
+- **Verification Failure**: Resolved an assertion error in `Level5DeepVerificationTest` caused by a minor wording mismatch in expert fix #11.
+- **Build Stability**: Verified 17/17 deep verification tests passing.
+
+
+## [2026-03-10 - Evening: Prompt Optimization v3.0 Planning]
+### Added
+- **Implementation Plan for Priority Fixes**: Created a detailed roadmap to resolve the top 5 issues identified in expert review (Child Rule, Deduplication, Data Consistency).
+- **Structural Refinement Strategy**:
+    - **Child Rule Hierarchy**: Prioritizing health/personality for kids < 13, explicitly disabling career/marriage logic.
+    - **JSON Metadata Deduplication**: Removing redundant "Dai Van" strings and refining the "Tu Hoa" summary as a quick-reference.
+    - **Transit Star Source Field**: Separating star names from their source (`dai_van`, `luu_nien`) in JSON.
+    - **Axis Object Mapping**: Converting `truc_cung` from text blocks to structured key-value pairs.
+    - **Tuần/Triệt Status Logic**: Reclassifying Tuần/Triệt as `special_flag` to differentiate from standard stars.
+
+### Fixed
+- **Empty Star Bug (Root Cause)**: Identified and planned a filter fix for empty strings in the star parsing logic.
+
 ## [2026-03-10 - Noon: JSON Prompt Transformation]
 ### Added
 - **JSON Prompt System**: Major architectural shift in `GeminiClient.kt`. Replaced prose-based prompts with structured JSON output using `JSONObject`.

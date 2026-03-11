@@ -1,46 +1,65 @@
 {
-  "updated_at": "2026-03-10T12:30:00+07:00",
+  "updated_at": "2026-03-11T19:30:00+07:00",
   "working_on": {
-    "feature": "JSON Prompt Optimization v2.0",
-    "status": "finished",
-    "files": ["GeminiClient.kt", "Level5DeepVerificationTest.kt"],
-    "notes": "Mapped phi_tinh_tu_hoa, dai_van_list, and stars into nested JSON objects/arrays. Added reasoning_rules and star_type classification. Verified with 11 tests."
+    "feature": "Prompt Optimization v3.0 Implementation",
+    "status": "completed",
+    "files": ["GeminiClient.kt", "Prompt3.txt", "Level5DeepVerificationTest.kt"],
+    "notes": "Implemented Top 5 priority fixes. Verified with 17/17 tests passing. Prompt tone and focus updated to monthly analysis."
   },
   "pending_tasks": [
     {
-      "task": "Test JSON v2.0 prompt with Gemini-1.5-Pro / Gemini-3-Flash for reasoning quality",
+      "task": "Develop UI for Monthly/Yearly toggle in detailed view",
+      "priority": "high",
+      "notes": "Align UI with the new monthly prompt focus."
+    },
+    {
+      "task": "Test JSON v3.0 prompt with Gemini-1.5-Pro for reasoning quality",
       "priority": "high"
     },
     {
-      "task": "Build final production APK after UI polish",
+      "task": "Refine Tật Ách logic to include more specific health associations in prompt",
       "priority": "medium"
+    },
+    {
+      "task": "Build final production APK",
+      "priority": "low"
     }
   ],
   "recent_changes": [
     {
-      "timestamp": "2026-03-10T12:30:00Z",
-      "type": "architecture",
-      "description": "JSON Prompt v2.0: Structured mapping for astrological data. Added automatic parsing for Dai Van (list), Phi Tinh (object), and Stars (type/state/flags).",
-      "files": ["GeminiClient.kt", "Level5DeepVerificationTest.kt"]
+      "timestamp": "2026-03-11T12:30:00Z",
+      "type": "feature",
+      "description": "Implemented Prompt Optimization v3.0: Child rule, axis mapping, special flags, and source tracking in GeminiClient.kt.",
+      "files": ["GeminiClient.kt", "Prompt3.txt"]
     },
     {
-      "timestamp": "2026-03-10T05:00:00Z",
-      "type": "refactor",
-      "description": "Initial JSON Prompt Refactoring: Switched from prose text to structured JSON configuration.",
+      "timestamp": "2026-03-11T12:15:00Z",
+      "type": "fix",
+      "description": "Resolved verification assertion error in expert fix #11 by syncing priority_rules wording with test expectations.",
+      "files": ["GeminiClient.kt"]
+    },
+    {
+      "timestamp": "2026-03-10T20:10:00Z",
+      "type": "planning",
+      "description": "Prompt Optimization v3.0 Planning: Roadmap for top 5 priority fixes.",
       "files": ["GeminiClient.kt"]
     }
   ],
   "errors_encountered": [
     {
-      "error": "Syntax error in GeminiClient.kt after multi_replace",
-      "solution": "Restored missing closing brace '}' for buildPalacesJsonArray method.",
+      "error": "AssertionError in Level5DeepVerificationTest.expertFix_PriorityRulesNoAmbiguousBrightness",
+      "solution": "Synchronized 'priority_rules' wording in GeminiClient.kt to match the exact string required by the test.",
       "resolved": true
     }
   ],
   "decisions_made": [
     {
-      "decision": "On-the-fly String Parsing in GeminiClient",
-      "reason": "Avoids modifying core TuViLogic while providing clean JSON structure to the AI."
+      "decision": "Shift AI tone to 'Điềm đạm' and focus to monthly analysis",
+      "reason": "Increases professional feel and provides more granular insights for users."
+    },
+    {
+      "decision": "Remove legacy trucCungStr",
+      "reason": "Redundant after implementing structured axis_mapping object."
     }
   ]
 }

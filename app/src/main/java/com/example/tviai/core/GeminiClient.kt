@@ -197,11 +197,12 @@ class GeminiClient(
         json.put("absolute_rules", buildAbsoluteRulesJson(data))
         json.put("priority_rules", JSONArray(listOf(
             "Chính tinh > Phụ tinh (chính tinh quyết định bản chất cung)",
-            "Miếu/Vượng > Đắc > Bình > Hãm (trạng thái quyết định lực — PHẢI dùng ký hiệu M/V/Đ/Bình/H có sẵn, KHÔNG tự đánh giá sáng/tối)",
+            "Miếu/Vượng > Đắc > Bình > Hãm (trạng thái quyết định lực — PHẢI dùng ký hiệu M/V/Đ/Bình/H có sẵn và [flags] có sẵn, KHÔNG tự đánh giá sáng/tối)",
             "Tứ hóa bản mệnh > Tứ hóa đại vận > Tứ hóa lưu niên",
             "Đồng cung > Tam hợp > Xung chiếu > Giáp cung",
             "Cách cục lớn > Tiểu cách (cách lớn chi phối toàn cục)"
         )))
+        json.put("axis_mapping", buildAxisMappingJson(cungList))
         json.put("analysis_pipeline", buildPipelineJson())
         json.put("analysis_methods", buildMethodsJson())
         json.put("palace_analysis_method", buildPalaceMethodJson())
@@ -896,11 +897,37 @@ class GeminiClient(
                 put("child_rule", JSONObject().apply {
                     put("condition", "Đương số dưới 13 tuổi hoặc chưa vào đại vận")
                     put("forbidden_topics", JSONArray(listOf("Tiền Bạc (Tài bạch)", "Sự Nghiệp (Quan lộc)", "Tình Duyên (Phu thê)")))
-                    put("focus_topics", JSONArray(listOf("Sức khỏe", "Tính cách bẩm sinh", "Khả năng tiếp thu/học tập", "Môi trường cha mẹ nuôi dưỡng")))
-                    put("tone", "Tư vấn cho Phụ huynh. VD: 'Bé có xu hướng...', 'Cha mẹ nên...'")
+                    put("focus_topics", JSONArray(listOf("Sức khỏe", "Tính cách bẩm sinh", "Khả năng tiếp thu/học tập", "Môi trường cha mẹ nuôi dưỡng (cung Phụ Mẫu)")) )
+                    put("tone", "Tư vấn cho Phụ huynh. Sử dụng ngôn ngữ định hướng. VD: 'Bé có xu hướng...', 'Cha mẹ nên lưu ý...'")
+                    put("_note", "AI PHẢI bỏ qua mọi logic về công danh, tiền bạc nếu child_rule được kích hoạt.")
                 })
             }
         }
+    }
+
+    private fun buildAxisMappingJson(cungList: List<CungInfo>): JSONObject {
+        val mapping = JSONObject()
+        val axes = listOf(
+            "Mệnh-Di" to Pair(0, 6),
+            "Phụ-Ách" to Pair(1, 7),
+            "Phúc-Diền" to Pair(2, 8),
+            "Điền-Phúc" to Pair(8, 2),
+            "Quan-Thê" to Pair(4, 10),
+            "Nô-Huynh" to Pair(5, 11),
+            "Tài-Phúc" to Pair(9, 3),
+            "Tử-Phụ" to Pair(10, 4)
+        )
+        axes.forEach { (name, pair) ->
+            val p1 = cungList.getOrNull(pair.first)
+            val p2 = cungList.getOrNull(pair.second)
+            if (p1 != null && p2 != null) {
+                mapping.put(name, JSONObject().apply {
+                    put("p1", "${p1.name} (${p1.chucNang})")
+                    put("p2", "${p2.name} (${p2.chucNang})")
+                })
+            }
+        }
+        return mapping
     }
 
     private fun buildPipelineJson(): JSONObject {
@@ -1120,24 +1147,8 @@ class GeminiClient(
         val nguHanhSaoObj = JSONObject()
         Constants.NGU_HANH_SAO.forEach { (sao, hanh) -> nguHanhSaoObj.put(sao, hanh) }
 
-        // Build truc cung
-        val menhCung = cungList.find { it.chucNang.contains("Mệnh") }
-        val trucCungStr = if (menhCung != null) {
-            val menhIdx = menhCung.index
-            val thienDiIdx = (menhIdx + 6) % 12
-            val taiIdx = cungList.find { it.chucNang.contains("Tài Bạch") }?.index ?: -1
-            val quanIdx = cungList.find { it.chucNang.contains("Quan Lộc") }?.index ?: -1
-            val phucIdx = cungList.find { it.chucNang.contains("Phúc Đức") }?.index ?: -1
-            val phuTheIdx = cungList.find { it.chucNang.contains("Phu Thê") }?.index ?: -1
-            val dienIdx = cungList.find { it.chucNang.contains("Điền Trạch") }?.index ?: -1
-            buildString {
-                append("Trục Mệnh–Thiên Di: ${Constants.DIA_CHI[menhIdx]}–${Constants.DIA_CHI[thienDiIdx]}")
-                if (taiIdx >= 0 && quanIdx >= 0) append(" | Tam hợp Mệnh–Tài–Quan: ${Constants.DIA_CHI[menhIdx]}–${Constants.DIA_CHI[taiIdx]}–${Constants.DIA_CHI[quanIdx]}")
-                if (phucIdx >= 0 && taiIdx >= 0 && quanIdx >= 0) append(" | Trục Phúc–Tài–Quan: ${Constants.DIA_CHI[phucIdx]}–${Constants.DIA_CHI[taiIdx]}–${Constants.DIA_CHI[quanIdx]}")
-                if (phuTheIdx >= 0 && taiIdx >= 0) append(" | Trục Phu Thê–Tài Bạch: ${Constants.DIA_CHI[phuTheIdx]}–${Constants.DIA_CHI[taiIdx]}")
-                if (dienIdx >= 0 && phucIdx >= 0) append(" | Trục Điền–Phúc: ${Constants.DIA_CHI[dienIdx]}–${Constants.DIA_CHI[phucIdx]}")
-            }
-        } else ""
+        // Axis Mapping in ChartData (NEW v3.0)
+        val axisMapping = buildAxisMappingJson(cungList)
 
         // Can Chi 12 cung
         val canChi12Obj = JSONObject()
@@ -1171,7 +1182,7 @@ class GeminiClient(
                 put("cuc_menh_relation", info.cucMenhRelation)
                 put("ngu_hanh_14_sao", nguHanhSaoObj)
                 put("nhom_sao", if (boSaoList.isEmpty()) JSONArray(listOf("Không phát hiện")) else JSONArray(boSaoList))
-                put("truc_cung", trucCungStr)
+                put("axis_mapping", axisMapping)
                 put("can_chi_12_cung", canChi12Obj)
                 put("tieu_han_cung", "${info.tieuHanCung} (năm ${info.viewingYear})")
                 put("dai_van_list", parseDaiVanToJson(info.daiVanFullList))
@@ -1180,8 +1191,10 @@ class GeminiClient(
             // Phi Tinh
             put("phi_tinh_tu_hoa", if (info.phiTinhTuHoa.isNotEmpty()) parsePhiTinhToJson(info.phiTinhTuHoa) else JSONObject().apply { put("status", "Không có dữ liệu phi tinh") })
 
-            // Tu Hoa Summary
-            put("tu_hoa_summary", buildTuHoaSummaryJson(cungList))
+            // Tu Hoa Summary (Marked as note for AI to cross-check palace data)
+            put("tu_hoa_summary", buildTuHoaSummaryJson(cungList).apply {
+                put("_note", "Đây là bản tóm tắt nhanh. Dữ liệu gốc nằm tại flags và transit_stars của từng cung trong 'palaces'.")
+            })
 
             // Tu Hoa 10 Can Table
             put("tu_hoa_10_can", JSONObject().apply {

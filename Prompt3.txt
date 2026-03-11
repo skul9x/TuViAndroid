@@ -1,7 +1,7 @@
 {
   "role": "AI chuyên luận Tử Vi Đẩu Số theo hệ thống tinh hệ cổ điển",
   "style": {
-    "tone": "Đời thường – dân dã – dễ hiểu. Xưng hô: 'Tôi', gọi người xem là 'Bạn'."
+    "tone": "Điềm đạm – phân tích mệnh lý – không văn hoa. Xưng hô: 'Tại hạ' hoặc 'Tôi', gọi người xem là 'Đương số'."
   },
   "methodology_sources": [
     "Thiên Lương",
@@ -37,30 +37,49 @@
         "Suy luận mạnh\/yếu, thuận\/nghịch, phá cách hay hỗ trợ dựa trên quy tắc ưu tiên"
       ],
       "fallback": "Nếu thiếu dữ liệu → ghi rõ: 'Không có trong dữ liệu được cung cấp'"
-    },
-    "child_rule": {
-      "condition": "Đương số dưới 13 tuổi hoặc chưa vào đại vận",
-      "forbidden_topics": [
-        "Tiền Bạc (Tài bạch)",
-        "Sự Nghiệp (Quan lộc)",
-        "Tình Duyên (Phu thê)"
-      ],
-      "focus_topics": [
-        "Sức khỏe",
-        "Tính cách bẩm sinh",
-        "Khả năng tiếp thu\/học tập",
-        "Môi trường cha mẹ nuôi dưỡng"
-      ],
-      "tone": "Tư vấn cho Phụ huynh. VD: 'Bé có xu hướng...', 'Cha mẹ nên...'"
     }
   },
   "priority_rules": [
     "Chính tinh > Phụ tinh (chính tinh quyết định bản chất cung)",
-    "Miếu\/Vượng > Đắc > Bình > Hãm (trạng thái quyết định lực — PHẢI dùng ký hiệu M\/V\/Đ\/Bình\/H có sẵn, KHÔNG tự đánh giá sáng\/tối)",
+    "Miếu\/Vượng > Đắc > Bình > Hãm (trạng thái quyết định lực — PHẢI dùng ký hiệu M\/V\/Đ\/Bình\/H có sẵn và [flags] có sẵn, KHÔNG tự đánh giá sáng\/tối)",
     "Tứ hóa bản mệnh > Tứ hóa đại vận > Tứ hóa lưu niên",
     "Đồng cung > Tam hợp > Xung chiếu > Giáp cung",
     "Cách cục lớn > Tiểu cách (cách lớn chi phối toàn cục)"
   ],
+  "axis_mapping": {
+    "Mệnh-Di": {
+      "p1": "Tý (Phúc Đức)",
+      "p2": "Ngọ (Tài Bạch)"
+    },
+    "Phụ-Ách": {
+      "p1": "Sửu (Điền Trạch)",
+      "p2": "Mùi (Tử Tức)"
+    },
+    "Phúc-Diền": {
+      "p1": "Dần (Quan Lộc)",
+      "p2": "Thân (Phu Thê [Thân cư])"
+    },
+    "Điền-Phúc": {
+      "p1": "Thân (Phu Thê [Thân cư])",
+      "p2": "Dần (Quan Lộc)"
+    },
+    "Quan-Thê": {
+      "p1": "Thìn (Thiên Di)",
+      "p2": "Tuất (Mệnh)"
+    },
+    "Nô-Huynh": {
+      "p1": "Tỵ (Tật Ách)",
+      "p2": "Hợi (Phụ Mẫu)"
+    },
+    "Tài-Phúc": {
+      "p1": "Dậu (Huynh Đệ)",
+      "p2": "Mão (Nô Bộc)"
+    },
+    "Tử-Phụ": {
+      "p1": "Tuất (Mệnh)",
+      "p2": "Thìn (Thiên Di)"
+    }
+  },
   "analysis_pipeline": {
     "step_1_summary": {
       "name": "Tóm tắt cấu trúc lá số",
@@ -291,7 +310,7 @@
       "C": "Cách cục lớn",
       "D": "Phân loại lá số",
       "E": "Kết luận tổng thể: sức mạnh, khả năng giàu có, quyền lực, hướng sự nghiệp",
-      "E1": "Vận năm 2026 (BẮT BUỘC – KHÔNG ĐƯỢC BỎ QUA)"
+      "E1": "Vận tháng 4 năm 2026 (BẮT BUỘC – KHÔNG ĐƯỢC BỎ QUA)"
     },
     "palace_format": {
       "structure": "[Cung] → (Căn cứ: sao, trạng thái, tam hợp, sát\/cát) → Logic tinh hệ → Biểu hiện thực tế",
@@ -385,20 +404,20 @@
   },
   "chart_data": {
     "person": {
-      "name": "Nguyễn Duy Minh Khôi",
+      "name": "Nguyễn Duy Trường ",
       "gender": "Nam",
-      "birth_solar": "27\/7\/2020 lúc 8h (Giờ Thìn)",
-      "birth_lunar": "7\/6\/2020 (Canh Tý)",
-      "cuc": "Thổ Ngũ Cục",
-      "menh_position": "Mão",
-      "than_position": "Hợi",
-      "dai_van": "Đại vận thứ 1 (5–14 tuổi), Can: Kỷ, Cung: Mão, Hướng: Thuận",
-      "viewing_period": "Năm 2026"
+      "birth_solar": "5\/3\/1992 lúc 10h (Giờ Tỵ)",
+      "birth_lunar": "2\/2\/1992 (Nhâm Thân)",
+      "cuc": "Kim Tứ Cục",
+      "menh_position": "Tuất",
+      "than_position": "Thân",
+      "dai_van": "Đại vận thứ 4 (34–43 tuổi), Can: Quý, Cung: Sửu, Hướng: Thuận",
+      "viewing_period": "Tháng 4 năm 2026"
     },
     "metadata": {
-      "menh_ngu_hanh": "Bích Thượng Thổ (Thổ)",
-      "am_duong": "Dương Nam\nÂm dương nghịch lý\nMệnh đóng tại cung Âm",
-      "cuc_menh_relation": "Mệnh (Thổ) đồng hành Cục (Thổ)",
+      "menh_ngu_hanh": "Kiếm Phong Kim (Kim)",
+      "am_duong": "Dương Nam\nÂm dương thuận lý\nMệnh đóng tại cung Dương",
+      "cuc_menh_relation": "Mệnh (Kim) đồng hành Cục (Kim)",
       "ngu_hanh_14_sao": {
         "Tử Vi": "Thổ",
         "Thiên Cơ": "Mộc",
@@ -416,184 +435,218 @@
         "Phá Quân": "Thủy"
       },
       "nhom_sao": [
-        "Tam hợp Sát Phá Tham (Tuất–Dần–Ngọ)",
-        "Tử Phủ Vũ Tướng hội chiếu (Tý–Thìn–Thân)",
-        "Nhật Nguyệt hội chiếu (Dậu–Tỵ)"
+        "Tam hợp Sát Phá Tham (Ngọ–Tuất–Dần)",
+        "Nhóm Tử Phủ Vũ Tướng (Tý–Thìn)",
+        "Nhật Nguyệt đồng cung (Sửu–Sửu)"
       ],
-      "truc_cung": "Trục Mệnh–Thiên Di: Mão–Dậu | Tam hợp Mệnh–Tài–Quan: Mão–Hợi–Mùi | Trục Phúc–Tài–Quan: Tỵ–Hợi–Mùi | Trục Phu Thê–Tài Bạch: Sửu–Hợi | Trục Điền–Phúc: Ngọ–Tỵ",
-      "can_chi_12_cung": {
-        "Tý": "Mậu Tý",
-        "Sửu": "Kỷ Sửu",
-        "Dần": "Mậu Dần",
-        "Mão": "Kỷ Mão",
-        "Thìn": "Canh Thìn",
-        "Tỵ": "Tân Tỵ",
-        "Ngọ": "Nhâm Ngọ",
-        "Mùi": "Quý Mùi",
-        "Thân": "Giáp Thân",
-        "Dậu": "Ất Dậu",
-        "Tuất": "Bính Tuất",
-        "Hợi": "Đinh Hợi"
+      "axis_mapping": {
+        "Mệnh-Di": {
+          "p1": "Tý (Phúc Đức)",
+          "p2": "Ngọ (Tài Bạch)"
+        },
+        "Phụ-Ách": {
+          "p1": "Sửu (Điền Trạch)",
+          "p2": "Mùi (Tử Tức)"
+        },
+        "Phúc-Diền": {
+          "p1": "Dần (Quan Lộc)",
+          "p2": "Thân (Phu Thê [Thân cư])"
+        },
+        "Điền-Phúc": {
+          "p1": "Thân (Phu Thê [Thân cư])",
+          "p2": "Dần (Quan Lộc)"
+        },
+        "Quan-Thê": {
+          "p1": "Thìn (Thiên Di)",
+          "p2": "Tuất (Mệnh)"
+        },
+        "Nô-Huynh": {
+          "p1": "Tỵ (Tật Ách)",
+          "p2": "Hợi (Phụ Mẫu)"
+        },
+        "Tài-Phúc": {
+          "p1": "Dậu (Huynh Đệ)",
+          "p2": "Mão (Nô Bộc)"
+        },
+        "Tử-Phụ": {
+          "p1": "Tuất (Mệnh)",
+          "p2": "Thìn (Thiên Di)"
+        }
       },
-      "tieu_han_cung": "Thìn (năm 2026)",
+      "can_chi_12_cung": {
+        "Tý": "Nhâm Tý",
+        "Sửu": "Quý Sửu",
+        "Dần": "Nhâm Dần",
+        "Mão": "Quý Mão",
+        "Thìn": "Giáp Thìn",
+        "Tỵ": "Ất Tỵ",
+        "Ngọ": "Bính Ngọ",
+        "Mùi": "Đinh Mùi",
+        "Thân": "Mậu Thân",
+        "Dậu": "Kỷ Dậu",
+        "Tuất": "Canh Tuất",
+        "Hợi": "Tân Hợi"
+      },
+      "tieu_han_cung": "Thân (năm 2026)",
       "dai_van_list": [
         {
-          "age": "5–14",
-          "can": "Kỷ",
-          "cung": "Mão"
-        },
-        {
-          "age": "15–24",
+          "age": "4–13",
           "can": "Canh",
-          "cung": "Thìn"
-        },
-        {
-          "age": "25–34",
-          "can": "Tân",
-          "cung": "Tỵ"
-        },
-        {
-          "age": "35–44",
-          "can": "Nhâm",
-          "cung": "Ngọ"
-        },
-        {
-          "age": "45–54",
-          "can": "Quý",
-          "cung": "Mùi"
-        },
-        {
-          "age": "55–64",
-          "can": "Giáp",
-          "cung": "Thân"
-        },
-        {
-          "age": "65–74",
-          "can": "Ất",
-          "cung": "Dậu"
-        },
-        {
-          "age": "75–84",
-          "can": "Bính",
           "cung": "Tuất"
         },
         {
-          "age": "85–94",
-          "can": "Đinh",
+          "age": "14–23",
+          "can": "Tân",
           "cung": "Hợi"
         },
         {
-          "age": "95–104",
-          "can": "Mậu",
+          "age": "24–33",
+          "can": "Nhâm",
           "cung": "Tý"
+        },
+        {
+          "age": "34–43",
+          "can": "Quý",
+          "cung": "Sửu"
+        },
+        {
+          "age": "44–53",
+          "can": "Nhâm",
+          "cung": "Dần"
+        },
+        {
+          "age": "54–63",
+          "can": "Quý",
+          "cung": "Mão"
+        },
+        {
+          "age": "64–73",
+          "can": "Giáp",
+          "cung": "Thìn"
+        },
+        {
+          "age": "74–83",
+          "can": "Ất",
+          "cung": "Tỵ"
+        },
+        {
+          "age": "84–93",
+          "can": "Bính",
+          "cung": "Ngọ"
+        },
+        {
+          "age": "94–103",
+          "can": "Đinh",
+          "cung": "Mùi"
         }
       ]
     },
     "phi_tinh_tu_hoa": {
       "Tý": {
-        "can": "Mậu",
-        "lộc": "Ngọ",
-        "quyền": "Tỵ",
+        "can": "Nhâm",
+        "lộc": "Tỵ",
+        "quyền": "Thìn",
         "khoa": "Tỵ",
-        "kỵ": "Hợi"
+        "kỵ": "Tý"
       },
       "Sửu": {
-        "can": "Kỷ",
-        "lộc": "Thân",
-        "quyền": "Ngọ",
-        "khoa": "Dậu",
-        "kỵ": "Thân"
+        "can": "Quý",
+        "lộc": "Tuất",
+        "quyền": "Mão",
+        "khoa": "Sửu",
+        "kỵ": "Dần"
       },
       "Dần": {
-        "can": "Mậu",
-        "lộc": "Ngọ",
-        "quyền": "Tỵ",
+        "can": "Nhâm",
+        "lộc": "Tỵ",
+        "quyền": "Thìn",
         "khoa": "Tỵ",
-        "kỵ": "Hợi"
+        "kỵ": "Tý"
       },
       "Mão": {
-        "can": "Kỷ",
-        "lộc": "Thân",
-        "quyền": "Ngọ",
-        "khoa": "Dậu",
-        "kỵ": "Thân"
+        "can": "Quý",
+        "lộc": "Tuất",
+        "quyền": "Mão",
+        "khoa": "Sửu",
+        "kỵ": "Dần"
       },
       "Thìn": {
-        "can": "Canh",
-        "lộc": "Dậu",
-        "quyền": "Thân",
-        "khoa": "Tỵ",
-        "kỵ": "Mùi"
+        "can": "Giáp",
+        "lộc": "Thân",
+        "quyền": "Tuất",
+        "khoa": "Tý",
+        "kỵ": "Sửu"
       },
       "Tỵ": {
-        "can": "Tân",
-        "lộc": "Mùi",
-        "quyền": "Dậu",
-        "khoa": "Thân",
-        "kỵ": "Ngọ"
+        "can": "Ất",
+        "lộc": "Mão",
+        "quyền": "Tỵ",
+        "khoa": "Thìn",
+        "kỵ": "Sửu"
       },
       "Ngọ": {
-        "can": "Nhâm",
-        "lộc": "Dậu",
-        "quyền": "Tý",
-        "khoa": "Dậu",
+        "can": "Bính",
+        "lộc": "Hợi",
+        "quyền": "Mão",
+        "khoa": "Tỵ",
         "kỵ": "Thân"
       },
       "Mùi": {
-        "can": "Quý",
-        "lộc": "Dần",
-        "quyền": "Mùi",
-        "khoa": "Tỵ",
-        "kỵ": "Ngọ"
+        "can": "Đinh",
+        "lộc": "Sửu",
+        "quyền": "Hợi",
+        "khoa": "Mão",
+        "kỵ": "Mão"
       },
       "Thân": {
-        "can": "Giáp",
-        "lộc": "Thìn",
-        "quyền": "Dần",
-        "khoa": "Thân",
-        "kỵ": "Dậu"
+        "can": "Mậu",
+        "lộc": "Dần",
+        "quyền": "Sửu",
+        "khoa": "Dậu",
+        "kỵ": "Mão"
       },
       "Dậu": {
-        "can": "Ất",
-        "lộc": "Hợi",
-        "quyền": "Dậu",
-        "khoa": "Tý",
-        "kỵ": "Tỵ"
+        "can": "Kỷ",
+        "lộc": "Tý",
+        "quyền": "Dần",
+        "khoa": "Tỵ",
+        "kỵ": "Dậu"
       },
       "Tuất": {
-        "can": "Bính",
-        "lộc": "Mùi",
-        "quyền": "Hợi",
-        "khoa": "Ngọ",
-        "kỵ": "Thìn"
+        "can": "Canh",
+        "lộc": "Sửu",
+        "quyền": "Tý",
+        "khoa": "Sửu",
+        "kỵ": "Hợi"
       },
       "Hợi": {
-        "can": "Đinh",
-        "lộc": "Tỵ",
-        "quyền": "Mùi",
-        "khoa": "Hợi",
-        "kỵ": "Mùi"
+        "can": "Tân",
+        "lộc": "Mão",
+        "quyền": "Sửu",
+        "khoa": "Dậu",
+        "kỵ": "Tỵ"
       }
     },
     "tu_hoa_summary": {
       "ban_menh": {
-        "(Hóa Lộc)": "Cung Dậu (Thiên Di)",
-        "(Hóa Quyền)": "Cung Thân (Nô Bộc)",
-        "(Hóa Khoa)": "Cung Tỵ (Phúc Đức)",
-        "(Hóa Kỵ)": "Cung Mùi (Quan Lộc)"
+        "(Hóa Lộc)": "Cung Tỵ (Tật Ách)",
+        "(Hóa Quyền)": "Cung Thìn (Thiên Di)",
+        "(Hóa Khoa)": "Cung Tỵ (Tật Ách)",
+        "(Hóa Kỵ)": "Cung Tý (Phúc Đức)"
       },
       "dai_van": {
-        "(ĐV. Hóa Lộc)": "Cung Thân (Nô Bộc)",
-        "(ĐV. Hóa Quyền)": "Cung Ngọ (Điền Trạch)",
-        "(ĐV. Hóa Khoa)": "Cung Dậu (Thiên Di)",
-        "(ĐV. Hóa Kỵ)": "Cung Thân (Nô Bộc)"
+        "(ĐV. Hóa Lộc)": "Cung Tuất (Mệnh)",
+        "(ĐV. Hóa Quyền)": "Cung Mão (Nô Bộc)",
+        "(ĐV. Hóa Khoa)": "Cung Sửu (Điền Trạch)",
+        "(ĐV. Hóa Kỵ)": "Cung Dần (Quan Lộc)"
       },
       "luu_nien": {
-        "(L.Hóa Lộc)": "Cung Mùi (Quan Lộc)",
-        "(L.Hóa Quyền)": "Cung Hợi (Tài Bạch [Thân cư])",
-        "(L.Hóa Khoa)": "Cung Ngọ (Điền Trạch)",
-        "(L.Hóa Kỵ)": "Cung Thìn (Phụ Mẫu)"
-      }
+        "(L.Hóa Lộc)": "Cung Hợi (Phụ Mẫu)",
+        "(L.Hóa Quyền)": "Cung Mão (Nô Bộc)",
+        "(L.Hóa Khoa)": "Cung Tỵ (Tật Ách)",
+        "(L.Hóa Kỵ)": "Cung Thân (Phu Thê [Thân cư])"
+      },
+      "_note": "Đây là bản tóm tắt nhanh. Dữ liệu gốc nằm tại flags và transit_stars của từng cung trong 'palaces'."
     },
     "tu_hoa_10_can": {
       "_warning": "CHỈ dùng GIẢI THÍCH cơ chế phi tinh. KHÔNG dùng để tự tính thêm tứ hóa",
@@ -662,33 +715,51 @@
       {
         "name": "Tý",
         "element": "Thủy",
-        "function": "Tử Tức",
+        "function": "Phúc Đức",
         "fixed_stars": [
           {
-            "state": "Bình",
-            "name": "Tử Vi",
+            "state": "V",
+            "name": "Vũ Khúc",
             "type": "main_star"
           },
           {
-            "name": "Thái Tuế",
+            "state": "M",
+            "name": "Thiên Phủ",
+            "type": "main_star"
+          },
+          {
+            "name": "Quan Phù",
             "type": "sub_star"
           },
           {
-            "name": "Tướng Quân",
+            "state": "H",
+            "name": "Kình Dương",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Lực Sỹ",
             "type": "sub_star"
           },
           {
-            "name": "Đế Vượng",
+            "name": "Tử",
             "type": "sub_star"
           },
           {
-            "name": "Địa Giải",
+            "name": "Hóa Kỵ",
+            "type": "tu_hoa"
+          },
+          {
+            "name": "Long Trì",
             "type": "cat_tinh"
+          },
+          {
+            "name": "Đẩu Quân",
+            "type": "sub_star"
           }
         ],
         "transit_stars": [
           {
-            "name": "ĐV. Thiên Khôi",
+            "name": "ĐV. Lộc Tồn",
             "type": "cat_tinh"
           },
           {
@@ -706,130 +777,36 @@
       {
         "name": "Sửu",
         "element": "Thổ",
-        "function": "Phu Thê",
-        "flags": [
-          "Vô chính diệu"
-        ],
+        "function": "Điền Trạch",
         "fixed_stars": [
           {
-            "name": "Thiếu Dương",
-            "type": "sub_star"
-          },
-          {
-            "name": "Tấu Thư",
-            "type": "sub_star"
-          },
-          {
-            "name": "Suy",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Không",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Giải",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Đường Phù",
-            "type": "cat_tinh"
-          }
-        ]
-      },
-      {
-        "name": "Dần",
-        "element": "Mộc",
-        "function": "Huynh Đệ",
-        "fixed_stars": [
-          {
-            "state": "H",
-            "name": "Phá Quân",
+            "state": "Đ",
+            "name": "Thái Dương",
             "type": "main_star"
           },
           {
             "state": "Đ",
-            "name": "Tang Môn",
+            "name": "Thái Âm",
+            "type": "main_star"
+          },
+          {
+            "name": "Tử Phù",
             "type": "sub_star"
           },
           {
-            "name": "Phi Liêm",
+            "name": "Thanh Long",
             "type": "sub_star"
           },
           {
-            "name": "Bệnh",
+            "name": "Mộ",
             "type": "sub_star"
           },
           {
-            "name": "Thiên Việt",
+            "name": "Thiên Hỷ",
             "type": "cat_tinh"
           },
           {
-            "state": "V",
-            "name": "Thiên Mã",
-            "type": "cat_tinh"
-          },
-          {
-            "state": "M",
-            "name": "Thiên Hình",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "Cô Thần",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Trù",
-            "type": "sub_star"
-          }
-        ],
-        "transit_stars": [
-          {
-            "state": "Đ",
-            "name": "L.Bạch Hổ",
-            "type": "sub_star"
-          }
-        ]
-      },
-      {
-        "name": "Mão",
-        "element": "Mộc",
-        "function": "Mệnh",
-        "flags": [
-          "Vô chính diệu"
-        ],
-        "fixed_stars": [
-          {
-            "name": "Thiếu Âm",
-            "type": "sub_star"
-          },
-          {
-            "name": "Hỷ Thần",
-            "type": "sub_star"
-          },
-          {
-            "name": "Tử",
-            "type": "sub_star"
-          },
-          {
-            "state": "H",
-            "name": "Địa Kiếp",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "Hồng Loan",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Thiên Quý",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Thiên Tài",
-            "type": "sub_star"
-          },
-          {
-            "name": "Tam Thai",
+            "name": "Nguyệt Đức",
             "type": "cat_tinh"
           },
           {
@@ -842,6 +819,155 @@
         ],
         "transit_stars": [
           {
+            "name": "ĐV. Kình Dương",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "ĐV. Hóa Khoa",
+            "type": "tu_hoa"
+          }
+        ]
+      },
+      {
+        "name": "Dần",
+        "element": "Mộc",
+        "function": "Quan Lộc",
+        "flags": [
+          "Gặp Triệt"
+        ],
+        "fixed_stars": [
+          {
+            "state": "Đ",
+            "name": "Tham Lang",
+            "type": "main_star",
+            "flags": [
+              "BỊ TRIỆT LỘ"
+            ]
+          },
+          {
+            "name": "Tuế Phá",
+            "type": "sub_star"
+          },
+          {
+            "state": "Đ",
+            "name": "Tiểu Hao",
+            "type": "sub_star"
+          },
+          {
+            "name": "Tuyệt",
+            "type": "sub_star"
+          },
+          {
+            "state": "V",
+            "name": "Thiên Mã",
+            "type": "cat_tinh"
+          },
+          {
+            "state": "H",
+            "name": "Thiên Hư",
+            "type": "sub_star"
+          },
+          {
+            "name": "Triệt",
+            "type": "sub_star"
+          },
+          {
+            "name": "Phượng Các",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Giải Thần",
+            "type": "cat_tinh"
+          },
+          {
+            "state": "Bình",
+            "name": "Thiên Riêu",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thiên Y",
+            "type": "sub_star"
+          },
+          {
+            "name": "Văn Tinh",
+            "type": "sub_star"
+          }
+        ],
+        "transit_stars": [
+          {
+            "name": "ĐV. Hóa Kỵ",
+            "type": "tu_hoa"
+          },
+          {
+            "state": "Đ",
+            "name": "L.Bạch Hổ",
+            "type": "sub_star"
+          }
+        ]
+      },
+      {
+        "name": "Mão",
+        "element": "Mộc",
+        "function": "Nô Bộc",
+        "flags": [
+          "Gặp Triệt"
+        ],
+        "fixed_stars": [
+          {
+            "state": "M",
+            "name": "Thiên Cơ",
+            "type": "main_star",
+            "flags": [
+              "BỊ TRIỆT LỘ"
+            ]
+          },
+          {
+            "state": "M",
+            "name": "Cự Môn",
+            "type": "main_star",
+            "flags": [
+              "BỊ TRIỆT LỘ"
+            ]
+          },
+          {
+            "name": "Long Đức",
+            "type": "sub_star"
+          },
+          {
+            "name": "Tướng Quân",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thai",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thiên Khôi",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Triệt",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thiên Thương",
+            "type": "sub_star"
+          }
+        ],
+        "transit_stars": [
+          {
+            "name": "ĐV. Thiên Khôi",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "ĐV. Văn Xương",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "ĐV. Hóa Quyền",
+            "type": "tu_hoa"
+          },
+          {
             "name": "L.Đào Hoa",
             "type": "cat_tinh"
           },
@@ -852,60 +978,61 @@
           {
             "name": "L.Thiên Đức",
             "type": "cat_tinh"
+          },
+          {
+            "name": "L.Hóa Quyền",
+            "type": "tu_hoa"
           }
         ]
       },
       {
         "name": "Thìn",
         "element": "Thổ",
-        "function": "Phụ Mẫu",
-        "flags": [
-          "Gặp Tuần"
-        ],
+        "function": "Thiên Di",
         "fixed_stars": [
           {
             "state": "V",
-            "name": "Liêm Trinh",
-            "type": "main_star",
-            "flags": [
-              "BỊ TUẦN KHÔNG"
-            ]
+            "name": "Tử Vi",
+            "type": "main_star"
           },
           {
-            "state": "M",
-            "name": "Thiên Phủ",
-            "type": "main_star",
-            "flags": [
-              "BỊ TUẦN KHÔNG"
-            ]
+            "state": "V",
+            "name": "Thiên Tướng",
+            "type": "main_star"
           },
           {
-            "name": "Quan Phù",
+            "state": "H",
+            "name": "Bạch Hổ",
             "type": "sub_star"
           },
           {
-            "name": "Bệnh Phù",
+            "name": "Tấu Thư",
             "type": "sub_star"
           },
           {
-            "name": "Mộ",
+            "name": "Dưỡng",
             "type": "sub_star"
           },
           {
-            "name": "Tuần",
-            "type": "sub_star"
+            "state": "H",
+            "name": "Địa Kiếp",
+            "type": "sat_tinh"
           },
           {
-            "name": "Long Trì",
-            "type": "cat_tinh"
+            "name": "Hóa Quyền",
+            "type": "tu_hoa"
           },
           {
             "name": "Hoa Cái",
             "type": "sub_star"
           },
           {
-            "name": "Quốc Ấn",
+            "name": "Đường Phù",
             "type": "cat_tinh"
+          },
+          {
+            "name": "Thiên Thọ",
+            "type": "sub_star"
           },
           {
             "name": "Thiên La",
@@ -917,6 +1044,242 @@
             "state": "Đ",
             "name": "L.Đà La",
             "type": "sat_tinh"
+          }
+        ]
+      },
+      {
+        "name": "Tỵ",
+        "element": "Hỏa",
+        "function": "Tật Ách",
+        "fixed_stars": [
+          {
+            "state": "H",
+            "name": "Thiên Lương",
+            "type": "main_star"
+          },
+          {
+            "name": "Phúc Đức",
+            "type": "sub_star"
+          },
+          {
+            "name": "Phi Liêm",
+            "type": "sub_star"
+          },
+          {
+            "name": "Tràng Sinh",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thiên Việt",
+            "type": "cat_tinh"
+          },
+          {
+            "state": "Bình",
+            "name": "Tả Phù",
+            "type": "cat_tinh"
+          },
+          {
+            "state": "M",
+            "name": "Văn Xương",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Hóa Lộc",
+            "type": "tu_hoa"
+          },
+          {
+            "name": "Hóa Khoa",
+            "type": "tu_hoa"
+          },
+          {
+            "state": "Đ",
+            "name": "Linh Tinh",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Kiếp Sát",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Ân Quang",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Thiên Sứ",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thiên Đức",
+            "type": "cat_tinh"
+          }
+        ],
+        "transit_stars": [
+          {
+            "name": "ĐV. Thiên Việt",
+            "type": "cat_tinh"
+          },
+          {
+            "state": "V",
+            "name": "L.Lộc Tồn",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "L.Phúc Đức",
+            "type": "sub_star"
+          },
+          {
+            "name": "L.Hóa Khoa",
+            "type": "tu_hoa"
+          }
+        ]
+      },
+      {
+        "name": "Ngọ",
+        "element": "Hỏa",
+        "function": "Tài Bạch",
+        "fixed_stars": [
+          {
+            "state": "M",
+            "name": "Thất Sát",
+            "type": "main_star"
+          },
+          {
+            "name": "Điếu Khách",
+            "type": "sub_star"
+          },
+          {
+            "name": "Hỷ Thần",
+            "type": "sub_star"
+          },
+          {
+            "name": "Mộc Dục",
+            "type": "sub_star"
+          },
+          {
+            "state": "H",
+            "name": "Địa Không",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Thiên Phúc",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Thiên Tài",
+            "type": "sub_star"
+          },
+          {
+            "name": "Tam Thai",
+            "type": "cat_tinh"
+          }
+        ],
+        "transit_stars": [
+          {
+            "name": "L.Thái Tuế",
+            "type": "sub_star"
+          },
+          {
+            "state": "H",
+            "name": "L.Kình Dương",
+            "type": "sat_tinh"
+          },
+          {
+            "state": "H",
+            "name": "L.Văn Khúc",
+            "type": "cat_tinh"
+          }
+        ]
+      },
+      {
+        "name": "Mùi",
+        "element": "Thổ",
+        "function": "Tử Tức",
+        "flags": [
+          "Vô chính diệu"
+        ],
+        "fixed_stars": [
+          {
+            "name": "Trực Phù",
+            "type": "sub_star"
+          },
+          {
+            "name": "Bệnh Phù",
+            "type": "sub_star"
+          },
+          {
+            "name": "Quan Đới",
+            "type": "sub_star"
+          },
+          {
+            "state": "H",
+            "name": "Hỏa Tinh",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Hồng Loan",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Quả Tú",
+            "type": "sub_star"
+          },
+          {
+            "name": "Quốc Ấn",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Phong Cáo",
+            "type": "cat_tinh"
+          }
+        ]
+      },
+      {
+        "name": "Thân",
+        "element": "Kim",
+        "function": "Phu Thê [Thân cư]",
+        "fixed_stars": [
+          {
+            "state": "V",
+            "name": "Liêm Trinh",
+            "type": "main_star"
+          },
+          {
+            "name": "Thái Tuế",
+            "type": "sub_star"
+          },
+          {
+            "state": "Đ",
+            "name": "Đại Hao",
+            "type": "sub_star"
+          },
+          {
+            "name": "Lâm Quan",
+            "type": "sub_star"
+          },
+          {
+            "name": "Địa Giải",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Bát Tọa",
+            "type": "cat_tinh"
+          }
+        ],
+        "transit_stars": [
+          {
+            "state": "Đ",
+            "name": "L.Tang Môn",
+            "type": "sub_star"
+          },
+          {
+            "state": "Đ",
+            "name": "L.Thiên Mã",
+            "type": "cat_tinh"
+          },
+          {
+            "state": "Đ",
+            "name": "L.Văn Xương",
+            "type": "cat_tinh"
           },
           {
             "name": "L.Hóa Kỵ",
@@ -925,32 +1288,23 @@
         ]
       },
       {
-        "name": "Tỵ",
-        "element": "Hỏa",
-        "function": "Phúc Đức",
+        "name": "Dậu",
+        "element": "Kim",
+        "function": "Huynh Đệ",
         "flags": [
-          "Gặp Tuần"
+          "Vô chính diệu"
         ],
         "fixed_stars": [
           {
-            "state": "H",
-            "name": "Thái Âm",
-            "type": "main_star",
-            "flags": [
-              "BỊ TUẦN KHÔNG"
-            ]
-          },
-          {
-            "name": "Tử Phù",
+            "name": "Thiếu Dương",
             "type": "sub_star"
           },
           {
-            "state": "H",
-            "name": "Đại Hao",
+            "name": "Phục Binh",
             "type": "sub_star"
           },
           {
-            "name": "Tuyệt",
+            "name": "Đế Vượng",
             "type": "sub_star"
           },
           {
@@ -959,24 +1313,158 @@
             "type": "cat_tinh"
           },
           {
-            "name": "Tuần",
+            "state": "M",
+            "name": "Văn Khúc",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Đào Hoa",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Thiên Không",
             "type": "sub_star"
           },
           {
-            "name": "Hóa Khoa",
-            "type": "tu_hoa"
+            "name": "Thiên Giải",
+            "type": "cat_tinh"
           },
           {
-            "name": "Kiếp Sát",
-            "type": "sat_tinh"
+            "name": "Thiên Trù",
+            "type": "sub_star"
           },
           {
-            "name": "Nguyệt Đức",
+            "name": "Thiên Quý",
             "type": "cat_tinh"
           },
           {
             "name": "Phá Toái",
             "type": "sub_star"
+          }
+        ],
+        "transit_stars": [
+          {
+            "name": "L.Hồng Loan",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "L.Thiên Việt",
+            "type": "cat_tinh"
+          }
+        ]
+      },
+      {
+        "name": "Tuất",
+        "element": "Thổ",
+        "function": "Mệnh",
+        "flags": [
+          "Gặp Tuần"
+        ],
+        "fixed_stars": [
+          {
+            "state": "Đ",
+            "name": "Phá Quân",
+            "type": "main_star",
+            "flags": [
+              "BỊ TUẦN KHÔNG"
+            ]
+          },
+          {
+            "state": "H",
+            "name": "Tang Môn",
+            "type": "sub_star"
+          },
+          {
+            "state": "Đ",
+            "name": "Đà La",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Quan Phủ",
+            "type": "sub_star"
+          },
+          {
+            "name": "Suy",
+            "type": "sub_star"
+          },
+          {
+            "state": "H",
+            "name": "Thiên Khốc",
+            "type": "sub_star"
+          },
+          {
+            "name": "Tuần",
+            "type": "sub_star"
+          },
+          {
+            "state": "M",
+            "name": "Thiên Hình",
+            "type": "sat_tinh"
+          },
+          {
+            "name": "Thiên Quan",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Địa Võng",
+            "type": "sub_star"
+          }
+        ],
+        "transit_stars": [
+          {
+            "name": "ĐV. Hóa Lộc",
+            "type": "tu_hoa"
+          }
+        ]
+      },
+      {
+        "name": "Hợi",
+        "element": "Thủy",
+        "function": "Phụ Mẫu",
+        "flags": [
+          "Gặp Tuần"
+        ],
+        "fixed_stars": [
+          {
+            "state": "Đ",
+            "name": "Thiên Đồng",
+            "type": "main_star",
+            "flags": [
+              "BỊ TUẦN KHÔNG"
+            ]
+          },
+          {
+            "name": "Thiếu Âm",
+            "type": "sub_star"
+          },
+          {
+            "state": "V",
+            "name": "Lộc Tồn",
+            "type": "cat_tinh"
+          },
+          {
+            "name": "Bác Sỹ",
+            "type": "sub_star"
+          },
+          {
+            "name": "Bệnh",
+            "type": "sub_star"
+          },
+          {
+            "name": "Tuần",
+            "type": "sub_star"
+          },
+          {
+            "name": "Cô Thần",
+            "type": "sub_star"
+          },
+          {
+            "name": "Lưu Hà",
+            "type": "sub_star"
+          },
+          {
+            "name": "Thai Phụ",
+            "type": "cat_tinh"
           }
         ],
         "transit_stars": [
@@ -993,442 +1481,6 @@
             "type": "cat_tinh"
           },
           {
-            "state": "V",
-            "name": "L.Lộc Tồn",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "L.Phúc Đức",
-            "type": "sub_star"
-          }
-        ]
-      },
-      {
-        "name": "Ngọ",
-        "element": "Hỏa",
-        "function": "Điền Trạch",
-        "flags": [
-          "Gặp Triệt"
-        ],
-        "fixed_stars": [
-          {
-            "state": "H",
-            "name": "Tham Lang",
-            "type": "main_star",
-            "flags": [
-              "BỊ TRIỆT LỘ"
-            ]
-          },
-          {
-            "name": "Tuế Phá",
-            "type": "sub_star"
-          },
-          {
-            "name": "Phục Binh",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thai",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Khôi",
-            "type": "cat_tinh"
-          },
-          {
-            "state": "H",
-            "name": "Văn Xương",
-            "type": "cat_tinh"
-          },
-          {
-            "state": "Đ",
-            "name": "Thiên Khốc",
-            "type": "sub_star"
-          },
-          {
-            "state": "Đ",
-            "name": "Thiên Hư",
-            "type": "sub_star"
-          },
-          {
-            "name": "Triệt",
-            "type": "sub_star"
-          },
-          {
-            "state": "M",
-            "name": "Hỏa Tinh",
-            "type": "sat_tinh"
-          },
-          {
-            "state": "M",
-            "name": "Linh Tinh",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "Thiên Phúc",
-            "type": "cat_tinh"
-          },
-          {
-            "state": "Bình",
-            "name": "Thiên Riêu",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Y",
-            "type": "sub_star"
-          },
-          {
-            "name": "Phong Cáo",
-            "type": "cat_tinh"
-          }
-        ],
-        "transit_stars": [
-          {
-            "name": "ĐV. Lộc Tồn",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "ĐV. Hóa Quyền",
-            "type": "tu_hoa"
-          },
-          {
-            "name": "L.Thái Tuế",
-            "type": "sub_star"
-          },
-          {
-            "state": "H",
-            "name": "L.Kình Dương",
-            "type": "sat_tinh"
-          },
-          {
-            "state": "H",
-            "name": "L.Văn Khúc",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "L.Hóa Khoa",
-            "type": "tu_hoa"
-          }
-        ]
-      },
-      {
-        "name": "Mùi",
-        "element": "Thổ",
-        "function": "Quan Lộc",
-        "flags": [
-          "Gặp Triệt"
-        ],
-        "fixed_stars": [
-          {
-            "state": "H",
-            "name": "Thiên Đồng",
-            "type": "main_star",
-            "flags": [
-              "BỊ TRIỆT LỘ"
-            ]
-          },
-          {
-            "state": "H",
-            "name": "Cự Môn",
-            "type": "main_star",
-            "flags": [
-              "BỊ TRIỆT LỘ"
-            ]
-          },
-          {
-            "name": "Long Đức",
-            "type": "sub_star"
-          },
-          {
-            "state": "Đ",
-            "name": "Đà La",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "Quan Phủ",
-            "type": "sub_star"
-          },
-          {
-            "name": "Dưỡng",
-            "type": "sub_star"
-          },
-          {
-            "state": "H",
-            "name": "Địa Không",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "Triệt",
-            "type": "sub_star"
-          },
-          {
-            "name": "Hóa Kỵ",
-            "type": "tu_hoa"
-          }
-        ],
-        "transit_stars": [
-          {
-            "name": "ĐV. Kình Dương",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "L.Hóa Lộc",
-            "type": "tu_hoa"
-          }
-        ]
-      },
-      {
-        "name": "Thân",
-        "element": "Kim",
-        "function": "Nô Bộc",
-        "fixed_stars": [
-          {
-            "state": "V",
-            "name": "Vũ Khúc",
-            "type": "main_star"
-          },
-          {
-            "state": "M",
-            "name": "Thiên Tướng",
-            "type": "main_star"
-          },
-          {
-            "state": "Đ",
-            "name": "Bạch Hổ",
-            "type": "sub_star"
-          },
-          {
-            "state": "V",
-            "name": "Lộc Tồn",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Bác Sỹ",
-            "type": "sub_star"
-          },
-          {
-            "name": "Tràng Sinh",
-            "type": "sub_star"
-          },
-          {
-            "state": "Đ",
-            "name": "Văn Khúc",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Hóa Quyền",
-            "type": "tu_hoa"
-          },
-          {
-            "name": "Lưu Hà",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Thương",
-            "type": "sub_star"
-          }
-        ],
-        "transit_stars": [
-          {
-            "name": "ĐV. Thiên Việt",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "ĐV. Hóa Lộc",
-            "type": "tu_hoa"
-          },
-          {
-            "name": "ĐV. Hóa Kỵ",
-            "type": "tu_hoa"
-          },
-          {
-            "state": "Đ",
-            "name": "L.Tang Môn",
-            "type": "sub_star"
-          },
-          {
-            "state": "Đ",
-            "name": "L.Thiên Mã",
-            "type": "cat_tinh"
-          },
-          {
-            "state": "Đ",
-            "name": "L.Văn Xương",
-            "type": "cat_tinh"
-          }
-        ]
-      },
-      {
-        "name": "Dậu",
-        "element": "Kim",
-        "function": "Thiên Di",
-        "fixed_stars": [
-          {
-            "state": "H",
-            "name": "Thái Dương",
-            "type": "main_star"
-          },
-          {
-            "state": "H",
-            "name": "Thiên Lương",
-            "type": "main_star"
-          },
-          {
-            "name": "Phúc Đức",
-            "type": "sub_star"
-          },
-          {
-            "state": "H",
-            "name": "Kình Dương",
-            "type": "sat_tinh"
-          },
-          {
-            "name": "Lực Sỹ",
-            "type": "sub_star"
-          },
-          {
-            "name": "Mộc Dục",
-            "type": "sub_star"
-          },
-          {
-            "state": "Bình",
-            "name": "Tả Phù",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Hóa Lộc",
-            "type": "tu_hoa"
-          },
-          {
-            "name": "Đào Hoa",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Thiên Hỷ",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Thiên Đức",
-            "type": "cat_tinh"
-          }
-        ],
-        "transit_stars": [
-          {
-            "name": "ĐV. Văn Xương",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "ĐV. Hóa Khoa",
-            "type": "tu_hoa"
-          },
-          {
-            "name": "L.Hồng Loan",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "L.Thiên Việt",
-            "type": "cat_tinh"
-          }
-        ]
-      },
-      {
-        "name": "Tuất",
-        "element": "Thổ",
-        "function": "Tật Ách",
-        "fixed_stars": [
-          {
-            "state": "H",
-            "name": "Thất Sát",
-            "type": "main_star"
-          },
-          {
-            "name": "Điếu Khách",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thanh Long",
-            "type": "sub_star"
-          },
-          {
-            "name": "Quan Đới",
-            "type": "sub_star"
-          },
-          {
-            "name": "Quả Tú",
-            "type": "sub_star"
-          },
-          {
-            "name": "Phượng Các",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Giải Thần",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Thiên Sứ",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thai Phụ",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Địa Võng",
-            "type": "sub_star"
-          }
-        ]
-      },
-      {
-        "name": "Hợi",
-        "element": "Thủy",
-        "function": "Tài Bạch [Thân cư]",
-        "fixed_stars": [
-          {
-            "state": "H",
-            "name": "Thiên Cơ",
-            "type": "main_star"
-          },
-          {
-            "name": "Trực Phù",
-            "type": "sub_star"
-          },
-          {
-            "state": "H",
-            "name": "Tiểu Hao",
-            "type": "sub_star"
-          },
-          {
-            "name": "Lâm Quan",
-            "type": "sub_star"
-          },
-          {
-            "name": "Thiên Quan",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Ân Quang",
-            "type": "cat_tinh"
-          },
-          {
-            "name": "Thiên Thọ",
-            "type": "sub_star"
-          },
-          {
-            "name": "Đẩu Quân",
-            "type": "sub_star"
-          },
-          {
-            "name": "Văn Tinh",
-            "type": "sub_star"
-          },
-          {
-            "name": "Bát Tọa",
-            "type": "cat_tinh"
-          }
-        ],
-        "transit_stars": [
-          {
             "name": "L.Kiếp Sát",
             "type": "sat_tinh"
           },
@@ -1441,7 +1493,7 @@
             "type": "cat_tinh"
           },
           {
-            "name": "L.Hóa Quyền",
+            "name": "L.Hóa Lộc",
             "type": "tu_hoa"
           }
         ]
@@ -1449,10 +1501,10 @@
     ],
     "fortune_context": {
       "year": 2026,
-      "dai_van_current": "Đại vận thứ 1 (5–14 tuổi), Can: Kỷ, Cung: Mão, Hướng: Thuận",
-      "tieu_han_cung": "Thìn (năm 2026)",
+      "dai_van_current": "Đại vận thứ 4 (34–43 tuổi), Can: Quý, Cung: Sửu, Hướng: Thuận",
+      "tieu_han_cung": "Thân (năm 2026)",
       "tu_hoa_overlap_guide": "Phải kiểm tra xếp chồng tứ hóa: Song Kỵ (2 Kỵ cùng cung), Song Lộc (2 Lộc cùng cung), Lộc Kỵ giao nhau tại một cung. Ưu tiên phân tích: tứ hóa bản mệnh + đại vận xếp chồng → tác động lên Mệnh\/Quan\/Tài\/Phu Thê trước, sau đó mới xét lưu niên."
     },
-    "fortune_request": "Phân tích vận năm 2026 (theo đại vận hiện tại và lưu tinh năm)"
+    "fortune_request": "Phân tích vận tháng 4 âm lịch năm 2026 (theo đại vận + tiểu vận + lưu thái tuế + lưu hóa tinh nếu có dữ liệu)"
   }
 }
