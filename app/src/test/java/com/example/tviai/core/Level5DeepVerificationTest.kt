@@ -524,7 +524,7 @@ class Level5DeepVerificationTest {
         
         // Also verify data_integrity.forbidden still present (no accidental removal)
         assertTrue("data_integrity.forbidden vẫn phải cấm tự tính miếu/vượng", 
-            prompt.contains("Tự tính miếu/vượng/đắc/hãm"))
+            prompt.contains("Tự tính miếu/vượng/đắc/bình/hãm"))
         
         println("Old contradictory 'kiểm tra độ sáng': ❌ (removed)")
         println("New 'CÓ SẴN trong dữ liệu sao': ✅")

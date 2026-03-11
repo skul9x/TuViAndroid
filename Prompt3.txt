@@ -19,13 +19,13 @@
     ],
     "must_not": [
       "Không dùng câu chung chung ('số giàu', 'số khổ') nếu không chỉ rõ tinh hệ và cơ chế",
-      "Không suy đoán khi thiếu dữ liệu. Thiếu thông tin quan trọng → hỏi lại tối đa 3 câu",
+      "Không suy đoán khi thiếu dữ liệu. Thiếu thông tin → nêu rõ 'Không có trong dữ liệu được cung cấp' và bỏ qua phần không đủ căn cứ",
       "Không thần bí hóa sát tinh",
       "Không khẳng định tuyệt đối"
     ],
     "data_integrity": {
       "forbidden": [
-        "Tự tính miếu\/vượng\/đắc\/hãm (phải dùng ký hiệu M\/V\/Đ\/H có sẵn)",
+        "Tự tính miếu\/vượng\/đắc\/bình\/hãm (phải dùng ký hiệu M\/V\/Đ\/Bình\/H có sẵn)",
         "Tự xác định đại vận khi input chưa cung cấp",
         "Tự tính lưu tinh, lưu tứ hóa hoặc sao vận khi input chưa cung cấp",
         "Tự thêm sao, tứ hóa, trạng thái sáng tối",
@@ -48,36 +48,28 @@
   ],
   "axis_mapping": {
     "Mệnh-Di": {
+      "p1": "Tuất (Mệnh)",
+      "p2": "Thìn (Thiên Di)"
+    },
+    "Phụ-Ách": {
+      "p1": "Hợi (Phụ Mẫu)",
+      "p2": "Tỵ (Tật Ách)"
+    },
+    "Phúc-Tài": {
       "p1": "Tý (Phúc Đức)",
       "p2": "Ngọ (Tài Bạch)"
     },
-    "Phụ-Ách": {
+    "Điền-Tử": {
       "p1": "Sửu (Điền Trạch)",
       "p2": "Mùi (Tử Tức)"
     },
-    "Phúc-Diền": {
+    "Quan-Thê": {
       "p1": "Dần (Quan Lộc)",
       "p2": "Thân (Phu Thê [Thân cư])"
     },
-    "Điền-Phúc": {
-      "p1": "Thân (Phu Thê [Thân cư])",
-      "p2": "Dần (Quan Lộc)"
-    },
-    "Quan-Thê": {
-      "p1": "Thìn (Thiên Di)",
-      "p2": "Tuất (Mệnh)"
-    },
     "Nô-Huynh": {
-      "p1": "Tỵ (Tật Ách)",
-      "p2": "Hợi (Phụ Mẫu)"
-    },
-    "Tài-Phúc": {
-      "p1": "Dậu (Huynh Đệ)",
-      "p2": "Mão (Nô Bộc)"
-    },
-    "Tử-Phụ": {
-      "p1": "Tuất (Mệnh)",
-      "p2": "Thìn (Thiên Di)"
+      "p1": "Mão (Nô Bộc)",
+      "p2": "Dậu (Huynh Đệ)"
     }
   },
   "analysis_pipeline": {
@@ -153,7 +145,7 @@
         ]
       },
       "validation_warning": "Nhóm sao hội hợp trong metadata CHỈ là gợi ý. AI TỰ XÁC ĐỊNH tính hợp lệ của cách cục BẰNG CÁCH: (1) Dùng trạng thái M\/V\/Đ\/Bình\/H CÓ SẴN trong dữ liệu sao, (2) Kiểm tra Tuần\/Triệt đã được ghi nhận tại cung (flags hoặc sao 'Tuần'\/'Triệt' trong palace data), (3) Xem tứ hóa đã cung cấp. KHÔNG tự tính thêm trạng thái mới. Nếu thiếu dữ liệu trạng thái → nhận định 'không đủ căn cứ'.",
-      "tuan_triet_check_rule": "BẮT BUỘC quét toàn bộ 12 cung khi đánh giá cách cục và vận hạn: dùng flags 'Gặp Tuần'\/'Gặp Triệt' và sao 'Tuần'\/'Triệt' có sẵn trong palace data. KHÔNG tự tính vị trí Tuần\/Triệt ngoài dữ liệu đã cung cấp.",
+      "tuan_triet_check_rule": "BẮT BUỘC quét toàn bộ 12 cung khi đánh giá cách cục và vận hạn: dùng flags 'Gặp Tuần'\/'Gặp Triệt' và sao 'Tuần'\/'Triệt' có sẵn trong palace data. KHÔNG tự tính vị trí Tuần\/Triệt ngoài dữ liệu đã cung cấp. LƯU Ý: flags và sao Tuần\/Triệt trong danh sách sao là CÙNG MỘT hiện tượng, CHỈ TÍNH 1 LẦN.",
       "check_sat_tinh_pha_cach": true
     },
     "step_3b_ranking": {
@@ -162,7 +154,7 @@
         "① So sánh LỰC: Cách nào nhiều sao Miếu\/Vượng → mạnh hơn",
         "② So sánh VỊ TRÍ: Cách nào nằm tam hợp Mệnh–Tài–Quan → trực tiếp nhất",
         "③ So sánh TỨ HÓA: Cách nào được Hóa Lộc\/Quyền bản mệnh hoặc đại vận chiếu → nâng tầm",
-        "④ Kết luận: 'Cách cục chính' (>60% cuộc đời) vs 'Cách bổ trợ'"
+        "④ Kết luận: 'Cách cục chính' (xu hướng chi phối chính) vs 'Cách bổ trợ'"
       ],
       "forbidden": "KHÔNG luận ngang nhau nếu mâu thuẫn mà không phân chủ-thứ"
     },
@@ -202,7 +194,8 @@
       "example": "Mệnh Kim đóng cung Thủy (sinh xuất) hội sao Hỏa (khắc) → dù miếu cũng chiết giảm lực"
     },
     "m3_gender": {
-      "name": "Quy tắc luận theo giới tính",
+      "name": "Gợi ý luận theo giới tính (truyền thống, tùy chọn)",
+      "_note": "Đây là quy tắc truyền thống, CHỈ áp dụng khi phù hợp ngữ cảnh. Không bắt buộc.",
       "male": {
         "focus": [
           "Quan",
@@ -222,13 +215,13 @@
     },
     "m4_tuan_triet": {
       "name": "Phân tích Tuần – Triệt",
-      "tuan": "Giảm 30-50% lực sao (cát giảm cát, hung giảm hung). Ổn định sau 30 tuổi",
-      "triet": "Giảm 60-80% lực sao (ngăn chặn hoàn toàn lực mạnh nhất). Nặng nhất trước 30 tuổi",
-      "triet_at_menh": "Thiếu thời lận đận"
+      "tuan": "Thường làm giảm đáng kể lực sao (cát giảm cát, hung giảm hung). Xu hướng ổn định dần sau 30 tuổi",
+      "triet": "Thường làm giảm mạnh lực sao (có thể triệt tiêu phần lớn lực). Xu hướng ảnh hưởng rõ nhất trước 30 tuổi",
+      "triet_at_menh": "Thường gặp khó khăn giai đoạn đầu đời"
     },
     "m5_phi_tinh": {
       "name": "Phi Tinh Tứ Hóa (chuyên sâu)",
-      "source": "Pre-computed trong metadata",
+      "source": "chart_data.phi_tinh_tu_hoa (pre-computed: cung_nguồn → cung_nhận Lộc\/Quyền\/Khoa\/Kỵ)",
       "rules": {
         "loc_a_to_b": "A mang lại lợi ích\/tình cảm cho B",
         "ky_a_to_b": "A gây áp lực\/rắc rối\/phiền muộn cho B",
@@ -250,7 +243,7 @@
       "checks": [
         "Tam giác Mệnh-Quan-Tài: Cái Tâm và Cái Tầm",
         "Mệnh (bẩm sinh) vs Thân (hành động hậu thiên)",
-        "Mệnh tốt Thân xấu → Tiền cát hậu hung"
+        "Mệnh tốt Thân xấu → Có thể thuận lợi giai đoạn đầu, biến động về sau"
       ]
     }
   },
@@ -336,13 +329,13 @@
       "Bạo phát",
       "Khởi nghiệp thành công"
     ],
-    "fortune_year_format": {
+    "fortune_period_format": {
       "steps": [
         "(1) Đại vận hiện tại → ảnh hưởng nền",
         "(2) Lưu niên 2026 → sao lưu + lưu tứ hóa",
         "(3) Trùng điệp tứ hóa → Song Lộc\/Song Kỵ\/Lộc Kỵ giao nhau",
         "(4) Tác động lên Mệnh – Quan – Tài – Phu Thê",
-        "(5) Kết luận: thuận lợi \/ rủi ro chính trong năm"
+        "(5) Kết luận theo dữ liệu sẵn có. Nếu thiếu dữ liệu lưu nguyệt → chỉ kết luận ở mức năm"
       ]
     }
   },
@@ -398,7 +391,7 @@
   ],
   "reasoning_rules": {
     "always_show_evidence": true,
-    "evidence_format": "(Căn cứ: sao + trạng thái + cung)",
+    "evidence_format": "(Căn cứ: sao + trạng thái + cung + [quan hệ: đồng cung\/tam hợp\/xung chiếu nếu có] + [tứ hóa\/Tuần-Triệt nếu có])",
     "minimum_evidence": 2,
     "conflict_resolution": "priority_rules"
   },
@@ -437,40 +430,32 @@
       "nhom_sao": [
         "Tam hợp Sát Phá Tham (Ngọ–Tuất–Dần)",
         "Nhóm Tử Phủ Vũ Tướng (Tý–Thìn)",
-        "Nhật Nguyệt đồng cung (Sửu–Sửu)"
+        "Nhật Nguyệt đồng cung (tại Sửu)"
       ],
       "axis_mapping": {
         "Mệnh-Di": {
+          "p1": "Tuất (Mệnh)",
+          "p2": "Thìn (Thiên Di)"
+        },
+        "Phụ-Ách": {
+          "p1": "Hợi (Phụ Mẫu)",
+          "p2": "Tỵ (Tật Ách)"
+        },
+        "Phúc-Tài": {
           "p1": "Tý (Phúc Đức)",
           "p2": "Ngọ (Tài Bạch)"
         },
-        "Phụ-Ách": {
+        "Điền-Tử": {
           "p1": "Sửu (Điền Trạch)",
           "p2": "Mùi (Tử Tức)"
         },
-        "Phúc-Diền": {
+        "Quan-Thê": {
           "p1": "Dần (Quan Lộc)",
           "p2": "Thân (Phu Thê [Thân cư])"
         },
-        "Điền-Phúc": {
-          "p1": "Thân (Phu Thê [Thân cư])",
-          "p2": "Dần (Quan Lộc)"
-        },
-        "Quan-Thê": {
-          "p1": "Thìn (Thiên Di)",
-          "p2": "Tuất (Mệnh)"
-        },
         "Nô-Huynh": {
-          "p1": "Tỵ (Tật Ách)",
-          "p2": "Hợi (Phụ Mẫu)"
-        },
-        "Tài-Phúc": {
-          "p1": "Dậu (Huynh Đệ)",
-          "p2": "Mão (Nô Bộc)"
-        },
-        "Tử-Phụ": {
-          "p1": "Tuất (Mệnh)",
-          "p2": "Thìn (Thiên Di)"
+          "p1": "Mão (Nô Bộc)",
+          "p2": "Dậu (Huynh Đệ)"
         }
       },
       "can_chi_12_cung": {
@@ -646,7 +631,7 @@
         "(L.Hóa Khoa)": "Cung Tỵ (Tật Ách)",
         "(L.Hóa Kỵ)": "Cung Thân (Phu Thê [Thân cư])"
       },
-      "_note": "Đây là bản tóm tắt nhanh. Dữ liệu gốc nằm tại flags và transit_stars của từng cung trong 'palaces'."
+      "_note": "Đây là bản tóm tắt nhanh. Dữ liệu gốc nằm trong fixed_stars và transit_stars của từng cung trong 'palaces'."
     },
     "tu_hoa_10_can": {
       "_warning": "CHỈ dùng GIẢI THÍCH cơ chế phi tinh. KHÔNG dùng để tự tính thêm tứ hóa",
@@ -778,6 +763,9 @@
         "name": "Sửu",
         "element": "Thổ",
         "function": "Điền Trạch",
+        "flags": [
+          "Cung Đại Vận"
+        ],
         "fixed_stars": [
           {
             "state": "Đ",
@@ -808,13 +796,6 @@
           {
             "name": "Nguyệt Đức",
             "type": "cat_tinh"
-          },
-          {
-            "name": "",
-            "type": "sub_star",
-            "flags": [
-              "Cung Đại Vận"
-            ]
           }
         ],
         "transit_stars": [
@@ -1505,6 +1486,6 @@
       "tieu_han_cung": "Thân (năm 2026)",
       "tu_hoa_overlap_guide": "Phải kiểm tra xếp chồng tứ hóa: Song Kỵ (2 Kỵ cùng cung), Song Lộc (2 Lộc cùng cung), Lộc Kỵ giao nhau tại một cung. Ưu tiên phân tích: tứ hóa bản mệnh + đại vận xếp chồng → tác động lên Mệnh\/Quan\/Tài\/Phu Thê trước, sau đó mới xét lưu niên."
     },
-    "fortune_request": "Phân tích vận tháng 4 âm lịch năm 2026 (theo đại vận + tiểu vận + lưu thái tuế + lưu hóa tinh nếu có dữ liệu)"
+    "fortune_request": "Phân tích vận tháng 4 âm lịch năm 2026. Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa đã cung cấp. LƯU Ý: Dữ liệu hiện tại là cấp NĂM, chưa có lưu nguyệt tứ hóa. Nếu không đủ căn cứ cho kết luận cấp tháng → nêu rõ giới hạn và luận ở mức năm."
   }
 }

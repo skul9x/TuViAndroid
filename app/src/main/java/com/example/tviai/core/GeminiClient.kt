@@ -202,7 +202,7 @@ class GeminiClient(
             "Đồng cung > Tam hợp > Xung chiếu > Giáp cung",
             "Cách cục lớn > Tiểu cách (cách lớn chi phối toàn cục)"
         )))
-        json.put("axis_mapping", buildAxisMappingJson(cungList))
+        // axis_mapping chỉ nằm trong chart_data.metadata (tránh trùng lặp)
         json.put("analysis_pipeline", buildPipelineJson())
         json.put("analysis_methods", buildMethodsJson())
         json.put("palace_analysis_method", buildPalaceMethodJson())
@@ -216,7 +216,7 @@ class GeminiClient(
         json.put("common_mistakes", buildMistakesJson())
         json.put("reasoning_rules", JSONObject().apply {
             put("always_show_evidence", true)
-            put("evidence_format", "(Căn cứ: sao + trạng thái + cung)")
+            put("evidence_format", "(Căn cứ: sao + trạng thái + cung + [quan hệ: đồng cung/tam hợp/xung chiếu nếu có] + [tứ hóa/Tuần-Triệt nếu có])")
             put("minimum_evidence", 2)
             put("conflict_resolution", "priority_rules")
         })
@@ -304,7 +304,10 @@ class GeminiClient(
         } else ""
 
         val vanHanRequest = if (info.viewingMode == "MONTH") {
-            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear} (theo đại vận + tiểu vận + lưu thái tuế + lưu hóa tinh nếu có dữ liệu)"
+            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+            "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa đã cung cấp. " +
+            "LƯU Ý: Dữ liệu hiện tại là cấp NĂM, chưa có lưu nguyệt tứ hóa. " +
+            "Nếu không đủ căn cứ cho kết luận cấp tháng → nêu rõ giới hạn và luận ở mức năm."
         } else {
             "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
         }
@@ -383,7 +386,7 @@ class GeminiClient(
         nếu không chỉ rõ tinh hệ và cơ chế.
 
         3. Không suy đoán khi thiếu dữ liệu.
-        Nếu thiếu thông tin quan trọng → hỏi lại tối đa 3 câu.
+        Thiếu thông tin → nêu rõ 'Không có trong dữ liệu được cung cấp' và bỏ qua phần không đủ căn cứ.
 
         4. Phân biệt rõ:
 
@@ -847,7 +850,8 @@ class GeminiClient(
                 else -> null
             }
             if (label != null) {
-                result.add("$label (${Constants.DIA_CHI[nhatIdx]}–${Constants.DIA_CHI[nguyetIdx]})")
+                val cungStrs = if (nhatIdx == nguyetIdx) "tại ${Constants.DIA_CHI[nhatIdx]}" else "${Constants.DIA_CHI[nhatIdx]}–${Constants.DIA_CHI[nguyetIdx]}"
+                result.add("$label ($cungStrs)")
             }
         }
 
@@ -874,13 +878,13 @@ class GeminiClient(
             )))
             put("must_not", JSONArray(listOf(
                 "Không dùng câu chung chung ('số giàu', 'số khổ') nếu không chỉ rõ tinh hệ và cơ chế",
-                "Không suy đoán khi thiếu dữ liệu. Thiếu thông tin quan trọng → hỏi lại tối đa 3 câu",
+                "Không suy đoán khi thiếu dữ liệu. Thiếu thông tin → nêu rõ 'Không có trong dữ liệu được cung cấp' và bỏ qua phần không đủ căn cứ",
                 "Không thần bí hóa sát tinh",
                 "Không khẳng định tuyệt đối"
             )))
             put("data_integrity", JSONObject().apply {
                 put("forbidden", JSONArray(listOf(
-                    "Tự tính miếu/vượng/đắc/hãm (phải dùng ký hiệu M/V/Đ/H có sẵn)",
+                    "Tự tính miếu/vượng/đắc/bình/hãm (phải dùng ký hiệu M/V/Đ/Bình/H có sẵn)",
                     "Tự xác định đại vận khi input chưa cung cấp",
                     "Tự tính lưu tinh, lưu tứ hóa hoặc sao vận khi input chưa cung cấp",
                     "Tự thêm sao, tứ hóa, trạng thái sáng tối",
@@ -907,19 +911,18 @@ class GeminiClient(
 
     private fun buildAxisMappingJson(cungList: List<CungInfo>): JSONObject {
         val mapping = JSONObject()
+        // 6 trục đối xung chuẩn trong Tử Vi (mỗi trục = 2 cung đối nhau qua tâm lá số)
         val axes = listOf(
-            "Mệnh-Di" to Pair(0, 6),
-            "Phụ-Ách" to Pair(1, 7),
-            "Phúc-Diền" to Pair(2, 8),
-            "Điền-Phúc" to Pair(8, 2),
-            "Quan-Thê" to Pair(4, 10),
-            "Nô-Huynh" to Pair(5, 11),
-            "Tài-Phúc" to Pair(9, 3),
-            "Tử-Phụ" to Pair(10, 4)
+            "Mệnh-Di" to Pair("Mệnh", "Thiên Di"),
+            "Phụ-Ách" to Pair("Phụ Mẫu", "Tật Ách"),
+            "Phúc-Tài" to Pair("Phúc Đức", "Tài Bạch"),
+            "Điền-Tử" to Pair("Điền Trạch", "Tử Tức"),
+            "Quan-Thê" to Pair("Quan Lộc", "Phu Thê"),
+            "Nô-Huynh" to Pair("Nô Bộc", "Huynh Đệ")
         )
         axes.forEach { (name, pair) ->
-            val p1 = cungList.getOrNull(pair.first)
-            val p2 = cungList.getOrNull(pair.second)
+            val p1 = cungList.find { it.chucNang.contains(pair.first) }
+            val p2 = cungList.find { it.chucNang.contains(pair.second) }
             if (p1 != null && p2 != null) {
                 mapping.put(name, JSONObject().apply {
                     put("p1", "${p1.name} (${p1.chucNang})")
@@ -951,7 +954,7 @@ class GeminiClient(
                     put("dac_biet", JSONArray(Constants.CACH_CUC_DAC_BIET))
                 })
                 put("validation_warning", "Nhóm sao hội hợp trong metadata CHỈ là gợi ý. AI TỰ XÁC ĐỊNH tính hợp lệ của cách cục BẰNG CÁCH: (1) Dùng trạng thái M/V/Đ/Bình/H CÓ SẴN trong dữ liệu sao, (2) Kiểm tra Tuần/Triệt đã được ghi nhận tại cung (flags hoặc sao 'Tuần'/'Triệt' trong palace data), (3) Xem tứ hóa đã cung cấp. KHÔNG tự tính thêm trạng thái mới. Nếu thiếu dữ liệu trạng thái → nhận định 'không đủ căn cứ'.")
-                put("tuan_triet_check_rule", "BẮT BUỘC quét toàn bộ 12 cung khi đánh giá cách cục và vận hạn: dùng flags 'Gặp Tuần'/'Gặp Triệt' và sao 'Tuần'/'Triệt' có sẵn trong palace data. KHÔNG tự tính vị trí Tuần/Triệt ngoài dữ liệu đã cung cấp.")
+                put("tuan_triet_check_rule", "BẮT BUỘC quét toàn bộ 12 cung khi đánh giá cách cục và vận hạn: dùng flags 'Gặp Tuần'/'Gặp Triệt' và sao 'Tuần'/'Triệt' có sẵn trong palace data. KHÔNG tự tính vị trí Tuần/Triệt ngoài dữ liệu đã cung cấp. LƯU Ý: flags và sao Tuần/Triệt trong danh sách sao là CÙNG MỘT hiện tượng, CHỈ TÍNH 1 LẦN.")
                 put("check_sat_tinh_pha_cach", true)
             })
             put("step_3b_ranking", JSONObject().apply {
@@ -960,7 +963,7 @@ class GeminiClient(
                     "① So sánh LỰC: Cách nào nhiều sao Miếu/Vượng → mạnh hơn",
                     "② So sánh VỊ TRÍ: Cách nào nằm tam hợp Mệnh–Tài–Quan → trực tiếp nhất",
                     "③ So sánh TỨ HÓA: Cách nào được Hóa Lộc/Quyền bản mệnh hoặc đại vận chiếu → nâng tầm",
-                    "④ Kết luận: 'Cách cục chính' (>60% cuộc đời) vs 'Cách bổ trợ'"
+                    "④ Kết luận: 'Cách cục chính' (xu hướng chi phối chính) vs 'Cách bổ trợ'"
                 )))
                 put("forbidden", "KHÔNG luận ngang nhau nếu mâu thuẫn mà không phân chủ-thứ")
             })
@@ -994,7 +997,8 @@ class GeminiClient(
                 put("example", "Mệnh Kim đóng cung Thủy (sinh xuất) hội sao Hỏa (khắc) → dù miếu cũng chiết giảm lực")
             })
             put("m3_gender", JSONObject().apply {
-                put("name", "Quy tắc luận theo giới tính")
+                put("name", "Gợi ý luận theo giới tính (truyền thống, tùy chọn)")
+                put("_note", "Đây là quy tắc truyền thống, CHỈ áp dụng khi phù hợp ngữ cảnh. Không bắt buộc.")
                 put("male", JSONObject().apply {
                     put("focus", JSONArray(listOf("Quan", "Tài", "Di")))
                     put("fear", "Triệt đóng Mệnh, Cô Quả hội chiếu")
@@ -1006,13 +1010,13 @@ class GeminiClient(
             })
             put("m4_tuan_triet", JSONObject().apply {
                 put("name", "Phân tích Tuần – Triệt")
-                put("tuan", "Giảm 30-50% lực sao (cát giảm cát, hung giảm hung). Ổn định sau 30 tuổi")
-                put("triet", "Giảm 60-80% lực sao (ngăn chặn hoàn toàn lực mạnh nhất). Nặng nhất trước 30 tuổi")
-                put("triet_at_menh", "Thiếu thời lận đận")
+                put("tuan", "Thường làm giảm đáng kể lực sao (cát giảm cát, hung giảm hung). Xu hướng ổn định dần sau 30 tuổi")
+                put("triet", "Thường làm giảm mạnh lực sao (có thể triệt tiêu phần lớn lực). Xu hướng ảnh hưởng rõ nhất trước 30 tuổi")
+                put("triet_at_menh", "Thường gặp khó khăn giai đoạn đầu đời")
             })
             put("m5_phi_tinh", JSONObject().apply {
                 put("name", "Phi Tinh Tứ Hóa (chuyên sâu)")
-                put("source", "Pre-computed trong metadata")
+                put("source", "chart_data.phi_tinh_tu_hoa (pre-computed: cung_nguồn → cung_nhận Lộc/Quyền/Khoa/Kỵ)")
                 put("rules", JSONObject().apply {
                     put("loc_a_to_b", "A mang lại lợi ích/tình cảm cho B")
                     put("ky_a_to_b", "A gây áp lực/rắc rối/phiền muộn cho B")
@@ -1033,7 +1037,7 @@ class GeminiClient(
                 put("checks", JSONArray(listOf(
                     "Tam giác Mệnh-Quan-Tài: Cái Tâm và Cái Tầm",
                     "Mệnh (bẩm sinh) vs Thân (hành động hậu thiên)",
-                    "Mệnh tốt Thân xấu → Tiền cát hậu hung"
+                    "Mệnh tốt Thân xấu → Có thể thuận lợi giai đoạn đầu, biến động về sau"
                 )))
             })
         }
@@ -1092,13 +1096,13 @@ class GeminiClient(
                 "Đại phú", "Đại quý", "Phú quý nhờ vận", "Giàu nhưng lao tâm",
                 "Quyền lực", "Học thuật", "Bạo phát", "Khởi nghiệp thành công"
             )))
-            put("fortune_year_format", JSONObject().apply {
+            put("fortune_period_format", JSONObject().apply {
                 put("steps", JSONArray(listOf(
                     "(1) Đại vận hiện tại → ảnh hưởng nền",
                     "(2) Lưu niên ${info.viewingYear} → sao lưu + lưu tứ hóa",
                     "(3) Trùng điệp tứ hóa → Song Lộc/Song Kỵ/Lộc Kỵ giao nhau",
                     "(4) Tác động lên Mệnh – Quan – Tài – Phu Thê",
-                    "(5) Kết luận: thuận lợi / rủi ro chính trong năm"
+                    "(5) Kết luận theo dữ liệu sẵn có. Nếu thiếu dữ liệu lưu nguyệt → chỉ kết luận ở mức năm"
                 )))
             })
         }
@@ -1108,6 +1112,7 @@ class GeminiClient(
         return JSONObject().apply {
             put("brightness", JSONObject().apply {
                 put("M", "Miếu"); put("V", "Vượng"); put("Đ", "Đắc"); put("Bình", "Bình"); put("H", "Hãm")
+                put("_note", "Sao không có field 'state' thường là tiểu tinh không xét miếu/hãm — coi như trung tính (không cộng/trừ lực).")
             })
             put("transformations", JSONObject().apply {
                 put("ban_menh", "(Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ)")
@@ -1156,12 +1161,16 @@ class GeminiClient(
 
         // Van Han request
         val vanHanRequest = if (info.viewingMode == "MONTH") {
-            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear} (theo đại vận + tiểu vận + lưu thái tuế + lưu hóa tinh nếu có dữ liệu)"
+            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+            "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa đã cung cấp. " +
+            "LƯU Ý: Dữ liệu hiện tại là cấp NĂM, chưa có lưu nguyệt tứ hóa. " +
+            "Nếu không đủ căn cứ cho kết luận cấp tháng → nêu rõ giới hạn và luận ở mức năm."
         } else {
             "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
         }
 
         return JSONObject().apply {
+            put("_role", "Đây là dữ liệu lá số THỰC TẾ của đương số. PHẢI dùng để phân tích, KHÔNG phải ví dụ.")
             // Person
             put("person", JSONObject().apply {
                 put("name", info.name)
@@ -1193,7 +1202,7 @@ class GeminiClient(
 
             // Tu Hoa Summary (Marked as note for AI to cross-check palace data)
             put("tu_hoa_summary", buildTuHoaSummaryJson(cungList).apply {
-                put("_note", "Đây là bản tóm tắt nhanh. Dữ liệu gốc nằm tại flags và transit_stars của từng cung trong 'palaces'.")
+                put("_note", "Đây là bản tóm tắt nhanh. Dữ liệu gốc nằm trong fixed_stars và transit_stars của từng cung trong 'palaces'.")
             })
 
             // Tu Hoa 10 Can Table
@@ -1266,8 +1275,11 @@ class GeminiClient(
 
             val fixedPhu = c.phuTinh.filter {
                 !it.startsWith("ĐV.") && !it.startsWith("L.") &&
-                !it.startsWith("(ĐV.") && !it.startsWith("(L.")
+                !it.startsWith("(ĐV.") && !it.startsWith("(L.") &&
+                it != "[Cung Đại Vận]"
             }
+            // Convert [Cung Đại Vận] marker to palace-level flag instead of empty-name star
+            if (c.phuTinh.contains("[Cung Đại Vận]")) flags.put("Cung Đại Vận")
             val daiVanStars = c.phuTinh.filter { it.startsWith("ĐV.") || it.startsWith("(ĐV.") }
             val luuStars = c.phuTinh.filter { it.startsWith("L.") || it.startsWith("(L.") }
 

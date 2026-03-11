@@ -1,5 +1,33 @@
 # Changelog
 
+## [2026-03-11 - Round 3: JSON Prompt Final Polish]
+### Added
+- **Data Integrity `_role` Tag**: Inserted `_role: "input_chart_data"` in `chart_data` to explicitly tell Gemini this is real destiny data, not an example.
+- **Star State Context**: Added `_note` in `notation_rules.brightness` to clarify that stars without a `state` field are neutral sub-stars, preventing AI confusion.
+
+### Changed
+- **De-duplicated `axis_mapping`**: Removed the redundant `axis_mapping` object from the prompt root. It is now exclusively pulled from `chart_data.metadata`, reducing token overhead and preventing data mismatch.
+
+### Fixed
+- **Logical Cleanup**: Final pass on `GeminiClient.kt` to ensure 100% adherence to expert feedback while maintaining build stability.
+
+## [2026-03-11 - Round 2: Expert Feedback Implementation]
+### Added
+- **Gender Suggestion Mode**: Rephrased `m3_gender` as an optional, traditional suggestion with a disclaimer, moving away from forced stereotypes.
+- **Monthly Analysis Fallback**: Implemented explicit warnings and fallback logic when requesting monthly analysis without月-level transit data.
+- **Deduplication Logic**: Added strict rules to prevent double-counting Tuần/Triệt (counting either flag or star, but not both).
+- **Expanded Evidence Context**: Updated `evidence_format` to include relationship context (Trigon/Opposite) and Tuần-Triệt constraints.
+
+### Changed
+- **Softened AI Language**: Replaced absolute phrases like ">60% cuộc đời" or "Ngăn chặn hoàn toàn" with probabilistic language ("Xu hướng chi phối chính", "Thường làm giảm đáng kể") for better model reasoning.
+- **Terminology Refinement**: Standardized "Nhật Nguyệt đồng cung tại Sửu" (instead of repeating Sửu-Sửu) and renamed `fortune_year_format` to `fortune_period_format`.
+
+### Fixed
+- **Axis Mapping Correction**: Fixed the last remaining incorrect pairs in `axis_mapping` (Phúc-Tài, Điền-Tử).
+- **Data Integrity**: Added "Bình" (B) to the list of forbidden states AI must not hallucinate if missing.
+- **Phi Tinh Metadata Path**: Corrected the source path for flying stars from `metadata` to `chart_data.phi_tinh_tu_hoa`.
+
+
 ## [2026-03-11 - Prompt Optimization v3.0 Implementation]
 ### Added
 - **Finalized Prompt v3.0 Core**: Successfully implemented all 5 planned priority fixes in `GeminiClient.kt`.
