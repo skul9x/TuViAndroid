@@ -31,7 +31,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreen(
     dataStore: SettingsDataStore,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToDebugLog: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -295,6 +296,21 @@ fun SettingsScreen(
                         color = if (result.isSuccess) Color(0xFF2E7D32) else Color(0xFFC62828)
                     )
                 }
+            }
+
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+            // ========== DEBUG SYNC SECTION ==========
+            Text("🐛 Debug & Khắc phục", style = MaterialTheme.typography.titleMedium)
+
+            OutlinedButton(
+                onClick = onNavigateToDebugLog,
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.error
+                )
+            ) {
+                Text("🐛 Debug Supabase Sync", fontWeight = FontWeight.Medium)
             }
 
             Spacer(modifier = Modifier.height(16.dp))

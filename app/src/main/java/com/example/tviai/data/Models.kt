@@ -38,6 +38,7 @@ data class UserInput(
     val viewingMonth: Int = 0,
     val viewingMode: ViewingMode = ViewingMode.YEAR,
     val readingStyle: ReadingStyle = ReadingStyle.NGHIEM_TUC,
+    val phoneNumber: String? = null,
     val lunarDayInput: Int? = null,
     val lunarMonthInput: Int? = null,
     val lunarYearInput: Int? = null
@@ -74,7 +75,8 @@ data class UserInfoResult(
     val daiVanFullList: String = "",    // Danh sách tất cả đại vận
     val amDuong: String = "",           // VD: "Dương Nam – Thuận hành"
     val tieuHanCung: String = "",       // Cung tiểu hạn năm xem
-    val phiTinhTuHoa: String = ""       // Pre-computed data phi tinh 12 cung
+    val phiTinhTuHoa: String = "",       // Pre-computed data phi tinh 12 cung
+    val phoneNumber: String? = null
 )
 
 data class LasoData(

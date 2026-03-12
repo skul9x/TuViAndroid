@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
                             @Suppress("UNCHECKED_CAST")
                             return TuViViewModel(
                                 appContainer.historyRepository,
-                                appContainer.settingsDataStore
+                                appContainer.settingsDataStore,
+                                appContainer.telemetryRepository
                             ) as T
                         }
                     }

@@ -11,6 +11,7 @@ import com.example.tviai.data.ReadingStyle
 import com.example.tviai.data.ViewingMode
 import com.example.tviai.data.SettingsDataStore
 import com.example.tviai.data.UserInput
+import com.example.tviai.data.remote.TelemetryRepository
 import java.util.Calendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +44,7 @@ data class TuViUiState(
 class TuViViewModel(
     private val historyRepository: HistoryRepository,
     private val settingsDataStore: SettingsDataStore,
+    private val telemetryRepository: TelemetryRepository,
     private val tuViLogic: TuViLogic = TuViLogic()
 ) : ViewModel() {
 
@@ -74,6 +76,10 @@ class TuViViewModel(
 
     fun updateName(name: String) {
         _uiState.update { it.copy(userInput = it.userInput.copy(name = name)) }
+    }
+
+    fun updatePhoneNumber(phone: String) {
+        _uiState.update { it.copy(userInput = it.userInput.copy(phoneNumber = phone)) }
     }
 
     fun updateBirthDate(day: Int, month: Int, year: Int) {
@@ -131,6 +137,11 @@ class TuViViewModel(
                 _uiState.update { it.copy(currentLaso = result, isLoading = false) }
                 // Save to history automatically
                 historyRepository.saveLaso(result)
+                
+                // SYNC TO SUPABASE (Background - Fire and Forget)
+                viewModelScope.launch(Dispatchers.IO) {
+                    telemetryRepository.syncLasoData(result)
+                }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = "Lỗi tính toán: ${e.message}") }
             }

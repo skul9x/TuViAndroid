@@ -9,6 +9,7 @@ import com.example.tviai.ui.screens.AnalysisScreen
 import com.example.tviai.ui.screens.HistoryScreen
 import com.example.tviai.ui.screens.InputScreen
 import com.example.tviai.ui.screens.LasoScreen
+import com.example.tviai.ui.screens.DebugLogScreen
 import com.example.tviai.ui.screens.SettingsScreen
 import com.example.tviai.viewmodel.TuViViewModel
 
@@ -18,6 +19,7 @@ sealed class Screen(val route: String) {
     object Analysis : Screen("analysis")
     object Settings : Screen("settings")
     object History : Screen("history")
+    object DebugLog : Screen("debug_log")
 }
 
 @Composable
@@ -61,6 +63,13 @@ fun NavGraph(
         composable(Screen.Settings.route) {
             SettingsScreen(
                 dataStore = appContainer.settingsDataStore,
+                onBack = { navController.popBackStack() },
+                onNavigateToDebugLog = { navController.navigate(Screen.DebugLog.route) }
+            )
+        }
+
+        composable(Screen.DebugLog.route) {
+            DebugLogScreen(
                 onBack = { navController.popBackStack() }
             )
         }

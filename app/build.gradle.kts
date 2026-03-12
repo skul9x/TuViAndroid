@@ -83,6 +83,9 @@ dependencies {
     
     // JSON
     implementation(libs.google.code.gson)
+    
+    // Networking
+    implementation(libs.okhttp)
 
     testImplementation(libs.junit)
     testImplementation("org.json:json:20231013")

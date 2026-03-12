@@ -1,61 +1,62 @@
 {
-  "updated_at": "2026-03-11T20:15:00+07:00",
+  "updated_at": "2026-03-12T11:40:00+07:00",
   "working_on": {
-    "feature": "Prompt Optimization v3.0 Finalized",
+    "feature": "Supabase Background Sync & Debug UI",
     "status": "completed",
-    "files": ["GeminiClient.kt", "Prompt3.txt", "Level5DeepVerificationTest.kt"],
-    "notes": "Verified all 15+ fixes across 3 rounds of expert feedback. All tests passing (42/42)."
+    "files": ["TelemetryRepository.kt", "DebugLogScreen.kt", "SettingsScreen.kt", "NavGraph.kt", "supabase_setup.sql"],
+    "notes": "Hoàn thiện hệ thống đồng bộ ngầm và bộ công cụ Debug console tích hợp trong app."
   },
   "pending_tasks": [
     {
       "task": "Develop UI for Monthly/Yearly toggle in detailed view",
       "priority": "high",
-      "notes": "Align UI with the new monthly prompt focus."
+      "notes": "Tính năng đã hứa trong spec từ trước."
     },
     {
-      "task": "Test JSON v3.0 prompt with Gemini-1.5-Pro for reasoning quality",
-      "priority": "high"
+      "task": "Test thực tế trên thiết bị vật lý với SIM có số để verify fallback logic",
+      "priority": "high",
+      "notes": "Đảm bảo TelephonyManager đọc được số SĐT thật."
     },
     {
-      "task": "Refine Tật Ách logic to include more specific health associations in prompt",
-      "priority": "medium"
+      "task": "Cải thiện UI 'Số điện thoại phong thủy' với hiệu ứng lung linh hơn",
+      "priority": "medium",
+      "notes": "Tăng tỷ lệ người dùng tự nhập số."
     }
   ],
   "recent_changes": [
     {
-      "timestamp": "2026-03-11T20:10:00Z",
+      "timestamp": "2026-03-12T11:30:00Z",
+      "type": "feature",
+      "description": "Implement Debug Sync UI: Dark console, real-time logging, test sync, copy/share functionality.",
+      "files": ["DebugLogScreen.kt", "SyncLogger.kt", "TelemetryRepository.kt", "SettingsScreen.kt", "NavGraph.kt"]
+    },
+    {
+      "timestamp": "2026-03-12T11:25:00Z",
       "type": "fix",
-      "description": "Round 3 Final Polish: Removed duplicate axis_mapping, added _role tag for data integrity, and clarified status of stars missing state fields.",
-      "files": ["GeminiClient.kt"]
-    },
-    {
-      "timestamp": "2026-03-11T19:50:00Z",
-      "type": "feature",
-      "description": "Round 2 Implementation: Fixed axis mapping errors, softened reasoning language, implemented Tuần/Triệt de-duplication, and corrected flying star metadata paths.",
-      "files": ["GeminiClient.kt", "Prompt3.txt", "Level5DeepVerificationTest.kt"]
-    },
-    {
-      "timestamp": "2026-03-11T12:30:00Z",
-      "type": "feature",
-      "description": "Round 1 Implementation: Child rule, axis mapping, special flags, and source tracking in GeminiClient.kt.",
-      "files": ["GeminiClient.kt", "Prompt3.txt"]
+      "description": "Supabase RLS Fix: Grant schema usage and switch to 'return=minimal' to resolve 42501 errors.",
+      "files": ["TelemetryRepository.kt", "supabase_setup.sql"]
     }
   ],
   "errors_encountered": [
     {
-      "error": "AssertionError in Level5DeepVerificationTest.expertFix_ValidationWarningNoContradiction",
-      "solution": "Synchronized expected string 'Bình' in test check with the updated 'forbidden' list in GeminiClient.kt.",
+      "error": "HTTP 401 / 42501: new row violates row-level security policy",
+      "solution": "Đổi header 'Prefer' sang 'return=minimal' vì policy cấm anon SELECT nội dung vừa insert.",
+      "resolved": true
+    },
+    {
+      "error": "Failed to run sql query: policy already exists",
+      "solution": "Thêm DROP POLICY IF EXISTS vào script SQL.",
       "resolved": true
     }
   ],
   "decisions_made": [
     {
-      "decision": "Remove redundant axis_mapping from root",
-      "reason": "Reduces token usage and prevents data inconsistencies."
+      "decision": "Use 'return=minimal' for Supabase inserts",
+      "reason": "Avoids RLS Select permission requirement while allowing blind inserts."
     },
     {
-      "decision": "Keep evidence_format descriptive including context",
-      "reason": "Enforces higher quality AI reasoning outputs."
+      "decision": "In-memory logging for Debug Console",
+      "reason": "Faster, easier to implement, and doesn't clutter device storage for dev-only features."
     }
   ]
 }

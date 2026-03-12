@@ -197,7 +197,8 @@ class TuViLogic {
                 daiVanFullList = fullDaiVanList,
                 amDuong = amDuongStr,
                 tieuHanCung = tieuHanCungName,
-                phiTinhTuHoa = phiTinhData
+                phiTinhTuHoa = phiTinhData,
+                phoneNumber = input.phoneNumber
             ),
             cung = cungList,
             scores = scores

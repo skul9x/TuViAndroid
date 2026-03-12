@@ -93,6 +93,23 @@ fun InputScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                SectionHeader("Số điện thoại phong thủy")
+                Text(
+                    "Nhập số điện thoại để AI kết hợp năng lượng số học, luận giải chính xác hơn.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                OutlinedTextField(
+                    value = uiState.userInput.phoneNumber ?: "",
+                    onValueChange = { viewModel.updatePhoneNumber(it) },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("Ví dụ: 0388xxxxxx") },
+                    shape = RoundedCornerShape(12.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Phone)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 SectionHeader("Giới tính")
                 Row(
                     modifier = Modifier.fillMaxWidth(),

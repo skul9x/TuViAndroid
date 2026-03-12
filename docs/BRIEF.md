@@ -1,60 +1,36 @@
-# 💡 BRIEF: Smart API & Model Management
+# 💡 BRIEF: Dự án Đồng bộ Lá số & Telemetry (Supabase Integration)
 
-**Ngày tạo:** 2026-01-31
-**Dự án:** TViAI - Ứng dụng Tử Vi AI
+**Ngày tạo:** 2026-03-12
+**Trạng thái:** Finalized (APK Delivery)
 
 ---
 
 ## 1. VẤN ĐỀ CẦN GIẢI QUYẾT
+- Lưu trữ dữ liệu lá số lên Supabase để quản lý tập trung.
+- Thu thập SĐT để marketing bản Pro sau này.
+- Thu thập thông tin thiết bị (Telemetry) để debug.
 
-Hiện tại, ứng dụng TViAI gặp các vấn đề sau với việc quản lý Gemini API:
+## 2. GIẢI PHÁP ĐỀ XUẤT (Chạy ngầm 100%)
+- **Cơ chế:** Khi nhấn nút "Xem lá số", app vẫn thực hiện các chức năng cũ bình thường. Một luồng xử lý ngầm (Background Task) sẽ được kích hoạt để gửi data lên Supabase mà không làm gián đoạn hay delay UI của người dùng.
+- **Dữ liệu đồng bộ:**
+    1. Thông tin lá số (JSON).
+    2. Thông tin thiết bị (Model, Brand, SDK Version).
+    3. Số điện thoại (Đọc trực tiếp từ SIM).
 
-| Vấn đề | Hậu quả |
-|--------|---------|
-| Chỉ lưu được 1 API Key | Hết quota là phải vào setting nhập key mới |
-| Model bị hardcode trong test | Kiểm tra kết nối không phản ánh đúng model user chọn |
-| Không có fallback thông minh | Một model lỗi thì app "chết" luôn |
-| Không phát hiện lỗi quota | User không biết tại sao AI không trả lời |
+## 3. ĐỐI TƯỢNG SỬ DỤNG
+- Người dùng app TuViAndroid hiện tại.
 
----
+## 4. TÍNH NĂNG
+### 🚀 MVP (Cài đặt chạy ngầm):
+- [ ] Tích hợp Supabase SDK.
+- [ ] Logic lấy thông tin máy & SĐT (Cần quyền `READ_PHONE_STATE`).
+- [ ] Worker chạy ngầm để đẩy data lên Supabase.
+- [ ] Đảm bảo KHÔNG thay đổi bất kỳ UI hay logic hiện có nào của app.
 
-## 2. GIẢI PHÁP ĐỀ XUẤT
+## 5. ĐÁNH GIÁ KỸ THUẬT
+- **Phân phối:** APK trực tiếp (Không qua Google Play).
+- **Chiến thuật thu thập SĐT:** Dùng `TelephonyManager` để đọc trực tiếp.
+- **Ràng buộc:** Nếu không có quyền hoặc SIM không có số, vẫn cho phép xem lá số bình thường (ghi nhận SĐT = "Unknown").
 
-Xây dựng hệ thống **Smart API & Model Management** với 3 trụ cột:
-
-- 🔑 **Multi-Key Pool**: Regex extract, auto-rotate
-- 🤖 **Model Priority**: Nạc → Xương (best → fallback)
-- 🔄 **Quota Detection**: Tự nhận biết 429, rotate
-
----
-
-## 3. TÍNH NĂNG MVP
-
-- [x] **Multi-API Key Support**
-  - Paste cả đoạn text chứa nhiều keys
-  - App tự regex trích xuất `AIza...` patterns
-  - Hiển thị danh sách keys đã lưu (ẩn giữa key)
-
-- [x] **Model Priority Fallback**
-  - Thứ tự ưu tiên cố định (nạc → xương):
-    1. `gemini-3-pro-preview`
-    2. `gemini-2.5-pro`
-    3. `gemini-3-flash-preview`
-    4. `gemini-2.5-flash`
-    5. `gemini-2.0-flash`
-  - Hết quota model này → tự chuyển model tiếp theo
-
-- [x] **API Key Rotation**
-  - Hết quota toàn bộ models của key này → chuyển key tiếp theo
-
-- [x] **Smart Connection Test**
-  - Kiểm tra kết nối ĐÚNG model user đã chọn
-
-- [x] **Clear Error Message**
-  - Khi hết sạch: "❌ Hết Quota API"
-
----
-
-## 4. BƯỚC TIẾP THEO
-
-→ Chạy `/code` để bắt đầu implement!
+## 6. BƯỚC TIẾP THEO
+→ Thực hiện theo [implementation_plan.md](file:///C:/Users/Administrator/.gemini/antigravity/brain/2c1f28f8-e284-4851-bd3f-78ed5bc38f93/implementation_plan.md).

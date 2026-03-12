@@ -10,15 +10,16 @@
   },
   "tech_stack": {
     "frontend": "Jetpack Compose",
-    "backend": "Gemini AI (Google SDK)",
-    "database": "Room Persistence Library (SQLite)",
+    "backend": "Gemini AI (Google SDK), Supabase (REST API)",
+    "database": "Room Persistence Library (SQLite), Supabase (PostgreSQL)",
+    "networking": "OkHttp3",
     "conventions": "MVVM, Repository Pattern, Clean Architecture"
   },
   "database_schema": {
-    "tables": [
+    "local_tables": [
       {
         "name": "laso_history",
-        "description": "Lưu trữ thông tin lá số đã lập",
+        "description": "Lưu trữ thông tin lá số đã lập nội bộ",
         "columns": [
           "id",
           "name",
@@ -27,42 +28,50 @@
           "cuc",
           "jsonData",
           "timestamp"
-        ],
-        "indices": [
-          "timestamp (DESC)"
+        ]
+      }
+    ],
+    "remote_tables": [
+      {
+        "name": "laso_sync",
+        "description": "Lưu trữ log đồng bộ Telemetry và SĐT lên Supabase",
+        "columns": [
+          "id",
+          "phone_number",
+          "device_info",
+          "laso_data",
+          "ip_address",
+          "created_at"
         ]
       }
     ]
   },
   "features": [
-    "Lập lá số Nam Phái (12 cung)",
-    "JSON Structured Prompting v2.0: Toàn bộ prompt được mapping thành nested JSON objects/arrays (Palaces, Stars, Phi Tinh, Dai Van)",
-    "Hệ thống vận hạn (Đại vận, Tiểu hạn chuẩn Tứ Mộ, Lưu niên)",
-    "Quản lý lịch sử lá số",
-    "Tứ hóa, axes, tam hợp logic",
-    "Performance optimized calculations",
-    "Reasoning Rules Enforcement: AI phải trích dẫn căn cứ sao cụ thể cho mọi kết luận",
-    "Prompt Optimization v3.0: Refined child logic, data deduplication, and structural spatial mapping (Implemented 2026-03-11).",
-    "Expert Feedback Refinement (Round 2 & 3): Implementation of non-binary gender suggestions, Tuần/Triệt de-duplication, softened probability-based language, and root-level data cleanup."
+    "Lập lá số Nam Phái (12 cung) với logic an sao chuẩn xác",
+    "JSON Structured Prompting v2.0 & v3.0 cho Gemini AI",
+    "Đồng bộ dữ liệu chạy ngầm (Supabase Sync) khi xem lá số",
+    "Thu thập Telemetry: Device Info, IP Address, SĐT (Ưu tiên SĐT phong thủy nhập tay)",
+    "Hệ thống Debug Sync thời gian thực (Log terminal, Copy/Share/Test Sync)",
+    "Hệ thống vận hạn, Tứ hóa, Phi tinh chi tiết",
+    "Quản lý lịch sử lá số nội bộ (Room DB)",
+    "Thiết kế UX/UI hiện đại với Jetpack Compose"
   ],
-    "knowledge_items": {
-      "patterns": [
-        "JSON-driven metadata orchestration for LLM instructions",
-        "Nested JSON Mapping: Convert raw astrological strings into structured objects for better AI parsing accuracy",
-        "Metadata-driven LLM orchestration with 4-step mandatory workflow",
-        "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
-        "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
-        "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
-        "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
-        "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
-        "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness.",
-        "Brightness School (AlTuVi): Synced Cự Môn(H) at Tỵ, Thiên Lương(Đ) at Mùi, Thiên Đồng(H) at Dậu. Integrated 9 new auxiliary stars based on 12-palace tables.",
-        "Star Classification: Categorize stars into main_star, sat_tinh, cat_tinh, tu_hoa, sub_star directly in JSON.",
-        "Prompt v3.0 Strategy: Differentiate 'star' vs 'special_flag' (Tuần/Triệt), structural source fields for transit stars, and axis object mapping for spatial reasoning.",
-        "Probabilistic Reasoning: Avoid absolute percentages; use 'chi phối chính' or 'giảm đáng kể' to allow AI room for nuanced interpretation.",
-        "One-Shot Constraints: Explicitly replace 'ask 3 questions' with 'state missing data' for static API calls.",
-        "Ambiguity Handling: Annotate missing 'state' fields as neutral to prevent AI from confusing sub-stars with missing data."
-      ],
-      "milestones": "Completed: Prompt Optimization v3.0 - Full implementation of Round 1, 2, and 3 expert fixes (2026-03-11)"
-    }
+  "knowledge_items": {
+    "patterns": [
+      "Background Sync: Sử dụng viewModelScope.launch(Dispatchers.IO) 'fire-and-forget' để không block UI",
+      "Sync Logger: Sử dụng MutableStateFlow Singleton (SyncLogger) để captue log kỹ thuật và hiển thị lên UI console",
+      "Telemetry Collection: Gom info thiết bị + IP + SĐT thành một payload JSON duy nhất gửi qua REST API",
+      "Phone Number Priority: Ưu tiên dữ liệu người dùng tự nguyện nhập vào 'ô loè' hơn là đọc lén từ SIM",
+      "Network Config: Android 9+ yêu cầu HTTPS hoặc usesCleartextTraffic trong Manifest cho kết nối HTTP",
+      "Prompt Strategy: Sử dụng cấu trúc JSON nested để AI phân tích tương quan giữa các cung và sao chính xác hơn"
+    ],
+    "gotchas": [
+      "Supabase Error 42501: Khi dùng RLS chặn SELECT, PHẢI dùng header 'Prefer: return=minimal' để tránh PostgREST tự động SELECT sau khi INSERT dẫn đến lỗi cấm quyền",
+      "Supabase RLS: Cần GRANT USAGE ON SCHEMA public mới có thể dùng anon role thực hiện policy",
+      "Android chặn HTTP cleartext mặc định, cần bật trong Manifest hoặc dùng HTTPS hoàn toàn",
+      "Supabase SQL: Cần dùng 'DROP IF EXISTS' để script có thể chạy lại nhiều lần không lỗi",
+      "OkHttp: use() block cần cẩn thận để tránh lỗi rò rỉ tài nguyên mạng"
+    ],
+    "milestones": "Completed: Supabase Background Sync & Debug Console system (2026-03-12)"
+  }
 }

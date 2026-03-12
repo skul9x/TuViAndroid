@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.tviai.data.HistoryDatabase
 import com.example.tviai.data.HistoryRepository
+import com.example.tviai.data.remote.TelemetryRepository
 import com.example.tviai.data.SettingsDataStore
 
 class TuViApplication : Application() {
@@ -32,5 +33,9 @@ class AppContainer(private val context: android.content.Context) {
     
     val settingsDataStore by lazy {
         SettingsDataStore(context)
+    }
+
+    val telemetryRepository by lazy {
+        TelemetryRepository(context)
     }
 }
