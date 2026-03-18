@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.tviai.core.TuViLogic
 import com.example.tviai.navigation.NavGraph
 import com.example.tviai.ui.theme.TViAITheme
 import com.example.tviai.viewmodel.TuViViewModel
@@ -32,7 +33,8 @@ class MainActivity : ComponentActivity() {
                             @Suppress("UNCHECKED_CAST")
                             return TuViViewModel(
                                 appContainer.historyRepository,
-                                appContainer.settingsDataStore
+                                appContainer.settingsDataStore,
+                                TuViLogic(appContainer.solarTermsJson)
                             ) as T
                         }
                     }

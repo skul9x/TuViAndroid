@@ -428,8 +428,84 @@ object Constants {
         "Lộc Phùng Xung Phá", "Mã Đầu Đới Kiếm bị phá", "Tam Kỵ Trùng Phùng (tứ hóa bản mệnh/đại vận/lưu niên)",
         "Nhật Nguyệt phản bối (cả hai đều hãm)"
     )
+    // CACH CUC_DAC_BIET
     val CACH_CUC_DAC_BIET = listOf(
         "Cơ Nguyệt Đồng Lương (công chức, ổn định)", "Sát Phá Tham (khai phá, biến động)",
         "Cự Nhật (miệng lưỡi, truyền thông, nước ngoài)", "Liêm Tham (tình cảm phức tạp, nghệ thuật)"
     )
+
+    // --- BAZI ADDITIONS ---
+    
+    // Ngũ Hành của Thiên Can
+    val NGU_HANH_CAN = mapOf(
+        "Giáp" to "Mộc", "Ất" to "Mộc", "Bính" to "Hỏa", "Đinh" to "Hỏa",
+        "Mậu" to "Thổ", "Kỷ" to "Thổ", "Canh" to "Kim", "Tân" to "Kim",
+        "Nhâm" to "Thủy", "Quý" to "Thủy"
+    )
+
+    // Âm Dương Can
+    val CAN_YIN_YANG = mapOf(
+        "Giáp" to "Dương", "Ất" to "Âm", "Bính" to "Dương", "Đinh" to "Âm",
+        "Mậu" to "Dương", "Kỷ" to "Âm", "Canh" to "Dương", "Tân" to "Âm",
+        "Nhâm" to "Dương", "Quý" to "Âm"
+    )
+
+    // Âm Dương Chi
+    val CHI_YIN_YANG = mapOf(
+        "Tý" to "Dương", "Sửu" to "Âm", "Dần" to "Dương", "Mão" to "Âm",
+        "Thìn" to "Dương", "Tỵ" to "Âm", "Ngọ" to "Dương", "Mùi" to "Âm",
+        "Thân" to "Dương", "Dậu" to "Âm", "Tuất" to "Dương", "Hợi" to "Âm"
+    )
+
+    // Tàng Can
+    val TANG_CAN = mapOf(
+        "Tý" to listOf("Quý"),
+        "Sửu" to listOf("Kỷ", "Quý", "Tân"),
+        "Dần" to listOf("Giáp", "Bính", "Mậu"),
+        "Mão" to listOf("Ất"),
+        "Thìn" to listOf("Mậu", "Ất", "Quý"),
+        "Tỵ" to listOf("Bính", "Canh", "Mậu"),
+        "Ngọ" to listOf("Đinh", "Kỷ"),
+        "Mùi" to listOf("Kỷ", "Đinh", "Ất"),
+        "Thân" to listOf("Canh", "Nhâm", "Mậu"),
+        "Dậu" to listOf("Tân"),
+        "Tuất" to listOf("Mậu", "Tân", "Đinh"),
+        "Hợi" to listOf("Nhâm", "Giáp")
+    )
+
+    // Trọng số Tàng Can (Dùng để tính element balance)
+    // Tỉ lệ % sức mạnh của các can tàng trong chi
+    val TANG_CAN_WEIGHT = mapOf(
+        "Tý" to mapOf("Quý" to 100),
+        "Sửu" to mapOf("Kỷ" to 60, "Quý" to 30, "Tân" to 10),
+        "Dần" to mapOf("Giáp" to 60, "Bính" to 30, "Mậu" to 10),
+        "Mão" to mapOf("Ất" to 100),
+        "Thìn" to mapOf("Mậu" to 60, "Ất" to 30, "Quý" to 10),
+        "Tỵ" to mapOf("Bính" to 60, "Canh" to 30, "Mậu" to 10),
+        "Ngọ" to mapOf("Đinh" to 70, "Kỷ" to 30),
+        "Mùi" to mapOf("Kỷ" to 60, "Đinh" to 30, "Ất" to 10),
+        "Thân" to mapOf("Canh" to 60, "Nhâm" to 30, "Mậu" to 10),
+        "Dậu" to mapOf("Tân" to 100),
+        "Tuất" to mapOf("Mậu" to 60, "Tân" to 30, "Đinh" to 10),
+        "Hợi" to mapOf("Nhâm" to 70, "Giáp" to 30)
+    )
+
+    fun calculateTenGod(dayMaster: String, targetStem: String): String {
+        val dmHanh = NGU_HANH_CAN[dayMaster] ?: return ""
+        val targetHanh = NGU_HANH_CAN[targetStem] ?: return ""
+        val dmYinYang = CAN_YIN_YANG[dayMaster] ?: ""
+        val targetYinYang = CAN_YIN_YANG[targetStem] ?: ""
+        
+        val relate = sinhKhac(dmHanh, targetHanh)
+        val sameSign = dmYinYang == targetYinYang
+
+        return when (relate) {
+            "đồng hành" -> if (sameSign) "Tỷ Kiên" else "Kiếp Tài"
+            "sinh" -> if (sameSign) "Thực Thần" else "Thương Quan"
+            "được sinh" -> if (sameSign) "Thiên Ấn" else "Chính Ấn"
+            "khắc" -> if (sameSign) "Thiên Tài" else "Chính Tài"
+            "bị khắc" -> if (sameSign) "Thất Sát" else "Chính Quan"
+            else -> ""
+        }
+    }
 }

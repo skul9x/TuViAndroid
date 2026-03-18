@@ -121,7 +121,7 @@ class GeminiClient(
             // Silent switch - no message needed
 
             // Inner loop: Models (priority order)
-            for ((modelIndex, modelToUse) in modelsToTry.withIndex()) {
+            for (modelToUse in modelsToTry) {
                 try {
                     val model = GenerativeModel(
                         modelName = modelToUse,
@@ -174,7 +174,6 @@ class GeminiClient(
 
     private fun constructPrompt(data: LasoData): String {
         val info = data.info
-        val cungList = data.cung
         val style = ReadingStyle.fromString(info.readingStyle)
 
         val stylePrompts = mapOf(
@@ -1230,7 +1229,7 @@ class GeminiClient(
             // Palaces (12 cung)
             put("palaces", buildPalacesJsonArray(cungList))
 
-            // Fortune context: map viewing year to đại vận + overlap guidance
+            // Fortune context
             put("fortune_context", JSONObject().apply {
                 put("year", info.viewingYear)
                 put("dai_van_current", info.daiVanInfo)
@@ -1241,8 +1240,46 @@ class GeminiClient(
                 put("tu_hoa_overlap_guide", "Phải kiểm tra xếp chồng tứ hóa: Song Kỵ (2 Kỵ cùng cung), Song Lộc (2 Lộc cùng cung), Lộc Kỵ giao nhau tại một cung. Ưu tiên phân tích: tứ hóa bản mệnh + đại vận xếp chồng → tác động lên Mệnh/Quan/Tài/Phu Thê trước, sau đó mới xét lưu niên.")
             })
 
+            // Tứ Trụ (BaZi) - NEW v4.0
+            if (info.baZiData != null) {
+                val bz = info.baZiData
+                put("ba_zi", JSONObject().apply {
+                    put("_objective", "Dùng để bổ trợ phân tích cường độ ngũ hành và vượng suy của đương số.")
+                    put("birth_info_astronomical", bz.birthInfo)
+                    put("pillars", JSONObject().apply {
+                        put("year", buildPillarJson(bz.year))
+                        put("month", buildPillarJson(bz.month))
+                        put("day", buildPillarJson(bz.day))
+                        put("hour", buildPillarJson(bz.hour))
+                    })
+                    put("ten_gods", JSONObject().apply {
+                        put("day_master", bz.tenGods.dayMaster)
+                        put("year_stem", bz.tenGods.yearStemGod); put("year_branch", bz.tenGods.yearBranchGod)
+                        put("month_stem", bz.tenGods.monthStemGod); put("month_branch", bz.tenGods.monthBranchGod)
+                        put("hour_stem", bz.tenGods.hourStemGod); put("hour_branch", bz.tenGods.hourBranchGod)
+                    })
+                    put("solar_terms", JSONObject().apply {
+                        put("current", bz.currentTerm)
+                        put("next", bz.nextTerm)
+                        put("next_time", bz.nextTermTime)
+                    })
+                    put("element_balance", JSONObject().apply {
+                        bz.elementBalance.forEach { (k, v) -> put(k, v) }
+                    })
+                })
+            }
+
             // Fortune request
             put("fortune_request", vanHanRequest)
+        }
+    }
+
+    private fun buildPillarJson(p: com.example.tviai.data.Pillar): JSONObject {
+        return JSONObject().apply {
+            put("can_chi", "${p.stem} ${p.branch}")
+            put("stem_attrs", "${p.stemYinYang} ${p.stemElement}")
+            put("branch_attrs", "${p.branchYinYang} ${p.branchElement}")
+            put("hidden_stems", JSONArray(p.hiddenStems))
         }
     }
 

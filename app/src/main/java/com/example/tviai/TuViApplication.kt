@@ -33,4 +33,12 @@ class AppContainer(private val context: android.content.Context) {
     val settingsDataStore by lazy {
         SettingsDataStore(context)
     }
+
+    val solarTermsJson by lazy {
+        try {
+            context.assets.open("solar-term.json").bufferedReader().use { it.readText() }
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

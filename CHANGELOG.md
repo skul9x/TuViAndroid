@@ -1,5 +1,25 @@
 # Changelog
 
+## [2026-03-18 - Bazi "Pro Engine" v4.0 & Astronomical Precision]
+### Added
+- **BaZi (Four Pillars) Pro Engine**: Implemented a comprehensive Bazi calculation system based on exact astronomical boundaries.
+- **Solar Terms Integration**: Loaded `solar-term.json` (1899-2100) to determine precise month and year transitions based on 24 Solar Terms (Tiết Khí).
+- **True Solar Time (TST)**: Added TST calculation correcting longitude offsets (from 105.8°E baseline) for superior chart accuracy.
+- **Hidden Stems (Tàng Can)**: Integrated full mapping and element weighting for all 12 Earthly Branches.
+- **Ten Gods (Thập Thần)**: Implemented logic to calculate the 10 relationships (Chính Quan, Thiên Ấn, etc.) relative to the Day Master.
+- **Five Elements Balance**: Added a detailed scoring system for Kim, Mộc, Thủy, Hỏa, Thổ across all four pillars.
+- **Unit Testing**: Created `BaZiLogicTest.kt` with verification for 18/03/2026 (Modern reference) and 05/02/1984 (Astronomical transition) scenarios.
+
+### Changed
+- **`TuViLogic.kt` Integration**: Integrated `BaZiLogic` into the core engine to provide Bazi supplements to the primary TuVi analysis.
+- **AI Prompt (Gemini)**: Structured Bazi data into the JSON prompt, enabling AI to perform cross-methodology analysis (Bazi + TuVi).
+- **Application Infrastructure**: Moved `solar-term.json` to app assets and implemented single-load caching in `AppContainer`.
+
+### Fixed
+- **Month Branch Bug**: Resolved a logic error where non-chronological solar term checks caused incorrect month mapping.
+- **Pathing (Tests)**: Fixed `FileNotFoundException` in unit tests by using absolute path resolution for assets.
+
+
 ## [2026-03-18 - UI Refresh & Build Stability]
 ### Added
 - **UI Responsiveness**: Implemented `defaultMinSize` and `verticalScroll` in `GoldButton` and `LasoScreen.kt` to prevent text clipping at high system font scales (e.g., 200%).

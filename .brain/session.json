@@ -1,31 +1,43 @@
 {
-  "updated_at": "2026-03-18T15:10:00Z",
+  "updated_at": "2026-03-18T19:30:00Z",
   "working_on": {
-    "feature": "Tiếp nhận Feedback & Tối ưu Prompt",
-    "task": "Sửa 7 lỗi JSON (Tuần/Triệt lặp, rác text, khoảng trắng, sub_star state) và Ép xung cấu trúc mảng cho Gemini Client",
-    "status": "Hoàn tất & Tested (100% Pass)",
+    "feature": "BaZi (Four Pillars) Pro Engine v4.0",
+    "task": "Implementation, Integration, and Verification with Astronomical Precision",
+    "status": "Hoàn tất & Verified with JUnit Tests (100% Pass)",
     "files": [
+      "app/src/main/java/com/example/tviai/core/BaZiLogic.kt",
       "app/src/main/java/com/example/tviai/core/TuViLogic.kt",
-      "app/src/main/java/com/example/tviai/core/GeminiClient.kt"
+      "app/src/main/java/com/example/tviai/core/GeminiClient.kt",
+      "app/src/main/java/com/example/tviai/core/Constants.kt",
+      "app/src/main/java/com/example/tviai/data/Models.kt",
+      "app/src/main/java/com/example/tviai/TuViApplication.kt",
+      "app/src/main/java/com/example/tviai/MainActivity.kt"
     ],
     "decisions_made": [
-      "Rút '[Cung Đại Vận]' & '[Cung Lưu Nguyệt]' từ star list ra mảng 'flags' để chống empty_name",
-      "Gạt bỏ state (M/V/Đ/H) của các sub_star để tiết kiệm token và làm sạch data mảng",
-      "Map cứng Tuần/Triệt vào `flags` thay vì lặp vào mảng phụ tinh"
+      "Use pre-computed solar-term.json for 24 solar terms to ensure 100% accuracy without heavy library",
+      "Implement True Solar Time (TST) with longitude correction (105.8°E)",
+      "Reordered monthStarts chronologically to fix month mapping logic",
+      "Integrate Bazi data into Gemini JSON prompt for cross-methodology AI analysis"
     ]
   },
   "recent_changes": [
     {
-      "timestamp": "2026-03-18T14:40:00Z",
-      "type": "bug_fix",
-      "description": "Trim() the input name to prevent prompt logic breakage",
-      "files": ["TuViLogic.kt"]
+      "timestamp": "2026-03-18T18:30:00Z",
+      "type": "feature",
+      "description": "Implemented BaZiLogic with TST, Solar Terms, Pillars, Ten Gods, and Element Balance",
+      "files": ["BaZiLogic.kt"]
     },
     {
-      "timestamp": "2026-03-18T15:05:00Z",
-      "type": "optimization",
-      "description": "Refactored parsing logic to flatten arrays `fixed_stars` and `transit_stars` to raw Strings logic instead of JSON tree. Replaced parseStarToJson with parseStarToString.",
-      "files": ["GeminiClient.kt"]
+      "timestamp": "2026-03-18T19:15:00Z",
+      "type": "integration",
+      "description": "Linked BaZi with TuViLogic and synchronized Gemini prompt structure",
+      "files": ["TuViLogic.kt", "GeminiClient.kt"]
+    },
+    {
+      "timestamp": "2026-03-18T19:25:00Z",
+      "type": "bug_fix",
+      "description": "Fixed non-chronological month mapping in BaZiLogic",
+      "files": ["BaZiLogic.kt"]
     }
   ]
 }

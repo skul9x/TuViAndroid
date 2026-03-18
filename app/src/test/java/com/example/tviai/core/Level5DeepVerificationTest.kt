@@ -30,7 +30,7 @@ class Level5DeepVerificationTest {
         solarDay = 5,
         solarMonth = 3,
         solarYear = 1992,
-        hour = 10,
+        hour = 9,
         gender = Gender.NAM,
         viewingYear = 2026,
         lunarDayInput = 2,
@@ -603,5 +603,49 @@ class Level5DeepVerificationTest {
         println("Song Kỵ/Song Lộc reference: ✅")
         println("Mệnh/Quan/Tài/Phu Thê priority: ✅")
         println("Expert Fix #9: ✅")
+    }
+
+    @Test
+    fun verifyPillarsForTruong() {
+        val jsonPath = "/home/skul9x/Desktop/Test_code/TuViAndroid-main/solar-term.json"
+        val jsonContent = java.io.File(jsonPath).readText()
+        val tuviLogic = TuViLogic(jsonContent)
+        
+        val birthDateInput = testInput.copy(
+            solarDay = 5,
+            solarMonth = 3,
+            solarYear = 1992,
+            hour = 9,
+            gender = Gender.NAM
+        )
+        
+        val result = tuviLogic.anSao(birthDateInput)
+        val baziData = result.info.baZiData
+        
+        println("============================================================")
+        println("DETAILED VERIFICATION FOR 1992-03-05 09:00:00")
+        println("Lunar Date: ${result.info.lunarDate} (Giờ ${LunarConverter.getChiGio(birthDateInput.hour)})")
+        println("Mệnh: ${result.info.menhNguHanh} at ${result.info.menhTai}")
+        println("Cục: ${result.info.cuc}")
+        println("Âm Dương: ${result.info.amDuong}")
+        
+        if (baziData != null) {
+            println("\nBAZI PILLARS:")
+            println("Year Pillar:  ${baziData.year.stem}${baziData.year.branch}")
+            println("Month Pillar: ${baziData.month.stem}${baziData.month.branch}")
+            println("Day Pillar:   ${baziData.day.stem}${baziData.day.branch}")
+            println("Hour Pillar:  ${baziData.hour.stem}${baziData.hour.branch}")
+        } else {
+            println("\nBaZiData is NULL!")
+        }
+        
+        println("\nSTAR GROUPS (Mệnh, Tài, Quan, Di):")
+        result.cung.filter { it.chucNang in listOf("Mệnh", "Tài Bạch", "Quan Lộc", "Thiên Di") }.forEach { cung ->
+            println("${cung.chucNang} (${cung.name}): ${cung.chinhTinh.joinToString(", ")}")
+            if (cung.phuTinh.isNotEmpty()) {
+                println("  Phụ tinh: ${cung.phuTinh.joinToString(", ")}")
+            }
+        }
+        println("============================================================")
     }
 }

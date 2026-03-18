@@ -18,7 +18,7 @@ import com.example.tviai.core.Constants.KHOI_VIET_POS
 import com.example.tviai.core.Constants.LOC_TON_MAP
 import com.example.tviai.core.Constants.STAR_SCORES
 
-class TuViLogic {
+class TuViLogic(private val solarTermsJson: String? = null) {
     
     fun anSao(input: UserInput): LasoData {
         // 1. Convert Lunar
@@ -244,9 +244,17 @@ class TuViLogic {
         } else ""
 
         // 12. Generate Full Đại Vận List
-        val cucVal = cucNumber
-        val fullDaiVanList = buildFullDaiVanList(menhIndex, cucVal, isThuanDV, canNamIndex)
-        
+        val fullDaiVanList = buildFullDaiVanList(menhIndex, cucNumber, isThuanDV, canNamIndex)
+
+        // 13. Calculate BaZi if solarTermsJson is available
+        val baZiData = solarTermsJson?.let {
+            try {
+                BaZiLogic(it).calculateBaZi(input)
+            } catch (e: Exception) {
+                null
+            }
+        }
+
         return LasoData(
             info = UserInfoResult(
                 name = input.name.trim(),
@@ -271,7 +279,8 @@ class TuViLogic {
                 luuNguyetCung = luuNguyetCungName,
                 phiTinhTuHoa = phiTinhData,
                 phiTinhLuuNguyet = phiTinhLuuNguyet,
-                luuNguyet12Months = luuNguyet12MonthsJsonString
+                luuNguyet12Months = luuNguyet12MonthsJsonString,
+                baZiData = baZiData
             ),
             cung = cungList,
             scores = scores

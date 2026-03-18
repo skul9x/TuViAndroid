@@ -40,7 +40,9 @@ data class UserInput(
     val readingStyle: ReadingStyle = ReadingStyle.NGHIEM_TUC,
     val lunarDayInput: Int? = null,
     val lunarMonthInput: Int? = null,
-    val lunarYearInput: Int? = null
+    val lunarYearInput: Int? = null,
+    val longitude: Double? = 105.8, // Mặc định Hà Nội
+    val dayBoundaryAt23: Boolean = true // Mặc định đổi ngày lúc 23h
 )
 
 data class CungInfo(
@@ -52,6 +54,39 @@ data class CungInfo(
     val chinhTinh: MutableList<String> = mutableListOf(),
     val phuTinh: MutableList<String> = mutableListOf(),
     var score: Int = 0
+)
+
+data class Pillar(
+    val stem: String,
+    val stemYinYang: String,
+    val stemElement: String,
+    val branch: String,
+    val branchYinYang: String,
+    val branchElement: String,
+    val hiddenStems: List<String>
+)
+
+data class TenGods(
+    val dayMaster: String,
+    val yearStemGod: String,
+    val yearBranchGod: String,
+    val monthStemGod: String,
+    val monthBranchGod: String,
+    val hourStemGod: String,
+    val hourBranchGod: String
+)
+
+data class BaZiData(
+    val birthInfo: String, // Detail about TST, Longitude
+    val year: Pillar,
+    val month: Pillar,
+    val day: Pillar,
+    val hour: Pillar,
+    val tenGods: TenGods,
+    val currentTerm: String,
+    val nextTerm: String,
+    val nextTermTime: String,
+    val elementBalance: Map<String, Int>
 )
 
 data class UserInfoResult(
@@ -77,7 +112,8 @@ data class UserInfoResult(
     val luuNguyetCung: String = "",     // Cung lưu nguyệt tháng xem
     val phiTinhTuHoa: String = "",      // Pre-computed data phi tinh 12 cung (Bản mệnh)
     val phiTinhLuuNguyet: String = "",  // Pre-computed phi tinh lưu nguyệt
-    val luuNguyet12Months: String = ""  // Chứa mảng JSON 12 tháng lưu nguyệt
+    val luuNguyet12Months: String = "", // Chứa mảng JSON 12 tháng lưu nguyệt
+    val baZiData: BaZiData? = null      // Dữ liệu Tứ Trụ
 )
 
 data class LasoData(

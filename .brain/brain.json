@@ -3,31 +3,34 @@
   "project": {
     "name": "TuViAndroid",
     "type": "Android App (Kotlin)",
-    "status": "In Development - Prompt Optimization"
+    "status": "v4.0 - Bazi Engine Implemented"
   },
   "tech_stack": {
     "frontend": "Android XML/Kotlin",
     "backend": "Gemini AI API Intergration (Kotlin)",
-    "database": "Local storage (Android context)"
+    "database": "Local storage (Android context)",
+    "astronomy": "Solar Terms (JSON based lookup)"
   },
   "features": [
     "Lá số Tử Vi calculation",
     "Gemini AI interpretation",
     "12-month transit (Lưu Nguyệt) analysis",
-    "Prompt data compression (JSON array flattening)"
+    "BaZi (Four Pillars) Pro Engine v4.0",
+    "Astronomical precision with Solar Terms & TST"
   ],
   "knowledge_items": {
     "patterns": [
       "Separating UI data from AI data in TuViLogic",
       "Injecting all 12 months transit into prompt regardless of view mode",
-      "Flattening star objects into formatted strings (e.g. `ĐV. Lộc Tồn [cat_tinh]`) drastically reduces prompt length while keeping meaning untouched for LLMs"
+      "Astronomical precision in Bazi using Lập Xuân boundaries and True Solar Time (TST)",
+      "Flattening star objects into formatted strings drastically reduces prompt length"
     ],
     "gotchas": [
+      "Month branches in Bazi must be calculated from chronological solar terms to avoid overwriting early months with late months (e.g. minor_cold vs awakening_of_insects)",
       "Deep cloning of CungInfo is required to prevent star accumulation during loops",
-      "Gemini prompt size increases significantly with 12-month JSON data",
-      "Trailing whitespace in names ('Nguyễn Thị Ngọc ') must be trimmed before injecting to prompt",
-      "Flags like Tuần/Triệt or markers like `[Cung Lưu Nguyệt]` shouldn't be parsed as stars, otherwise LLMs will hallucinate or read empty names",
-      "Inconsistent prefix formats (L., LN.) confuse LLMs—must unify using RegEx"
+      "Trailing whitespace in names must be trimmed before injecting to prompt",
+      "JUnit tests for assets in Android require absolute paths or specialized asset loading",
+      "Day boundary at 23:00 is a critical Bazi setting that changes the Day Pillar"
     ]
   }
 }

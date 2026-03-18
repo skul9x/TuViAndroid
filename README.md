@@ -5,10 +5,10 @@ TuViAndroid là một ứng dụng Android hiện đại được thiết kế �
 ## 🌟 Tính năng chính
 
 - **Lập lá số Tử Vi chính xác**: Tính toán đầy đủ 12 cung, chính tinh, phụ tinh, tứ hóa, tuần triệt, đại vận, tiểu hạn... theo hệ thống tinh hệ cổ điển.
-- **Luận giải bằng AI (Gemini)**: Tích hợp Google Gemini API để phân tích lá số theo nhiều phong cách (Đời thường, Nghiêm túc, Chuyên gia...).
+- **Bát Tự (BaZi) Pro Engine v4.0**: Hệ thống tính Tứ Trụ chuyên sâu với độ chính xác thiên văn (dựa trên 24 Tiết khí, Lập Xuân, và Giờ Mặt Trời Thật - TST tại kinh độ 105.8°E).
+- **Luận giải bằng AI (Gemini)**: Tích hợp Google Gemini API để phân tích lá số theo nhiều phong cách (Đời thường, Nghiêm túc, Chuyên gia...). Phân tích kết hợp giữa Tử Vi và Bát Tự để đưa ra nhận định vượng suy, dụng thần.
 - **Luận giải đa tầng**: Bao gồm phân tích bản mệnh, vận hạn năm hiện tại và chi tiết vận hạn 12 tháng (Lưu Nguyệt).
 - **Giao diện hiện đại**: Xây dựng bằng Jetpack Compose, hỗ trợ Dark Mode và các hiệu ứng động mượt mà.
-- **Lưu trữ lịch sử**: Lưu lại các lá số đã xem để tiện tra cứu sau này.
 - **Hỗ trợ Lưu Nguyệt**: Tính toán và hiển thị các sao lưu theo tháng (Lưu Nguyệt) một cách chi tiết.
 
 ## 🛠️ Công nghệ sử dụng
@@ -25,7 +25,8 @@ TuViAndroid là một ứng dụng Android hiện đại được thiết kế �
 ## 📁 Cấu trúc dự án
 
 - `app/src/main/java/com/example/tviai/core`: Chứa logic lõi về Tử Vi (Lịch âm dương, An sao, Tứ hóa).
-- `app/src/main/java/com/example/tviai/core/GeminiClient.kt`: Xử lý giao tiếp với Gemini AI và xây dựng Prompt chuyên sâu.
+- `app/src/main/java/com/example/tviai/core/BaZiLogic.kt`: Core engine tính Tứ Trụ, Thập Thần và Ngũ Hành theo tiết khí.
+- `app/src/main/java/com/example/tviai/core/GeminiClient.kt`: Xử lý giao tiếp với Gemini AI và xây dựng Prompt chuyên sâu (Optimization v3.0).
 - `app/src/main/java/com/example/tviai/data`: Các Repo, DAO và Data mẫu cho ứng dụng.
 - `app/src/main/java/com/example/tviai/ui`: Chứa các màn hình (screens) và components xây dựng bằng Compose.
 - `app/src/main/java/com/example/tviai/viewmodel`: Quản lý trạng thái và logic nghiệp vụ cho UI.
