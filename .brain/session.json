@@ -1,57 +1,30 @@
 {
-  "updated_at": "2026-03-18T12:42:00Z",
+  "updated_at": "2026-03-18T13:16:00Z",
   "working_on": {
-    "feature": "UI Refinement",
-    "task": "Centering 'Luận giải AI' button text",
-    "status": "completed",
+    "feature": "Lưu Nguyệt 12 Tháng & Prompt Optimization",
+    "task": "Bug fix: Deep Clone cungList before transit loop; Plan: Prompt Compression",
+    "status": "Ready for Compression Phase",
     "files": [
-      "app/src/main/java/com/example/tviai/ui/components/Common.kt"
+      "app/src/main/java/com/example/tviai/core/TuViLogic.kt",
+      "app/src/main/java/com/example/tviai/core/GeminiClient.kt"
     ],
-    "notes": "All UI clipping and alignment issues are resolved."
+    "decisions_made": [
+      "Exclude 'LN.' stars from base palaces in prompt to avoid confusion",
+      "Flatten JSON objects of stars into space-delimited strings to save tokens"
+    ]
   },
-  "pending_tasks": [
-    {
-      "task": "Confirm UI responsiveness with the user",
-      "priority": "low"
-    }
-  ],
   "recent_changes": [
     {
-      "timestamp": "2026-03-18T12:15:00Z",
-      "type": "fix",
-      "description": "Resolved build errors in GeminiClient.kt caused by merge conflicts."
+      "timestamp": "2026-03-18T13:10:00Z",
+      "type": "bug_fix",
+      "description": "Fixed LN star duplication by capturing cleanCungList before 12-month loop in TuViLogic",
+      "files": ["TuViLogic.kt"]
     },
     {
-      "timestamp": "2026-03-18T12:20:00Z",
-      "type": "ui",
-      "description": "Fixed text clipping in GoldButton and implemented verticalScroll in LasoScreen.kt."
-    },
-    {
-      "timestamp": "2026-03-18T12:35:00Z",
-      "type": "ui",
-      "description": "Centered 'Luận giải AI' text on GoldButton."
-    },
-    {
-      "timestamp": "2026-03-18T12:40:00Z",
-      "type": "chore",
-      "description": "Moved leftover .txt files to legacy/ directory for codebase cleanliness."
-    }
-  ],
-  "errors_encountered": [
-    {
-      "error": "Kotlin syntax errors in GeminiClient.kt",
-      "solution": "Cleaned git merge markers and kept latest logic.",
-      "resolved": true
-    }
-  ],
-  "decisions_made": [
-    {
-      "decision": "Use defaultMinSize instead of fixed height for global buttons",
-      "reason": "Ensures UI is responsive to system font size changes."
-    },
-    {
-      "decision": "Add verticalScroll to the central panel in LasoScreen",
-      "reason": "Prevents content clipping on smaller devices or large fonts."
+      "timestamp": "2026-03-18T13:12:00Z",
+      "type": "optimization",
+      "description": "Exfiltrated LN stars from transit_stars in main palaces to forced AI to use 12-month array",
+      "files": ["GeminiClient.kt"]
     }
   ]
 }

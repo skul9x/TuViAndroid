@@ -1202,9 +1202,6 @@ class GeminiClient(
 
             // Phi Tinh
             put("phi_tinh_tu_hoa", if (info.phiTinhTuHoa.isNotEmpty()) parsePhiTinhToJson(info.phiTinhTuHoa) else JSONObject().apply { put("status", "Không có dữ liệu phi tinh") })
-            if (info.phiTinhLuuNguyet.isNotEmpty()) {
-                put("phi_tinh_luu_nguyet", info.phiTinhLuuNguyet)
-            }
 
             // Tu Hoa Summary (Marked as note for AI to cross-check palace data)
             put("tu_hoa_summary", buildTuHoaSummaryJson(cungList).apply {
@@ -1281,16 +1278,23 @@ class GeminiClient(
             if (c.chinhTinh.isEmpty()) flags.put("Vô chính diệu")
             if (c.phuTinh.any { it.startsWith("Tuần") }) flags.put("Gặp Tuần")
             if (c.phuTinh.any { it.startsWith("Triệt") }) flags.put("Gặp Triệt")
+            if (c.phuTinh.contains("[Cung Đại Vận]")) flags.put("Cung Đại Vận")
+            if (c.phuTinh.contains("[Cung Lưu Nguyệt]")) flags.put("Cung Lưu Nguyệt")
 
             val fixedPhu = c.phuTinh.filter {
                 !it.startsWith("ĐV.") && !it.startsWith("L.") &&
-                !it.startsWith("(ĐV.") && !it.startsWith("(L.") &&
-                it != "[Cung Đại Vận]"
+                !it.startsWith("LN.") && !it.startsWith("(ĐV.") && 
+                !it.startsWith("(L.") && !it.startsWith("(LN.") &&
+                it != "[Cung Đại Vận]" && it != "[Cung Lưu Nguyệt]" &&
+                !it.startsWith("Tuần") && !it.startsWith("Triệt")
             }
-            // Convert [Cung Đại Vận] marker to palace-level flag instead of empty-name star
-            if (c.phuTinh.contains("[Cung Đại Vận]")) flags.put("Cung Đại Vận")
+            
             val daiVanStars = c.phuTinh.filter { it.startsWith("ĐV.") || it.startsWith("(ĐV.") }
-            val luuStars = c.phuTinh.filter { it.startsWith("L.") || it.startsWith("(L.") }
+            val luuStars = c.phuTinh.filter { 
+                (it.startsWith("L.") || it.startsWith("(L.")) && 
+                !it.startsWith("LN.") && !it.startsWith("(LN.") 
+            }
+            val luuNguyetStars = c.phuTinh.filter { it.startsWith("LN.") || it.startsWith("(LN.") }
 
             val palace = JSONObject().apply {
                 put("name", c.name)
@@ -1299,13 +1303,13 @@ class GeminiClient(
                 if (flags.length() > 0) put("flags", flags)
                 
                 val starArr = JSONArray()
-                c.chinhTinh.forEach { starArr.put(parseStarToJson(it, true)) }
-                fixedPhu.forEach { starArr.put(parseStarToJson(it, false)) }
+                c.chinhTinh.forEach { starArr.put(parseStarToString(it, true)) }
+                fixedPhu.forEach { starArr.put(parseStarToString(it, false)) }
                 put("fixed_stars", starArr)
                 
-                if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty()) {
+                if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty() || luuNguyetStars.isNotEmpty()) {
                     val transitArr = JSONArray()
-                    (daiVanStars + luuStars).forEach { transitArr.put(parseStarToJson(it, false)) }
+                    (daiVanStars + luuStars + luuNguyetStars).forEach { transitArr.put(parseStarToString(it, false)) }
                     put("transit_stars", transitArr)
                 }
             }
@@ -1362,43 +1366,58 @@ class GeminiClient(
         return result
     }
 
-    private fun parseStarToJson(raw: String, isChinhTinh: Boolean): JSONObject {
-        val obj = JSONObject()
+    private fun parseStarToString(raw: String, isChinhTinh: Boolean): String {
         var working = raw.trim()
 
         // Extract flags like [BỊ TRIỆT LỘ], [BỊ TUẦN KHÔNG]
-        val flags = JSONArray()
-        Regex("""\[([^\]]+)\]""").findAll(working).forEach { flags.put(it.groupValues[1]) }
+        val flags = mutableListOf<String>()
+        Regex("""\[([^\]]+)\]""").findAll(working).forEach { flags.add(it.groupValues[1]) }
         working = working.replace(Regex("""\s*\[[^\]]+\]"""), "")
 
         // Check if Tứ Hóa: "(Hóa Lộc)", "(ĐV. Hóa Kỵ)", "(L.Hóa Lộc)"
         if (working.startsWith("(") && working.endsWith(")")) {
-            obj.put("name", working.removeSurrounding("(", ")"))
-            obj.put("type", "tu_hoa")
-            return obj
+            var thName = working.removeSurrounding("(", ")").trim()
+            if (thName.startsWith("L.") && !thName.startsWith("L. ")) thName = thName.replaceFirst("L.", "L. ")
+            if (thName.startsWith("LN.") && !thName.startsWith("LN. ")) thName = thName.replaceFirst("LN.", "LN. ")
+            return "$thName [tu_hoa]"
         }
 
         // Extract state: "Thiên Tướng (M)" → name="Thiên Tướng", state="M"
         val stateMatch = Regex("""^(.+?)\s*\(([MVĐHB]|Bình)\)$""").find(working)
-        val name: String
+        var name: String
+        var stateStr = ""
         if (stateMatch != null) {
             name = stateMatch.groupValues[1].trim()
-            obj.put("state", stateMatch.groupValues[2])
+            stateStr = stateMatch.groupValues[2]
         } else {
             name = working
         }
 
-        val baseName = name.removePrefix("ĐV. ").removePrefix("L.").removePrefix("LN. ")
+        // Standardize Prefix
+        if (name.startsWith("L.") && !name.startsWith("L. ")) name = name.replaceFirst("L.", "L. ")
+        if (name.startsWith("LN.") && !name.startsWith("LN. ")) name = name.replaceFirst("LN.", "LN. ")
 
-        obj.put("name", name)
-        obj.put("type", when {
+        val baseName = name.removePrefix("ĐV. ").removePrefix("L. ").removePrefix("LN. ").trim()
+        val type = when {
             isChinhTinh -> "main_star"
             baseName in SAT_TINH -> "sat_tinh"
             baseName in CAT_TINH -> "cat_tinh"
             else -> "sub_star"
-        })
-        if (flags.length() > 0) obj.put("flags", flags)
-        return obj
+        }
+
+        // Remove state for sub_star to save tokens
+        val finalState = if (type == "sub_star") "" else stateStr
+
+        val sb = StringBuilder(name)
+        if (finalState.isNotEmpty()) sb.append(" (").append(finalState).append(")")
+        if (type != "main_star" && type != "sub_star") {
+            sb.append(" [").append(type).append("]")
+        }
+        if (flags.isNotEmpty()) {
+            sb.append(" {").append(flags.joinToString(", ")).append("}")
+        }
+        
+        return sb.toString()
     }
 
 }

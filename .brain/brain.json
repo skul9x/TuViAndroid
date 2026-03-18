@@ -1,42 +1,29 @@
 {
-  "meta": {
-    "schema_version": "1.1.0",
-    "awf_version": "3.3.0"
-  },
+  "meta": { "schema_version": "1.1.0", "awf_version": "3.3.0" },
   "project": {
     "name": "TuViAndroid",
-    "type": "Android Application",
-    "status": "In Development - UI Refinement & Logic Sync"
+    "type": "Android App (Kotlin)",
+    "status": "In Development - Prompt Optimization"
   },
   "tech_stack": {
-    "frontend": {
-      "framework": "Jetpack Compose",
-      "language": "Kotlin"
-    },
-    "backend": {
-      "ai": "Google Gemini API",
-      "logic": "Kotlin (Structured JSON Analysis)"
-    },
-    "database": {
-      "type": "Local Files / Assets"
-    }
+    "frontend": "Android XML/Kotlin",
+    "backend": "Gemini AI API Intergration (Kotlin)",
+    "database": "Local storage (Android context)"
   },
   "features": [
-    "Astrology (Tử Vi) Chart Generation",
-    "AI-powered Astrology Analysis (Gemini)",
-    "Monthly Transit (Lưu Nguyệt) Analysis",
-    "Responsive UI for different screen sizes",
-    "Structured JSON prompt building for high accuracy"
+    "Lá số Tử Vi calculation",
+    "Gemini AI interpretation",
+    "12-month transit (Lưu Nguyệt) analysis",
+    "Prompt data compression"
   ],
   "knowledge_items": {
     "patterns": [
-      "GoldButton for primary actions",
-      "CentralInfo panel with vertical scrolling for adaptability",
-      "Structured JSON mapping for Gemini constraints"
+      "Separating UI data from AI data in TuViLogic",
+      "Injecting all 12 months transit into prompt regardless of view mode"
     ],
     "gotchas": [
-      "Fixed heights on buttons cause text clipping at high font scales → use defaultMinSize",
-      "Merge conflicts in GeminiClient.kt break KSP build"
+      "Deep cloning of CungInfo is required to prevent star accumulation during loops",
+      "Gemini prompt size increases significantly with 12-month JSON data"
     ]
   }
 }

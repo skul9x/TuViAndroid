@@ -140,11 +140,57 @@ class TuViLogic {
         // 8. Pre-compute Phi Tinh Tu Hoa (Level 5)
         val phiTinhData = precomputePhiTinh(cungList)
 
-        // 8.1 Monthly Logic (Level 5.2)
+        // 8. Lưu Nguyệt (Sao Lưu tháng & Phi Tinh Lưu Nguyệt)
         var luuNguyetCungName = ""
         var phiTinhLuuNguyet = ""
         val canNamXemIndex = LunarConverter.getCanNamIndex(input.viewingYear)
 
+        // Preserve a totally clean state of providing palaces without any newly injected LN stars or tags
+        val cleanCungList = cungList.map { it.copy(phuTinh = it.phuTinh.toMutableList(), chinhTinh = it.chinhTinh.toMutableList()) }
+
+        // 8.1 Compute 12 Months LN Data for Prompt (Always calculated) ON CLEAN STATE
+        val luuNguyet12MonthsArray = org.json.JSONArray()
+        for (m in 1..12) {
+            val mCanChi = LunarConverter.getCanChiThang(m, canNamXemIndex)
+            val mCanStr = mCanChi.split(" ").first()
+            val mChiStr = mCanChi.split(" ").last()
+            val mCanIdx = THIEN_CAN.indexOf(mCanStr)
+            val mChiIdx = DIA_CHI.indexOf(mChiStr)
+            
+            var mChinhTyIdx = (tieuHanIdx - (userBirthLunarMonth - 1)) % 12
+            while (mChinhTyIdx < 0) mChinhTyIdx += 12
+            val mJanIdx = (mChinhTyIdx + chiGioIndex) % 12
+            val mPalaceIdx = (mJanIdx + (m - 1)) % 12
+            
+            val mPalaceName = DIA_CHI[mPalaceIdx]
+            
+            // Clone the CLEAN cungList for this specific month's calculation
+            val cloneCungList = cleanCungList.map { it.copy(phuTinh = it.phuTinh.toMutableList(), chinhTinh = it.chinhTinh.toMutableList()) }.toMutableList()
+            cloneCungList[mPalaceIdx].phuTinh.add("[Cung Lưu Nguyệt]")
+            anSaoLuuNguyet(cloneCungList, mCanIdx, mChiIdx)
+            val mPhiTinh = precomputePhiTinh(cloneCungList, isMonthly = true, monthCanIdx = mCanIdx, monthName = mCanChi)
+            
+            // Extract ONLY LN stars to avoid bloating the JSON
+            val lnStarsObj = org.json.JSONObject()
+            for (c in cloneCungList) {
+                val lnInCung = c.phuTinh.filter { it.startsWith("LN.") || it.contains("(LN.") }.map { it.trim() }
+                if (lnInCung.isNotEmpty()) {
+                    lnStarsObj.put(c.name, org.json.JSONArray(lnInCung))
+                }
+            }
+            
+            val monthObj = org.json.JSONObject().apply {
+                put("thang", m)
+                put("can_chi", mCanChi)
+                put("cung_luu_nguyet", mPalaceName)
+                put("sao_luu_nguyet", lnStarsObj)
+                put("phi_tinh_luu_nguyet", if (mPhiTinh.isNotBlank()) mPhiTinh.trim() else "Không có")
+            }
+            luuNguyet12MonthsArray.put(monthObj)
+        }
+        val luuNguyet12MonthsJsonString = luuNguyet12MonthsArray.toString()
+
+        // 8.2 Calculate specific current view month (For the UI)
         if (input.viewingMode == ViewingMode.MONTH && input.viewingMonth > 0) {
             val monthCanChi = LunarConverter.getCanChiThang(input.viewingMonth, canNamXemIndex)
             val monthCanStr = monthCanChi.split(" ").first()
@@ -152,20 +198,14 @@ class TuViLogic {
             val monthCanIdx = THIEN_CAN.indexOf(monthCanStr)
             val monthChiIdx = DIA_CHI.indexOf(monthChiStr)
             
-            // Tìm cung Lưu Nguyệt tháng Giêng (Tiểu Hạn -> đếm nghịch tháng -> đếm thuận giờ sinh):
-            // 1. Khởi tháng 1 tại cung Tiểu Hạn (tieuHanIdx), đếm nghịch đến tháng sinh (userBirthLunarMonth)
             var chinhTyIdx = (tieuHanIdx - (userBirthLunarMonth - 1)) % 12
             while (chinhTyIdx < 0) chinhTyIdx += 12
-            
-            // 2. Khởi giờ Tý tại Chính Tý, đếm thuận đến giờ sinh (chiGioIndex)
             val monthlyJanPalaceIdx = (chinhTyIdx + chiGioIndex) % 12
-            
-            // 3. Từ tháng Giêng đếm thuận đến tháng cần xem (input.viewingMonth)
             val monthlyPalaceIdx = (monthlyJanPalaceIdx + (input.viewingMonth - 1)) % 12
 
             luuNguyetCungName = DIA_CHI[monthlyPalaceIdx]
+            // Mutate the ORIGINAL cungList to show the current month on the UI
             cungList[monthlyPalaceIdx].phuTinh.add("[Cung Lưu Nguyệt]")
-            
             anSaoLuuNguyet(cungList, monthCanIdx, monthChiIdx)
             phiTinhLuuNguyet = precomputePhiTinh(cungList, isMonthly = true, monthCanIdx = monthCanIdx, monthName = monthCanChi)
         }
@@ -209,7 +249,7 @@ class TuViLogic {
         
         return LasoData(
             info = UserInfoResult(
-                name = input.name,
+                name = input.name.trim(),
                 gender = if (input.gender == Gender.NAM) "Nam" else "Nữ",
                 solarDate = "$solarDay/$solarMonth/$solarYear",
                 time = "${input.hour}h (Giờ ${LunarConverter.getChiGio(input.hour)})",
@@ -230,7 +270,8 @@ class TuViLogic {
                 tieuHanCung = tieuHanCungName,
                 luuNguyetCung = luuNguyetCungName,
                 phiTinhTuHoa = phiTinhData,
-                phiTinhLuuNguyet = phiTinhLuuNguyet
+                phiTinhLuuNguyet = phiTinhLuuNguyet,
+                luuNguyet12Months = luuNguyet12MonthsJsonString
             ),
             cung = cungList,
             scores = scores

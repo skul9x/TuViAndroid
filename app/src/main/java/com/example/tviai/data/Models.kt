@@ -76,7 +76,8 @@ data class UserInfoResult(
     val tieuHanCung: String = "",       // Cung tiểu hạn năm xem
     val luuNguyetCung: String = "",     // Cung lưu nguyệt tháng xem
     val phiTinhTuHoa: String = "",      // Pre-computed data phi tinh 12 cung (Bản mệnh)
-    val phiTinhLuuNguyet: String = ""   // Pre-computed phi tinh lưu nguyệt
+    val phiTinhLuuNguyet: String = "",  // Pre-computed phi tinh lưu nguyệt
+    val luuNguyet12Months: String = ""  // Chứa mảng JSON 12 tháng lưu nguyệt
 )
 
 data class LasoData(
