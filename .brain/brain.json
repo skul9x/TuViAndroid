@@ -14,16 +14,20 @@
     "Lá số Tử Vi calculation",
     "Gemini AI interpretation",
     "12-month transit (Lưu Nguyệt) analysis",
-    "Prompt data compression"
+    "Prompt data compression (JSON array flattening)"
   ],
   "knowledge_items": {
     "patterns": [
       "Separating UI data from AI data in TuViLogic",
-      "Injecting all 12 months transit into prompt regardless of view mode"
+      "Injecting all 12 months transit into prompt regardless of view mode",
+      "Flattening star objects into formatted strings (e.g. `ĐV. Lộc Tồn [cat_tinh]`) drastically reduces prompt length while keeping meaning untouched for LLMs"
     ],
     "gotchas": [
       "Deep cloning of CungInfo is required to prevent star accumulation during loops",
-      "Gemini prompt size increases significantly with 12-month JSON data"
+      "Gemini prompt size increases significantly with 12-month JSON data",
+      "Trailing whitespace in names ('Nguyễn Thị Ngọc ') must be trimmed before injecting to prompt",
+      "Flags like Tuần/Triệt or markers like `[Cung Lưu Nguyệt]` shouldn't be parsed as stars, otherwise LLMs will hallucinate or read empty names",
+      "Inconsistent prefix formats (L., LN.) confuse LLMs—must unify using RegEx"
     ]
   }
 }

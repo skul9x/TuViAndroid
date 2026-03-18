@@ -1,63 +1,41 @@
-# TViAI - Tử Vi & AI Luận Giải
+# TuViAndroid (Tử Vi AI)
 
-**TViAI** là ứng dụng Android hiện đại kết hợp giữa thuật toán Tử Vi cổ điển và sức mạng của trí tuệ nhân tạo (Gemini API) để mang đến những bản luận giải lá số sâu sắc, cá nhân hóa.
+TuViAndroid là một ứng dụng Android hiện đại được thiết kế để lập lá số Tử Vi và cung cấp các lời giải (interpretation) chi tiết bằng trí tuệ nhân tạo (Gemini AI). Ứng dụng kết hợp giữa tinh túy của khoa học huyền học phương Đông cổ điển với sức mạnh của mô hình ngôn ngữ lớn (LLM) để mang lại cái nhìn sâu sắc về vận mệnh.
 
-![Version](https://img.shields.io/badge/version-1.2.0-blue)
-![Tech](https://img.shields.io/badge/tech-Kotlin%20%7C%20Compose%20%7C%20Gemini-orange)
+## 🌟 Tính năng chính
 
-## ✨ Tính năng nổi bật
+- **Lập lá số Tử Vi chính xác**: Tính toán đầy đủ 12 cung, chính tinh, phụ tinh, tứ hóa, tuần triệt, đại vận, tiểu hạn... theo hệ thống tinh hệ cổ điển.
+- **Luận giải bằng AI (Gemini)**: Tích hợp Google Gemini API để phân tích lá số theo nhiều phong cách (Đời thường, Nghiêm túc, Chuyên gia...).
+- **Luận giải đa tầng**: Bao gồm phân tích bản mệnh, vận hạn năm hiện tại và chi tiết vận hạn 12 tháng (Lưu Nguyệt).
+- **Giao diện hiện đại**: Xây dựng bằng Jetpack Compose, hỗ trợ Dark Mode và các hiệu ứng động mượt mà.
+- **Lưu trữ lịch sử**: Lưu lại các lá số đã xem để tiện tra cứu sau này.
+- **Hỗ trợ Lưu Nguyệt**: Tính toán và hiển thị các sao lưu theo tháng (Lưu Nguyệt) một cách chi tiết.
 
-- 🔭 **An sao chuẩn xác**: Thuật toán an sao tự động dựa trên ngày giờ sinh, giới tính.
-- 🤖 **Luận giải AI thông minh**: Sử dụng các model Gemini (Flash 3 Preview, 2.5 Flash...) để bình giải lá số theo nhiều phong cách (Nghiêm túc, Hài hước, Kiếm hiệp...).
-- 📅 **Dự báo vận tháng (Lưu Nguyệt)**: Thuật toán tính vận hạn chi tiết theo từng tháng với hệ thống sao Lưu Nguyệt và Phi Tinh cấp tháng. Đã kiểm đối và sửa lỗi an sao Tứ Hóa cho các sao có trạng thái (Miếu, Vượng, Đắc, Hãm).
-- 🔑 **Smart API Management**:
-    - Hỗ trợ nhập hàng loạt API Keys.
-    - Tự động xoay vòng Key khi hết quota.
-    - Cơ chế Fallback models (nếu model cao cấp hết hạn, tự động dùng model dự phòng).
-- 📅 **Năm xem hạn linh hoạt**: Cho phép chọn năm để xem vận hạn (mặc định là năm hiện tại).
-- 📋 **Lịch sử & Xuất dữ liệu**: Lưu lại các lá số đã xem, hỗ trợ copy prompt để tự luận giải trên các nền tảng khác.
-- 🎨 **Giao diện Premium**: Thiết kế tinh tế với chế độ tối (Dark Mode), hiệu ứng vàng kim sang trọng.
-
-## 🛠 Công nghệ sử dụng
+## 🛠️ Công nghệ sử dụng
 
 - **Ngôn ngữ**: Kotlin
 - **UI Framework**: Jetpack Compose
-- **Async & Flow**: Coroutines, StateFlow
-- **AI Backend**: Google Generative AI SDK (Gemini)
-- **Data Persistence**: Room Database (Lịch sử), DataStore (Cấu hình)
-- **Dependency Injection**: Manual (AppContainer pattern)
+- **Architecture**: MVVM (Model-View-ViewModel)
+- **Dependency Injection**: Hilt (Dùng trong TuViApplication)
+- **Database**: Room Persistence (Lưu lịch sử và dữ liệu lá số)
+- **AI Integration**: Google Generative AI SDK (Gemini)
+- **Data Storage**: DataStore (Lưu cài đặt người dùng)
+- **Network**: Retrofit/OkHttp (Giao tiếp với AI API)
 
-## 🚀 Hướng dẫn bắt đầu
+## 📁 Cấu trúc dự án
 
-### 1. Cài đặt API Key
-Để sử dụng tính năng luận giải AI, bạn cần có ít nhất một Gemini API Key:
-1. Truy cập [Google AI Studio](https://aistudio.google.com/) để lấy key.
-2. Vào phần **Cài đặt** trong app TViAI.
-3. Paste đoạn text chứa key hoặc nhiều keys (App sẽ tự trích xuất).
-4. Nhấn **Lưu cấu hình**.
+- `app/src/main/java/com/example/tviai/core`: Chứa logic lõi về Tử Vi (Lịch âm dương, An sao, Tứ hóa).
+- `app/src/main/java/com/example/tviai/core/GeminiClient.kt`: Xử lý giao tiếp với Gemini AI và xây dựng Prompt chuyên sâu.
+- `app/src/main/java/com/example/tviai/data`: Các Repo, DAO và Data mẫu cho ứng dụng.
+- `app/src/main/java/com/example/tviai/ui`: Chứa các màn hình (screens) và components xây dựng bằng Compose.
+- `app/src/main/java/com/example/tviai/viewmodel`: Quản lý trạng thái và logic nghiệp vụ cho UI.
 
-### 2. Xem lá số
-1. Nhập Họ tên, Ngày tháng năm sinh, Giờ sinh và Giới tính.
-2. Chọn **Năm xem hạn** (nếu muốn xem cho tương lai hoặc quá khứ).
-3. Nhấn **Xem Lá Số & Luận Giải**.
-4. Chờ AI kết nối với các vì sao và trả về bản bình giải.
+## 🚀 Hướng dẫn cài đặt
 
-## 🔭 Công Nghệ Luận Giải Level 5 (Mới)
-
-Dự án đã nâng cấp lên hệ thống **Level 5 Astrology Engine**, kết hợp:
-- **12-Palace Stem Calculation**: Ngũ Dần Độn tính toán can cho từng cung.
-- **Flying Star Causality (Phi Tinh)**: Phân tích nhân quả giữa các cung dựa trên 10 Can.
-- **Trục Cung & Tam Phương Tứ Chính**: Phân tích hình thái bộ sao hội hợp chuyên sâu.
-- **Anti-Hallucination v3.0**: Bộ Prompt kỹ thuật cao ép AI phân tích theo đúng cấu trúc sao, không suy diễn cảm tính.
-- **Verified Monthly Mapping**: Sửa lỗi Mapping Tứ Hóa cho các bộ sao kèm dấu ngoặc độ sáng `(M), (V), (Đ), (H)`, đảm bảo dữ liệu đầu vào AI chuẩn xác tuyệt đối.
-
-## 📁 Tài liệu kỹ thuật
-- [Kiến trúc hệ thống (v4.0)](./docs/architecture/system_overview.md)
-- [Quy tắc Nghiệp vụ Tử Vi](./docs/business/rules.md)
-- [Lịch sử thay đổi (Changelog)](./CHANGELOG.md)
-- [Cấu trúc code chi tiết](./STRUCTURE.md)
+1.  Clone repository: `git clone https://github.com/skul9x/TuViAndroid.git`
+2.  Mở dự án bằng **Android Studio (Ladybug hoặc mới hơn)**.
+3.  Cung cấp Gemini API Key trong phần cài đặt của ứng dụng hoặc tệp cấu hình.
+4.  Build và chạy trên thiết bị Android của bạn.
 
 ---
-*Phát triển bởi Đội ngũ TViAI - Mang tinh tú đến gần bạn hơn.*
-
-**Copyright © 2026 Nguyễn Duy Trường. All rights reserved.**
+*Dự án đang trong quá trình phát triển và hoàn thiện các tính năng phân tích chuyên sâu.*

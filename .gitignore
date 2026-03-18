@@ -1,3 +1,4 @@
+# Android
 *.iml
 .gradle
 /local.properties
@@ -13,14 +14,39 @@
 .externalNativeBuild
 .cxx
 local.properties
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.venv
-venv
-env
-.env
-build
-dist
-*.spec
+
+# Kotlin
+*.kotlin_module
+
+# Gradle
+.gradle
+build/
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# Brain knowledge (DO NOT IGNORE)
+# !.brain/
+
+# Temp files
+*.log
+*.txt
+!README.md
+!CHANGELOG.md
+!STRUCTURE.md
+!plans/
+!docs/
+
+# Legacy files
+legacy/
+Truong_legacy.txt
+Truong_base64.txt
+Ngoc v1.txt
+Ngoc v2.txt
+Ngoc v3.txt
+Truong.txt
+Truong v2.txt
+Ngoc-2.txt
+prompt.txt
