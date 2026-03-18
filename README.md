@@ -1,6 +1,6 @@
 # TViAI - Tử Vi & AI Luận Giải
 
-**TViAI** là ứng dụng Android hiện đại kết hợp giữa thuật toán Tử Vi cổ điển và sức mạnh của trí tuệ nhân tạo (Gemini API) để mang đến những bản luận giải lá số sâu sắc, cá nhân hóa.
+**TViAI** là ứng dụng Android hiện đại kết hợp giữa thuật toán Tử Vi cổ điển và sức mạng của trí tuệ nhân tạo (Gemini API) để mang đến những bản luận giải lá số sâu sắc, cá nhân hóa.
 
 ![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![Tech](https://img.shields.io/badge/tech-Kotlin%20%7C%20Compose%20%7C%20Gemini-orange)
@@ -9,10 +9,7 @@
 
 - 🔭 **An sao chuẩn xác**: Thuật toán an sao tự động dựa trên ngày giờ sinh, giới tính.
 - 🤖 **Luận giải AI thông minh**: Sử dụng các model Gemini (Flash 3 Preview, 2.5 Flash...) để bình giải lá số theo nhiều phong cách (Nghiêm túc, Hài hước, Kiếm hiệp...).
-<<<<<<< HEAD
-=======
 - 📅 **Dự báo vận tháng (Lưu Nguyệt)**: Thuật toán tính vận hạn chi tiết theo từng tháng với hệ thống sao Lưu Nguyệt và Phi Tinh cấp tháng. Đã kiểm đối và sửa lỗi an sao Tứ Hóa cho các sao có trạng thái (Miếu, Vượng, Đắc, Hãm).
->>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 - 🔑 **Smart API Management**:
     - Hỗ trợ nhập hàng loạt API Keys.
     - Tự động xoay vòng Key khi hết quota.
@@ -52,10 +49,7 @@ Dự án đã nâng cấp lên hệ thống **Level 5 Astrology Engine**, kết 
 - **Flying Star Causality (Phi Tinh)**: Phân tích nhân quả giữa các cung dựa trên 10 Can.
 - **Trục Cung & Tam Phương Tứ Chính**: Phân tích hình thái bộ sao hội hợp chuyên sâu.
 - **Anti-Hallucination v3.0**: Bộ Prompt kỹ thuật cao ép AI phân tích theo đúng cấu trúc sao, không suy diễn cảm tính.
-<<<<<<< HEAD
-=======
 - **Verified Monthly Mapping**: Sửa lỗi Mapping Tứ Hóa cho các bộ sao kèm dấu ngoặc độ sáng `(M), (V), (Đ), (H)`, đảm bảo dữ liệu đầu vào AI chuẩn xác tuyệt đối.
->>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 
 ## 📁 Tài liệu kỹ thuật
 - [Kiến trúc hệ thống (v4.0)](./docs/architecture/system_overview.md)
@@ -65,7 +59,5 @@ Dự án đã nâng cấp lên hệ thống **Level 5 Astrology Engine**, kết 
 
 ---
 *Phát triển bởi Đội ngũ TViAI - Mang tinh tú đến gần bạn hơn.*
-<<<<<<< HEAD
-```
-=======
->>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
+
+**Copyright © 2026 Nguyễn Duy Trường. All rights reserved.**
