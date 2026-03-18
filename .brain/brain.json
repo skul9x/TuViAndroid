@@ -1,106 +1,42 @@
 {
   "meta": {
     "schema_version": "1.1.0",
-    "awf_version": "4.0.2"
+    "awf_version": "3.3.0"
   },
   "project": {
-    "name": "TuViAndroid-main",
-    "type": "Android Application (Kotlin/Compose)",
-<<<<<<< HEAD
-    "status": "Production-Ready / Level 5.0"
-=======
-    "status": "Lưu Nguyệt & Monthly Transit Verified"
->>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
+    "name": "TuViAndroid",
+    "type": "Android Application",
+    "status": "In Development - UI Refinement & Logic Sync"
   },
   "tech_stack": {
-    "frontend": "Jetpack Compose",
-    "backend": "Gemini AI (Google SDK)",
-    "database": "Room Persistence Library (SQLite)",
-    "conventions": "MVVM, Repository Pattern, Clean Architecture"
-  },
-  "database_schema": {
-    "tables": [
-      {
-        "name": "laso_history",
-        "description": "Lưu trữ thông tin lá số đã lập",
-        "columns": [
-          "id",
-          "name",
-          "birthDate",
-          "gender",
-          "cuc",
-          "jsonData",
-          "timestamp"
-        ],
-        "indices": [
-          "timestamp (DESC)"
-        ]
-      }
-    ]
+    "frontend": {
+      "framework": "Jetpack Compose",
+      "language": "Kotlin"
+    },
+    "backend": {
+      "ai": "Google Gemini API",
+      "logic": "Kotlin (Structured JSON Analysis)"
+    },
+    "database": {
+      "type": "Local Files / Assets"
+    }
   },
   "features": [
-    "Lập lá số Nam Phái (12 cung)",
-    "JSON Structured Prompting v2.0: Toàn bộ prompt được mapping thành nested JSON objects/arrays (Palaces, Stars, Phi Tinh, Dai Van)",
-    "Hệ thống vận hạn (Đại vận, Tiểu hạn chuẩn Tứ Mộ, Lưu niên)",
-    "Quản lý lịch sử lá số",
-    "Tứ hóa, axes, tam hợp logic",
-    "Performance optimized calculations",
-    "Reasoning Rules Enforcement: AI phải trích dẫn căn cứ sao cụ thể cho mọi kết luận",
-    "Prompt Optimization v3.0: Refined child logic, data deduplication, and structural spatial mapping (Implemented 2026-03-11).",
-<<<<<<< HEAD
-    "Expert Feedback Refinement (Round 2 & 3): Implementation of non-binary gender suggestions, Tuần/Triệt de-duplication, softened probability-based language, and root-level data cleanup."
-  ],
-    "knowledge_items": {
-      "patterns": [
-        "JSON-driven metadata orchestration for LLM instructions",
-        "Nested JSON Mapping: Convert raw astrological strings into structured objects for better AI parsing accuracy",
-        "Metadata-driven LLM orchestration with 4-step mandatory workflow",
-        "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
-        "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
-        "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
-        "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
-        "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
-        "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness.",
-        "Brightness School (AlTuVi): Synced Cự Môn(H) at Tỵ, Thiên Lương(Đ) at Mùi, Thiên Đồng(H) at Dậu. Integrated 9 new auxiliary stars based on 12-palace tables.",
-        "Star Classification: Categorize stars into main_star, sat_tinh, cat_tinh, tu_hoa, sub_star directly in JSON.",
-        "Prompt v3.0 Strategy: Differentiate 'star' vs 'special_flag' (Tuần/Triệt), structural source fields for transit stars, and axis object mapping for spatial reasoning.",
-        "Probabilistic Reasoning: Avoid absolute percentages; use 'chi phối chính' or 'giảm đáng kể' to allow AI room for nuanced interpretation.",
-        "One-Shot Constraints: Explicitly replace 'ask 3 questions' with 'state missing data' for static API calls.",
-        "Ambiguity Handling: Annotate missing 'state' fields as neutral to prevent AI from confusing sub-stars with missing data."
-      ],
-      "milestones": "Completed: Prompt Optimization v3.0 - Full implementation of Round 1, 2, and 3 expert fixes (2026-03-11)"
-    }
-=======
-    "Expert Feedback Refinement (Round 2 & 3): Implementation of non-binary gender suggestions, Tuần/Triệt de-duplication, softened probability-based language, and root-level data cleanup.",
-    "Dự báo vận tháng (Lưu Nguyệt): Tự động tìm Can Chi tháng (Ngũ Hổ Độn), an sao Lưu Nguyệt (Khôi, Việt, Lộc Tồn, Kình, Đà, Mã, Khốc, Hư) và Phi Tinh Tứ Hóa Lưu Nguyệt.",
-    "Thuật toán cung Lưu Nguyệt chuẩn: Tiểu Hạn -> Đếm nghịch tháng sinh -> Đếm thuận giờ sinh để xác định điểm khởi tháng Giêng.",
-    "Tứ Hóa Mapping Fix: Đảm bảo các sao có trạng thái (M, V, Đ, H) vẫn được nhận diện chính xác để phi tinh."
+    "Astrology (Tử Vi) Chart Generation",
+    "AI-powered Astrology Analysis (Gemini)",
+    "Monthly Transit (Lưu Nguyệt) Analysis",
+    "Responsive UI for different screen sizes",
+    "Structured JSON prompt building for high accuracy"
   ],
   "knowledge_items": {
     "patterns": [
-      "JSON-driven metadata orchestration for LLM instructions",
-      "Nested JSON Mapping: Convert raw astrological strings into structured objects for better AI parsing accuracy",
-      "Metadata-driven LLM orchestration with 4-step mandatory workflow",
-      "Tam phương tứ chính = Tam hợp + Xung chiếu detection logic",
-      "Priority Logic: Chính tinh > Phụ tinh | Miếu > Hãm | Mệnh > Vận > Lưu",
-      "Interaction Weights: Palace(100%) > Trigon(80%) > Polar(70%) > Neighbors(50%)",
-      "Deeply decoupled computation from UI (Coroutines Dispatchers.Default)",
-      "Tiểu Hạn logic (Tam Hợp Tuổi -> Tứ Mộ cung): Dần-Ngọ-Tuất(Thìn), Thân-Tý-Thìn(Tuất), Tỵ-Dậu-Sửu(Mùi), Hợi-Mão-Mùi(Sửu)",
-      "Thiên Thọ/Thiên Tài calculation: Use direct menhIndex/thanIndex + chiNamIndex instead of string finding for robustness.",
-      "Brightness School (AlTuVi): Synced Cự Môn(H) at Tỵ, Thiên Lương(Đ) at Mùi, Thiên Đồng(H) at Dậu. Integrated 9 new auxiliary stars based on 12-palace tables.",
-      "Star Classification: Categorize stars into main_star, sat_tinh, cat_tinh, tu_hoa, sub_star directly in JSON.",
-      "Prompt v3.0 Strategy: Differentiate 'star' vs 'special_flag' (Tuần/Triệt), structural source fields for transit stars, and axis object mapping for spatial reasoning.",
-      "Probabilistic Reasoning: Avoid absolute percentages; use 'chi phối chính' or 'giảm đáng kể' to allow AI room for nuanced interpretation.",
-      "One-Shot Constraints: Explicitly replace 'ask 3 questions' with 'state missing data' for static API calls.",
-      "Ambiguity Handling: Annotate missing 'state' fields as neutral to prevent AI from confusing sub-stars with missing data.",
-      "Monthly Transit Palace Rule: Start at Tieu Han, count backward (birth_month - 1), then forward (birth_hour_index) to find Jan Monthly Palace.",
-      "Ngũ Hổ Độn: Accurate monthly stem calculation based on viewing year stem (Giap/Ky -> Binh Dan, etc.).",
-      "Star Name Normalization: Always use `startsWith` or pre-process brightness suffixes `(M, V, Đ, H)` before matching for Tứ Hóa mapping."
+      "GoldButton for primary actions",
+      "CentralInfo panel with vertical scrolling for adaptability",
+      "Structured JSON mapping for Gemini constraints"
     ],
-    "milestones": [
-      "2026-03-11: Prompt Optimization v3.0 - Full implementation of Round 1, 2, and 3 expert fixes.",
-      "2026-03-18: Monthly Transit Calculation & Star Mapping Bug Fix verified with 100% accuracy for February 2026 cases."
+    "gotchas": [
+      "Fixed heights on buttons cause text clipping at high font scales → use defaultMinSize",
+      "Merge conflicts in GeminiClient.kt break KSP build"
     ]
   }
->>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 }
