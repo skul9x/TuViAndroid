@@ -1202,6 +1202,14 @@ class GeminiClient(
 
             // Phi Tinh
             put("phi_tinh_tu_hoa", if (info.phiTinhTuHoa.isNotEmpty()) parsePhiTinhToJson(info.phiTinhTuHoa) else JSONObject().apply { put("status", "Không có dữ liệu phi tinh") })
+            
+            // 12 Months LN Data
+            if (info.luuNguyet12Months.isNotBlank()) {
+                val array = JSONArray(info.luuNguyet12Months)
+                if (array.length() > 0) {
+                    put("luu_nguyet_12_thang", array)
+                }
+            }
 
             // Tu Hoa Summary (Marked as note for AI to cross-check palace data)
             put("tu_hoa_summary", buildTuHoaSummaryJson(cungList).apply {
