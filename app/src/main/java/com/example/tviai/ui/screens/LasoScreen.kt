@@ -133,7 +133,9 @@ fun CungCell(cung: CungInfo, modifier: Modifier = Modifier) {
 @Composable
 fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel, onNavigate: () -> Unit, modifier: Modifier) {
     Column(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
+            .padding(8.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -159,7 +161,7 @@ fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel,
                 viewModel.generateAiReading()
                 onNavigate()
             },
-            modifier = Modifier.height(40.dp).fillMaxWidth(0.9f)
+            modifier = Modifier.fillMaxWidth(0.9f)
         )
         
         Spacer(modifier = Modifier.height(8.dp))
@@ -171,7 +173,7 @@ fun CentralInfo(laso: com.example.tviai.data.LasoData, viewModel: TuViViewModel,
                 val prompt = viewModel.getPrompt()
                 clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(prompt))
             },
-            modifier = Modifier.height(36.dp).fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(0.9f),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
             colors = ButtonDefaults.outlinedButtonColors(
                 contentColor = MaterialTheme.colorScheme.onSurface
