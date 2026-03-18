@@ -41,10 +41,7 @@ Trái tim của thuật toán Tử Vi:
 - Tính toán Can Chi, Ngũ Hành từ ngày tháng năm sinh.
 - Thực hiện an 14 chính tinh và các phụ tinh theo đúng luật Tử Vi Đẩu Số.
 - Xây dựng cấu trúc 12 cung (Mệnh, Phụ, Phúc, Điền...).
-<<<<<<< HEAD
-=======
 - **Tính toán vận hạn đa tầng**: Bao gồm Đại Vận, Tiểu Hạn, Lưu Niên Thái Tuế và **Lưu Nguyệt** (vận tháng).
->>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 
 ### 3. SettingsDataStore.kt
 Quản lý cấu hình linh hoạt:
