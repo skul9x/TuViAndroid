@@ -76,3 +76,20 @@ Tài liệu này lưu lại các quy tắc logic đã được kiểm chứng v�
     - **Thiên Lương** tại Mùi: Đắc (Đ).
     - **Thiên Đồng** tại Dậu: Hãm (H).
 - **Văn Xương / Văn Khúc:** Bảng độ sáng được tách riêng, phản ánh sự khác biệt về hành và vị trí đắc địa thực tế.
+ 
++## 10. Hệ Thống Lưu Nguyệt (Monthly Transit)
++- **Can Chi Tháng (Ngũ Hổ Độn):** Tìm Can tháng Giêng dựa trên Can Năm xem hạn.
++    - Năm Giáp/Kỷ → Tháng Giêng: Bính Dần.
++    - Năm Ất/Canh → Tháng Giêng: Mậu Dần.
++    - Năm Bính/Tân → Tháng Giêng: Canh Dần.
++    - Năm Đinh/Nhâm → Tháng Giêng: Nhâm Dần.
++    - Năm Mậu/Quý → Tháng Giêng: Giáp Dần.
++- **Cung Khởi Lưu Nguyệt (Tháng Giêng):**
++    - Quy tắc: **Tiểu Hạn -> Lùi tháng sinh -> Tiến giờ sinh**.
++    1. Lấy vị trí cung **Tiểu Hạn** của năm xem làm mốc (Tháng 1).
++    2. Đếm **nghịch** (ngược chiều kim đồng hồ) đến tháng sinh âm lịch -> Dừng tại cung **Chính Tý**.
++    3. Tại cung Chính Tý, coi là giờ Tý, đếm **thuận** (xuôi chiều kim đồng hồ) đến giờ sinh âm lịch -> Cung dừng lại chính là **Cung Lưu Nguyệt tháng Giêng**.
++- **Sao Lưu Nguyệt:** An theo Can/Chi của tháng xem (giống như an sao năm nhưng dùng dữ liệu tháng).
++    - Theo Can tháng: `LN. Lộc Tồn`, `LN. Kình Dương`, `LN. Đà La`, `LN. Thiên Khôi`, `LN. Thiên Việt`.
++    - Theo Chi tháng: `LN. Thiên Mã`, `LN. Thiên Khốc`, `LN. Thiên Hư`.
++- **Phi Tinh Tứ Hóa Lưu Nguyệt:** Áp dụng 10-Can Tứ Hóa lên Can của tháng đang xem.

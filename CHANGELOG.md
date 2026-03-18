@@ -1,5 +1,24 @@
 # Changelog
 
+<<<<<<< HEAD
+=======
+## [2026-03-18 - Lưu Nguyệt Logic & Monthly Transit Enhancement]
+### Added
+- **Monthly Transit Palace Calculation**: Implemented the traditional "Tiểu Hạn -> Backward Month -> Forward Hour" rule to determine the starting palace of the lunar month (Lưu Nguyệt).
+- **Monthly Can Chi (Ngũ Hổ Độn)**: Integrated the "Ngũ Hổ Độn" formula to accurately calculate the Heavenly Stem of each lunar month based on the birth year's Stem.
+- **Monthly Transit Stars (Lưu Nguyệt)**: Added logic to place monthly transiting stars: `LN. Lộc Tồn`, `LN. Kình Dương`, `LN. Đà La`, `LN. Thiên Khôi`, `LN. Thiên Việt`, `LN. Thiên Mã`, `LN. Thiên Khốc`, and `LN. Thiên Hư`.
+- **Monthly Tứ Hóa (Phi Tinh)**: Implemented monthly-level Four Transformation stars based on the calculated monthly Stem.
+- **Unit Testing**: Added `LuuNguyetLogicTest.kt` to verify monthly palace and star placement logic with 100% pass rate.
+
+### Changed
+- **`TuViLogic.kt` Refinement**: Separated `userBirthLunarMonth` from `viewingMonth` to ensure consistent and accurate transit calculations.
+- **Data Models**: Updated `UserInfoResult` with `luuNguyetCung` and `phiTinhLuuNguyet` fields for better AI structured data mapping.
+
+### Fixed
+- **Tứ Hóa Mapping Bug**: Resolved an issue where stars with state suffixes (e.g., `Văn Xương (M)`) were failing to trigger transformation logic in `TuViLogic.kt`.
+- **Data Integrity**: Verified that `LN.` stars are correctly placed for both Male (giờ Tỵ) and Female (giờ Dậu) profiles in February 2026.
+
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 ## [2026-03-11 - Round 3: JSON Prompt Final Polish]
 ### Added
 - **Data Integrity `_role` Tag**: Inserted `_role: "input_chart_data"` in `chart_data` to explicitly tell Gemini this is real destiny data, not an example.

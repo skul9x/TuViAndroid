@@ -719,6 +719,10 @@ class GeminiClient(
         • (Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ) — Tứ hóa bản mệnh
         • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. Hóa Lộc = Đại Vận Hóa Lộc)
         • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
+<<<<<<< HEAD
+=======
+        • LN. = Sao Lưu nguyệt (VD: LN. Khôi Việt, LN. Hóa Lộc = Lưu nguyệt Hóa Lộc)
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
         • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
         • QUY TẮC VÔ CHÍNH DIỆU (4 bước):
           Bước 1: Mượn chính tinh cung đối chiếu (xung chiếu) — giảm 30% lực so với sao ở bản cung.
@@ -1102,7 +1106,11 @@ class GeminiClient(
                     "(2) Lưu niên ${info.viewingYear} → sao lưu + lưu tứ hóa",
                     "(3) Trùng điệp tứ hóa → Song Lộc/Song Kỵ/Lộc Kỵ giao nhau",
                     "(4) Tác động lên Mệnh – Quan – Tài – Phu Thê",
+<<<<<<< HEAD
                     "(5) Kết luận theo dữ liệu sẵn có. Nếu thiếu dữ liệu lưu nguyệt → chỉ kết luận ở mức năm"
+=======
+                    "(5) Nếu xem tháng (MONTH), sử dụng dữ liệu Cung Lưu Nguyệt, LN. Tứ Hóa và Sao Lưu Nguyệt (LN.) để luận chi tiết"
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
                 )))
             })
         }
@@ -1118,6 +1126,10 @@ class GeminiClient(
                 put("ban_menh", "(Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ)")
                 put("dai_van", "ĐV. prefix")
                 put("luu_nien", "L. prefix")
+<<<<<<< HEAD
+=======
+                put("luu_nguyet", "LN. prefix")
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
             })
             put("specials", JSONArray(listOf("Tuần = Tuần Không (giảm lực)", "Triệt = Triệt Không (giảm lực)")))
             put("vo_chinh_dieu_rules", JSONArray(listOf(
@@ -1162,9 +1174,13 @@ class GeminiClient(
         // Van Han request
         val vanHanRequest = if (info.viewingMode == "MONTH") {
             "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+<<<<<<< HEAD
             "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa đã cung cấp. " +
             "LƯU Ý: Dữ liệu hiện tại là cấp NĂM, chưa có lưu nguyệt tứ hóa. " +
             "Nếu không đủ căn cứ cho kết luận cấp tháng → nêu rõ giới hạn và luận ở mức năm."
+=======
+            "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa + Cung Lưu Nguyệt + LN. Tứ Hóa và Sao Lưu Nguyệt (tiền tố LN.) để kết luận."
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
         } else {
             "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
         }
@@ -1194,11 +1210,23 @@ class GeminiClient(
                 put("axis_mapping", axisMapping)
                 put("can_chi_12_cung", canChi12Obj)
                 put("tieu_han_cung", "${info.tieuHanCung} (năm ${info.viewingYear})")
+<<<<<<< HEAD
+=======
+                if (info.luuNguyetCung.isNotEmpty()) {
+                    put("luu_nguyet_cung", "${info.luuNguyetCung} (tháng ${info.viewingMonth})")
+                }
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
                 put("dai_van_list", parseDaiVanToJson(info.daiVanFullList))
             })
 
             // Phi Tinh
             put("phi_tinh_tu_hoa", if (info.phiTinhTuHoa.isNotEmpty()) parsePhiTinhToJson(info.phiTinhTuHoa) else JSONObject().apply { put("status", "Không có dữ liệu phi tinh") })
+<<<<<<< HEAD
+=======
+            if (info.phiTinhLuuNguyet.isNotEmpty()) {
+                put("phi_tinh_luu_nguyet", info.phiTinhLuuNguyet)
+            }
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 
             // Tu Hoa Summary (Marked as note for AI to cross-check palace data)
             put("tu_hoa_summary", buildTuHoaSummaryJson(cungList).apply {
@@ -1224,6 +1252,12 @@ class GeminiClient(
                 put("year", info.viewingYear)
                 put("dai_van_current", info.daiVanInfo)
                 put("tieu_han_cung", "${info.tieuHanCung} (năm ${info.viewingYear})")
+<<<<<<< HEAD
+=======
+                if (info.luuNguyetCung.isNotEmpty()) {
+                    put("luu_nguyet_cung", "${info.luuNguyetCung} (tháng ${info.viewingMonth})")
+                }
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
                 put("tu_hoa_overlap_guide", "Phải kiểm tra xếp chồng tứ hóa: Song Kỵ (2 Kỵ cùng cung), Song Lộc (2 Lộc cùng cung), Lộc Kỵ giao nhau tại một cung. Ưu tiên phân tích: tứ hóa bản mệnh + đại vận xếp chồng → tác động lên Mệnh/Quan/Tài/Phu Thê trước, sau đó mới xét lưu niên.")
             })
 
@@ -1379,7 +1413,11 @@ class GeminiClient(
             name = working
         }
 
+<<<<<<< HEAD
         val baseName = name.removePrefix("ĐV. ").removePrefix("L.")
+=======
+        val baseName = name.removePrefix("ĐV. ").removePrefix("L.").removePrefix("LN. ")
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
 
         obj.put("name", name)
         obj.put("type", when {

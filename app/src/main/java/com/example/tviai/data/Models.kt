@@ -74,7 +74,9 @@ data class UserInfoResult(
     val daiVanFullList: String = "",    // Danh sách tất cả đại vận
     val amDuong: String = "",           // VD: "Dương Nam – Thuận hành"
     val tieuHanCung: String = "",       // Cung tiểu hạn năm xem
-    val phiTinhTuHoa: String = ""       // Pre-computed data phi tinh 12 cung
+    val luuNguyetCung: String = "",     // Cung lưu nguyệt tháng xem
+    val phiTinhTuHoa: String = "",      // Pre-computed data phi tinh 12 cung (Bản mệnh)
+    val phiTinhLuuNguyet: String = ""   // Pre-computed phi tinh lưu nguyệt
 )
 
 data class LasoData(

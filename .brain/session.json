@@ -1,14 +1,24 @@
 {
+<<<<<<< HEAD
   "updated_at": "2026-03-11T20:15:00+07:00",
   "working_on": {
     "feature": "Prompt Optimization v3.0 Finalized",
     "status": "completed",
     "files": ["GeminiClient.kt", "Prompt3.txt", "Level5DeepVerificationTest.kt"],
     "notes": "Verified all 15+ fixes across 3 rounds of expert feedback. All tests passing (42/42)."
+=======
+  "updated_at": "2026-03-18T11:45:00+07:00",
+  "working_on": {
+    "feature": "Lưu Nguyệt (Monthly Transit) Logic & Prompt Verification",
+    "status": "completed",
+    "files": ["TuViLogic.kt", "Models.kt", "GeminiClient.kt", "LuuNguyetLogicTest.kt", "prompt.txt", "Ngoc.txt", "Truong.txt"],
+    "notes": "Verified generated prompts for two separate profiles (Ngoc & Truong) against traditional rules. Fixed Tứ Hóa mapping for stars with brightness markers."
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
   },
   "pending_tasks": [
     {
       "task": "Develop UI for Monthly/Yearly toggle in detailed view",
+<<<<<<< HEAD
       "priority": "high",
       "notes": "Align UI with the new monthly prompt focus."
     },
@@ -19,10 +29,20 @@
     {
       "task": "Refine Tật Ách logic to include more specific health associations in prompt",
       "priority": "medium"
+=======
+      "priority": "medium",
+      "notes": "Align UI with the new monthly transit data availability."
+    },
+    {
+      "task": "E2E testing of AI analysis for March/April 2026",
+      "priority": "low",
+      "notes": "Verify that monthly transitions are handled smoothly in practice."
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
     }
   ],
   "recent_changes": [
     {
+<<<<<<< HEAD
       "timestamp": "2026-03-11T20:10:00Z",
       "type": "fix",
       "description": "Round 3 Final Polish: Removed duplicate axis_mapping, added _role tag for data integrity, and clarified status of stars missing state fields.",
@@ -39,23 +59,54 @@
       "type": "feature",
       "description": "Round 1 Implementation: Child rule, axis mapping, special flags, and source tracking in GeminiClient.kt.",
       "files": ["GeminiClient.kt", "Prompt3.txt"]
+=======
+      "timestamp": "2026-03-18T11:40:00Z",
+      "type": "fix",
+      "description": "Fixed Tứ Hóa Mapping Bug for stars with state suffixes (e.g., '(M)'). Verified profile-specific prompt accuracy (Ngoc vs Truong).",
+      "files": ["TuViLogic.kt", "GeminiClient.kt"]
+    },
+    {
+      "timestamp": "2026-03-18T10:40:00Z",
+      "type": "feature",
+      "description": "Implemented Monthly Transit Logic: Accurate palace calculation based on Tieu Han, integrated monthly stems/stars/phi-tinh.",
+      "files": ["TuViLogic.kt", "Models.kt", "LunarConverter.kt", "LuuNguyetLogicTest.kt"]
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
     }
   ],
   "errors_encountered": [
     {
+<<<<<<< HEAD
       "error": "AssertionError in Level5DeepVerificationTest.expertFix_ValidationWarningNoContradiction",
       "solution": "Synchronized expected string 'Bình' in test check with the updated 'forbidden' list in GeminiClient.kt.",
+=======
+      "error": "Tứ Hóa mapping skipped stars with brightness markers",
+      "solution": "Modified matching logic to handle suffixes before string comparison in anTuHoa/anSaoLuuNguyet.",
+      "resolved": true
+    },
+    {
+      "error": "Mismatched Monthly Palace result in initial tests",
+      "solution": "Corrected birth_month vs viewing_month variable separation and adjusted counting steps to match Nam Phai standard.",
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
       "resolved": true
     }
   ],
   "decisions_made": [
     {
+<<<<<<< HEAD
       "decision": "Remove redundant axis_mapping from root",
       "reason": "Reduces token usage and prevents data inconsistencies."
     },
     {
       "decision": "Keep evidence_format descriptive including context",
       "reason": "Enforces higher quality AI reasoning outputs."
+=======
+      "decision": "Use Tieu Han as root for Monthly Palace",
+      "reason": "Matches the user-requested traditional school for monthly predictions."
+    },
+    {
+      "decision": "Pre-compute monthly-level Phi Tinh in logic engine",
+      "reason": "Reduces AI hallucination by providing structured transformation data directly."
+>>>>>>> 7eadbb0 (Cập nhật README, STRUCTURE và đồng bộ logic Lưu Nguyệt (.brain))
     }
   ]
 }

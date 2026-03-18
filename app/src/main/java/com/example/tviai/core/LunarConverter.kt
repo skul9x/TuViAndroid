@@ -32,16 +32,11 @@ class LunarConverter {
             // Đinh, Nhâm -> Nhâm Dần
             // Mậu, Quý -> Giáp Dần
             val startCans = mapOf(
-                0 to 2, // Giáp -> Bính
-                1 to 4, // Ất -> Mậu
-                2 to 6, // Bính -> Canh
-                3 to 8, // Đinh -> Nhâm
-                4 to 0, // Mậu -> Giáp
-                5 to 2, // Kỷ -> Bính
-                6 to 4, // Canh -> Mậu
-                7 to 6, // Tân -> Canh
-                8 to 8, // Nhâm -> Nhâm
-                9 to 0  // Quý -> Giáp
+                0 to 2, 5 to 2, // Giáp/Kỷ -> Bính
+                1 to 4, 6 to 4, // Ất/Canh -> Mậu
+                2 to 6, 7 to 6, // Bính/Tân -> Canh
+                3 to 8, 8 to 8, // Đinh/Nhâm -> Nhâm
+                4 to 0, 9 to 0  // Mậu/Quý -> Giáp
             )
             
             val startCan = startCans[yearCanIndex] ?: 2

@@ -6,6 +6,7 @@ import com.example.tviai.data.Gender
 import com.example.tviai.data.LasoData
 import com.example.tviai.data.UserInput
 import com.example.tviai.data.UserInfoResult
+import com.example.tviai.data.ViewingMode
 import com.example.tviai.core.Constants.DIA_CHI
 import com.example.tviai.core.Constants.THIEN_CAN
 import com.example.tviai.core.Constants.CUC
@@ -68,7 +69,6 @@ class TuViLogic {
             chiNamIndex = chiNamIndex,
             hourIndex = chiGioIndex,
             lunarMonth = lunarMonth,
-            lunarDay = lunarDay,
             gender = input.gender
         )
         
@@ -133,11 +133,42 @@ class TuViLogic {
         // 7. Calculate Tieu Han (Level 5)
         val isYangYear = (canNamIndex % 2 == 0)
         val isThuanDV = if (input.gender == Gender.NAM) isYangYear else !isYangYear
-        val tieuHanIdx = tinhTieuHan(chiNamIndex, input.viewingYear, input.solarYear, input.gender, isThuanDV)
+        val userBirthLunarMonth = lunarMonth // Lưu lại tháng sinh âm lịch để dùng cho Lưu Nguyệt
+        val tieuHanIdx = tinhTieuHan(chiNamIndex, input.viewingYear, lunarYear, input.gender)
         val tieuHanCungName = DIA_CHI[tieuHanIdx]
 
         // 8. Pre-compute Phi Tinh Tu Hoa (Level 5)
         val phiTinhData = precomputePhiTinh(cungList)
+
+        // 8.1 Monthly Logic (Level 5.2)
+        var luuNguyetCungName = ""
+        var phiTinhLuuNguyet = ""
+        val canNamXemIndex = LunarConverter.getCanNamIndex(input.viewingYear)
+
+        if (input.viewingMode == ViewingMode.MONTH && input.viewingMonth > 0) {
+            val monthCanChi = LunarConverter.getCanChiThang(input.viewingMonth, canNamXemIndex)
+            val monthCanStr = monthCanChi.split(" ").first()
+            val monthChiStr = monthCanChi.split(" ").last()
+            val monthCanIdx = THIEN_CAN.indexOf(monthCanStr)
+            val monthChiIdx = DIA_CHI.indexOf(monthChiStr)
+            
+            // Tìm cung Lưu Nguyệt tháng Giêng (Tiểu Hạn -> đếm nghịch tháng -> đếm thuận giờ sinh):
+            // 1. Khởi tháng 1 tại cung Tiểu Hạn (tieuHanIdx), đếm nghịch đến tháng sinh (userBirthLunarMonth)
+            var chinhTyIdx = (tieuHanIdx - (userBirthLunarMonth - 1)) % 12
+            while (chinhTyIdx < 0) chinhTyIdx += 12
+            
+            // 2. Khởi giờ Tý tại Chính Tý, đếm thuận đến giờ sinh (chiGioIndex)
+            val monthlyJanPalaceIdx = (chinhTyIdx + chiGioIndex) % 12
+            
+            // 3. Từ tháng Giêng đếm thuận đến tháng cần xem (input.viewingMonth)
+            val monthlyPalaceIdx = (monthlyJanPalaceIdx + (input.viewingMonth - 1)) % 12
+
+            luuNguyetCungName = DIA_CHI[monthlyPalaceIdx]
+            cungList[monthlyPalaceIdx].phuTinh.add("[Cung Lưu Nguyệt]")
+            
+            anSaoLuuNguyet(cungList, monthCanIdx, monthChiIdx)
+            phiTinhLuuNguyet = precomputePhiTinh(cungList, isMonthly = true, monthCanIdx = monthCanIdx, monthName = monthCanChi)
+        }
 
         // 9. Calculate metadata amDuong (Âm Dương Thuận/Nghịch lý)
         // Năm Âm/Dương
@@ -197,7 +228,9 @@ class TuViLogic {
                 daiVanFullList = fullDaiVanList,
                 amDuong = amDuongStr,
                 tieuHanCung = tieuHanCungName,
-                phiTinhTuHoa = phiTinhData
+                luuNguyetCung = luuNguyetCungName,
+                phiTinhTuHoa = phiTinhData,
+                phiTinhLuuNguyet = phiTinhLuuNguyet
             ),
             cung = cungList,
             scores = scores
@@ -228,19 +261,9 @@ class TuViLogic {
         // Menh, Phu, Phuc, Dien, Quan, No, Di, Tat, Tai, Tu, Phu, Huynh
         val chucNangList = com.example.tviai.core.Constants.CUNG_CHUC_NANG
         for (i in 0 until 12) {
-            val pos = (menhPos - i) % 12 // Nghịch chiều kim đồng hồ từ Mệnh?
-            // "Mệnh", "Phụ Mẫu", "Phúc Đức"... -> Thường là Nghịch.
-            // Check lại: Mệnh -> Phụ -> Phúc... (Nghịch).
-            // Code Python không explicit loop này, nhưng UI hiển thị.
-            // Trong code Python `_init_cung` rỗng. `_an_cung_menh_than` chỉ set Mệnh/Thân text.
-            // Nhưng đúng ra phải set tên Cung chức năng.
-            // Logic chuẩn: Mệnh (1) -> Phụ Mẫu (2-Nghịch) -> Phúc Đức (3-Nghịch)... 
-            // Vị trí: pos = (menhPos + i) % 12.
             var p = (menhPos + i) % 12
             if (p < 0) p += 12
             
-            // Append name
-            val oldName = cungList[p].chucNang
             val funcName = chucNangList[i]
             
             // Special handle for Than
@@ -291,7 +314,7 @@ class TuViLogic {
     }
 
     private fun anChinhTinh(cungList: MutableList<CungInfo>, cucNumber: Int, day: Int) {
-        var tuViPos = 0
+        var tuViPos: Int
         val q = day / cucNumber
         val r = day % cucNumber
         
@@ -366,7 +389,6 @@ class TuViLogic {
         chiNamIndex: Int,
         hourIndex: Int,
         lunarMonth: Int,
-        lunarDay: Int,
         gender: Gender
     ) {
         // Setup Direction
@@ -492,24 +514,14 @@ class TuViLogic {
                     // Find the cung containing this star (in chinhTinh or phuTinh)
                     // Note: Tu Hoa usually transforms MAIN stars. Sometimes Phu Tinh (Xuong, Khuc, Ta, Huu).
                     
-                    var found = false
                     for (cung in cungList) {
                         // Check Chinh Tinh
                         if (cung.chinhTinh.any { it == starName || it.startsWith(starName) }) {
                             cung.phuTinh.add(suffix.trim()) // Add as separate "Hóa Lộc" star? Or modify?
-                            // User wants to see "Mệnh có Hóa Lộc". If we explicitly add "Hóa Lộc" to the list,
-                            // prompt will pick it up.
-                            // Better: Add "Hóa Lộc" as a distinct element in phuTinh list.
-                            // Or better: "Hóa Lộc" is the star name.
-                            // Let's add simple "Hóa Lộc", "Hóa Quyền"... to the palace.
-                            // But to avoid confusion, maybe verify if it should replace? 
-                            // No, standard is co-existence.
-                            found = true
                         }
                         // Check Phu Tinh (for Xuong, Khuc, Ta, Huu...)
-                        if (cung.phuTinh.contains(starName)) {
+                        if (cung.phuTinh.any { it == starName || it.startsWith("$starName ") }) {
                             cung.phuTinh.add(suffix.trim())
-                            found = true
                         }
                         // Note: If star appears in multiple places (unlikely for these specific ones per person), it adds to all.
                         // Stars like Ta Phu, Huu Bat, Xuong, Khuc appear once.
@@ -524,8 +536,8 @@ class TuViLogic {
         // Month 1 -> 9
         // Month 2 -> 10
         // ...
-        val pos = (9 + (lunarMonth - 1)) % 12
-        cungList[pos].phuTinh.add("Thiên Hình")
+        val posResult = (9 + (lunarMonth - 1)) % 12
+        cungList[posResult].phuTinh.add("Thiên Hình")
         
         // Bonus: Thiên Riêu often opposite Thiên Hình?
         // Thiên Riêu: Khởi Sửu (1), thuận đến tháng sinh.
@@ -1145,7 +1157,7 @@ class TuViLogic {
     /**
      * Tinh cung Tieu Han (Level 5)
      */
-    private fun tinhTieuHan(chiNamSinh: Int, viewingYear: Int, birthYear: Int, gender: Gender, isThuan: Boolean): Int {
+    private fun tinhTieuHan(chiNamSinh: Int, viewingYear: Int, birthYear: Int, gender: Gender): Int {
         val age = viewingYear - birthYear + 1
         
         // Khởi Tiểu Hạn theo Tam Hợp Tuổi (chuẩn Nam Phái)
@@ -1167,37 +1179,107 @@ class TuViLogic {
     }
 
     /**
-     * Pre-compute Phi Tinh Tu Hoa cho 12 cung (Level 5)
+     * Pre-compute Phi Tinh Tu Hoa (Bản mệnh hoặc Lưu Nguyệt)
      */
-    private fun precomputePhiTinh(cungList: List<CungInfo>): String {
+    private fun precomputePhiTinh(
+        cungList: List<CungInfo>, 
+        isMonthly: Boolean = false, 
+        monthCanIdx: Int = -1,
+        monthName: String = ""
+    ): String {
         val sb = StringBuilder()
         val hoaNames = listOf("Lộc", "Quyền", "Khoa", "Kỵ")
         
-        cungList.forEach { cung ->
-            val canCung = cung.canChi.split(" ").firstOrNull() ?: ""
-            val canIdx = THIEN_CAN.indexOf(canCung)
-            
-            if (canIdx != -1) {
-                val targets = Constants.TU_HOA_MAP[canIdx] ?: emptyList()
-                if (targets.size == 4) {
-                    val phiStrs = mutableListOf<String>()
-                    for (i in 0 until 4) {
-                        val starGroup = targets[i]
-                        // Find which palace contains this star
-                        val targetCung = cungList.find { c -> 
-                            c.chinhTinh.any { it.startsWith(starGroup) } || 
-                            c.phuTinh.any { it.startsWith(starGroup) }
-                        }
-                        if (targetCung != null) {
-                            phiStrs.add("H.${hoaNames[i]}→${targetCung.name}")
-                        }
+        if (isMonthly && monthCanIdx != -1) {
+            val targets = Constants.TU_HOA_MAP[monthCanIdx] ?: emptyList()
+            if (targets.size == 4) {
+                val phiStrs = mutableListOf<String>()
+                for (i in 0 until 4) {
+                    val starGroup = targets[i]
+                    val targetCung = cungList.find { c -> 
+                        c.chinhTinh.any { it == starGroup || it.startsWith("$starGroup ") } || 
+                        c.phuTinh.any { !it.contains("LN.") && (it == starGroup || it.startsWith("$starGroup ")) }
                     }
-                    if (phiStrs.isNotEmpty()) {
-                        sb.append("${cung.name}(${canCung}): ${phiStrs.joinToString(", ")}\n")
+                    if (targetCung != null) {
+                        phiStrs.add("H.${hoaNames[i]}→${targetCung.name}")
+                    }
+                }
+                sb.append("LN. Tứ Hóa ($monthName): ${phiStrs.joinToString(", ")}\n")
+            }
+        } else {
+            cungList.forEach { cung ->
+                val canCung = cung.canChi.split(" ").firstOrNull() ?: ""
+                val canIdx = THIEN_CAN.indexOf(canCung)
+                
+                if (canIdx != -1) {
+                    val targets = Constants.TU_HOA_MAP[canIdx] ?: emptyList()
+                    if (targets.size == 4) {
+                        val phiStrs = mutableListOf<String>()
+                        for (i in 0 until 4) {
+                            val starGroup = targets[i]
+                            val targetCung = cungList.find { c -> 
+                                c.chinhTinh.any { it == starGroup || it.startsWith("$starGroup ") } || 
+                                c.phuTinh.any { it == starGroup || it.startsWith("$starGroup ") }
+                            }
+                            if (targetCung != null) {
+                                phiStrs.add("H.${hoaNames[i]}→${targetCung.name}")
+                            }
+                        }
+                        if (phiStrs.isNotEmpty()) {
+                            sb.append("${cung.name}(${canCung}): ${phiStrs.joinToString(", ")}\n")
+                        }
                     }
                 }
             }
         }
         return sb.toString()
+    }
+
+    private fun anSaoLuuNguyet(cungList: MutableList<CungInfo>, monthCanIdx: Int, monthChiIdx: Int) {
+        val canStr = THIEN_CAN[monthCanIdx]
+        
+        // 1. Lưu Nguyệt Lộc Tồn
+        val locTonChi = Constants.LOC_TON_MAP[canStr] ?: "Dần"
+        val lnLocPos = DIA_CHI.indexOf(locTonChi)
+        cungList[lnLocPos].phuTinh.add("LN. Lộc Tồn")
+        
+        // Kình Đà
+        cungList[(lnLocPos + 1) % 12].phuTinh.add("LN. Kình Dương")
+        var lnDaPos = (lnLocPos - 1) % 12
+        if (lnDaPos < 0) lnDaPos += 12
+        cungList[lnDaPos].phuTinh.add("LN. Đà La")
+        
+        // 2. Lưu Nguyệt Khôi Việt
+        Constants.KHOI_VIET_POS[canStr]?.let { (k, v) ->
+            cungList[k].phuTinh.add("LN. Thiên Khôi")
+            cungList[v].phuTinh.add("LN. Thiên Việt")
+        }
+        
+        // 3. Lưu Nguyệt Thiên Mã (Theo Chi của Tháng)
+        Constants.THIEN_MA_MAP[monthChiIdx]?.let { pos ->
+            cungList[pos].phuTinh.add("LN. Thiên Mã")
+        }
+        
+        // 4. Lưu Nguyệt Khốc Hư (Theo Chi của Tháng)
+        var lnKhocPos = (6 - monthChiIdx) % 12
+        if (lnKhocPos < 0) lnKhocPos += 12
+        var lnHuPos = (6 + monthChiIdx) % 12
+        cungList[lnKhocPos].phuTinh.add("LN. Thiên Khốc")
+        cungList[lnHuPos].phuTinh.add("LN. Thiên Hư")
+
+        // 5. Lưu Nguyệt Tứ Hóa (Can Tháng xem)
+        Constants.TU_HOA_MAP[monthCanIdx]?.let { stars ->
+            if (stars.size == 4) {
+                val suffixes = listOf(" (LN. Hóa Lộc)", " (LN. Hóa Quyền)", " (LN. Hóa Khoa)", " (LN. Hóa Kỵ)")
+                for ((i, starName) in stars.withIndex()) {
+                    for (cung in cungList) {
+                        if (cung.chinhTinh.any { it == starName || it.startsWith("$starName ") } || 
+                            cung.phuTinh.any { (it == starName || it.startsWith("$starName ")) && !it.startsWith("LN.") }) {
+                            cung.phuTinh.add(suffixes[i].trim())
+                        }
+                    }
+                }
+            }
+        }
     }
 }
