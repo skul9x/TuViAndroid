@@ -201,6 +201,18 @@ fun InputScreen(
                 enabled = uiState.userInput.name.isNotBlank()
             )
             
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextButton(
+                onClick = { viewModel.resetInput() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    "Xóa nhập lại từ đầu",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
             Spacer(modifier = Modifier.height(24.dp))
         }
     }

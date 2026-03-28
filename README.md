@@ -1,41 +1,42 @@
-# TuViAndroid (Tử Vi AI)
+# TViAI - Ứng dụng Tử Vi AI (Android)
 
-TuViAndroid là một ứng dụng Android hiện đại được thiết kế để lập lá số Tử Vi và cung cấp các lời giải (interpretation) chi tiết bằng trí tuệ nhân tạo (Gemini AI). Ứng dụng kết hợp giữa tinh túy của khoa học huyền học phương Đông cổ điển với sức mạnh của mô hình ngôn ngữ lớn (LLM) để mang lại cái nhìn sâu sắc về vận mệnh.
+TViAI là một ứng dụng xem lá số Tử Vi trên nền tảng Android, kết hợp với trí tuệ nhân tạo (Gemini AI) để đem đến những luận giải mệnh lý chuyên sâu, chính xác và đa phong cách.
 
-## 🌟 Tính năng chính
+## 🚀 Chức Năng Chính
 
-- **Lập lá số Tử Vi chính xác**: Tính toán đầy đủ 12 cung, chính tinh, phụ tinh, tứ hóa, tuần triệt, đại vận, tiểu hạn... theo hệ thống tinh hệ cổ điển.
-- **Luận giải bằng AI (Gemini)**: Tích hợp Google Gemini API để phân tích lá số theo nhiều phong cách (Đời thường, Nghiêm túc, Chuyên gia...).
-- **Luận giải đa tầng**: Bao gồm phân tích bản mệnh, vận hạn năm hiện tại và chi tiết vận hạn 12 tháng (Lưu Nguyệt).
-- **Giao diện hiện đại**: Xây dựng bằng Jetpack Compose, hỗ trợ Dark Mode và các hiệu ứng động mượt mà.
-- **Lưu trữ lịch sử**: Lưu lại các lá số đã xem để tiện tra cứu sau này.
-- **Hỗ trợ Lưu Nguyệt**: Tính toán và hiển thị các sao lưu theo tháng (Lưu Nguyệt) một cách chi tiết.
+* **Lập Lá Số Tử Vi**: Tính toán và hiển thị lá số dựa trên thông tin ngày tháng năm sinh (hỗ trợ cả Dương lịch và Âm lịch), giờ sinh, giới tính.
+* **Luận Giải AI**: Tích hợp Google Gemini AI đa tính cách (Nghiêm túc, Hài hước, Chuyên gia mệnh lý, v.v.) để luận giải các cung tấu, đại vận và lưu nguyệt.
+* **Smart API & Model Management**: 
+    - Quản lý nhiều API Keys (quay vòng khi hết quota).
+    - Tự động hạ cấp (fallback) xuống Model thấp hơn khi Model cao bị lỗi hoặc quá tải.
+    - An toàn lưu trữ cấu hình trong DataStore.
+* **Phi Tinh Lưu Nguyệt**: Phân tích chi tiết 12 tháng hạn vận trong năm.
+* **Giao Diện Premium**: Thiết kế trực quan, mượt mà và thân thiện với người dùng di động.
 
-## 🛠️ Công nghệ sử dụng
+## 🛠️ Cấu Trúc Dự Án
 
-- **Ngôn ngữ**: Kotlin
-- **UI Framework**: Jetpack Compose
-- **Architecture**: MVVM (Model-View-ViewModel)
-- **Dependency Injection**: Hilt (Dùng trong TuViApplication)
-- **Database**: Room Persistence (Lưu lịch sử và dữ liệu lá số)
-- **AI Integration**: Google Generative AI SDK (Gemini)
-- **Data Storage**: DataStore (Lưu cài đặt người dùng)
-- **Network**: Retrofit/OkHttp (Giao tiếp với AI API)
+Dự án được viết bằng Kotlin với cấu trúc tiêu chuẩn của Android:
 
-## 📁 Cấu trúc dự án
+* Tầng `ui/`: Các giao diện người dùng (Jetpack Compose).
+* Tầng `core/`: Xử lý lõi, tính toán thiên can địa chi, chuyển đổi Âm/Dương lịch (`LunarConverter`, `TuViLogic`), và gọi API Gemini.
+* Tầng `data/`: Định nghĩa các cấu trúc dữ liệu (`UserInput`, `LasoData`) và quản lý bộ nhớ cục bộ (`SettingsDataStore`, `HistoryRepository`).
+* Tầng `viewmodel/`: Quản lý luồng và trạng thái dữ liệu (StateFlow) cho các Compose screen.
 
-- `app/src/main/java/com/example/tviai/core`: Chứa logic lõi về Tử Vi (Lịch âm dương, An sao, Tứ hóa).
-- `app/src/main/java/com/example/tviai/core/GeminiClient.kt`: Xử lý giao tiếp với Gemini AI và xây dựng Prompt chuyên sâu.
-- `app/src/main/java/com/example/tviai/data`: Các Repo, DAO và Data mẫu cho ứng dụng.
-- `app/src/main/java/com/example/tviai/ui`: Chứa các màn hình (screens) và components xây dựng bằng Compose.
-- `app/src/main/java/com/example/tviai/viewmodel`: Quản lý trạng thái và logic nghiệp vụ cho UI.
+## ⚙️ Hướng Dẫn Cài Đặt và Chạy
 
-## 🚀 Hướng dẫn cài đặt
+1. Yêu cầu hệ thống: Android Studio Koala hoặc muộn hơn.
+2. Clone repository về máy:
+   ```bash
+   git clone https://github.com/skul9x/TuViAndroid.git
+   ```
+3. Mở Android Studio và `Sync Project with Gradle Files`.
+4. Build APK qua Menu: `Build > Build Bundle(s) / APK(s) > Build APK(s)`.
+5. Đưa ứng dụng vào máy giả lập hoặc điện thoại Android thực tế và trải nghiệm.
 
-1.  Clone repository: `git clone https://github.com/skul9x/TuViAndroid.git`
-2.  Mở dự án bằng **Android Studio (Ladybug hoặc mới hơn)**.
-3.  Cung cấp Gemini API Key trong phần cài đặt của ứng dụng hoặc tệp cấu hình.
-4.  Build và chạy trên thiết bị Android của bạn.
+## 🔒 Lưu Ý Cấu Hình
+
+Dự án này sử dụng mô hình tự mang API (BYOK - Bring Your Own Key). Người dùng (hoặc người kiểm thử) phải truy cập màn hình Cài Đặt (Settings) trong ứng dụng để nhập Gemini API Key của chính mình trước khi sử dụng tính năng luận AI. Dự án không đi kèm với bất kỳ Key hardcode nào vì lý do bảo mật.
 
 ---
-*Dự án đang trong quá trình phát triển và hoàn thiện các tính năng phân tích chuyên sâu.*
+
+*Copyright 2026 Nguyễn Duy Trường*

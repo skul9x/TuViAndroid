@@ -101,15 +101,16 @@ class TuViViewModel(
     fun updateViewingMode(mode: ViewingMode) {
         _uiState.update { state ->
             val newInput = if (mode == ViewingMode.MONTH && state.userInput.viewingMonth == 0) {
-                // First time switching to MONTH -> set default to next month
+                // First time switching to MONTH -> set default to current lunar month
                 val cal = Calendar.getInstance()
-                val nextMonth = cal.get(Calendar.MONTH) + 2 // Calendar.MONTH is 0-based, +1 for real, +1 for next
-                val (month, year) = if (nextMonth > 12) {
-                    1 to state.userInput.viewingYear + 1
-                } else {
-                    nextMonth to state.userInput.viewingYear
-                }
-                state.userInput.copy(viewingMode = mode, viewingMonth = month, viewingYear = year)
+                val currentDay = cal.get(Calendar.DAY_OF_MONTH)
+                val currentMonth = cal.get(Calendar.MONTH) + 1
+                val currentYear = cal.get(Calendar.YEAR)
+                
+                // Get Lunar Date
+                val lunarDate = com.example.tviai.core.LunarConverter.convertSolarToLunar(currentDay, currentMonth, currentYear)
+                
+                state.userInput.copy(viewingMode = mode, viewingMonth = lunarDate.month, viewingYear = lunarDate.year)
             } else {
                 state.userInput.copy(viewingMode = mode)
             }
@@ -162,6 +163,23 @@ class TuViViewModel(
 
     fun setLaso(laso: LasoData) {
         _uiState.update { it.copy(currentLaso = laso, aiReading = "", usedModel = "") }
+    }
+
+    fun resetInput() {
+        _uiState.update { 
+            it.copy(
+                userInput = UserInput(
+                    name = "",
+                    solarDay = 1,
+                    solarMonth = 1,
+                    solarYear = 1990,
+                    hour = 12,
+                    gender = Gender.NAM,
+                    viewingYear = Calendar.getInstance().get(Calendar.YEAR),
+                    readingStyle = ReadingStyle.NGHIEM_TUC
+                )
+            ) 
+        }
     }
 
     fun getPrompt(): String {
