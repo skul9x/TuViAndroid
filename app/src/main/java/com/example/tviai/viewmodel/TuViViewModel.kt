@@ -100,19 +100,31 @@ class TuViViewModel(
 
     fun updateViewingMode(mode: ViewingMode) {
         _uiState.update { state ->
-            val newInput = if (mode == ViewingMode.MONTH && state.userInput.viewingMonth == 0) {
-                // First time switching to MONTH -> set default to current lunar month
-                val cal = Calendar.getInstance()
-                val currentDay = cal.get(Calendar.DAY_OF_MONTH)
-                val currentMonth = cal.get(Calendar.MONTH) + 1
-                val currentYear = cal.get(Calendar.YEAR)
-                
-                // Get Lunar Date
-                val lunarDate = com.example.tviai.core.LunarConverter.convertSolarToLunar(currentDay, currentMonth, currentYear)
-                
-                state.userInput.copy(viewingMode = mode, viewingMonth = lunarDate.month, viewingYear = lunarDate.year)
-            } else {
-                state.userInput.copy(viewingMode = mode)
+            val newInput = when {
+                mode == ViewingMode.MONTH && state.userInput.viewingMonth == 0 -> {
+                    // First time switching to MONTH -> set default to current lunar month
+                    val cal = Calendar.getInstance()
+                    val currentDay = cal.get(Calendar.DAY_OF_MONTH)
+                    val currentMonth = cal.get(Calendar.MONTH) + 1
+                    val currentYear = cal.get(Calendar.YEAR)
+                    val lunarDate = com.example.tviai.core.LunarConverter.convertSolarToLunar(currentDay, currentMonth, currentYear)
+                    state.userInput.copy(viewingMode = mode, viewingMonth = lunarDate.month, viewingYear = lunarDate.year)
+                }
+                mode == ViewingMode.DAY && state.userInput.viewingDay == 0 -> {
+                    // First time switching to DAY -> set default to current lunar day/month
+                    val cal = Calendar.getInstance()
+                    val currentDay = cal.get(Calendar.DAY_OF_MONTH)
+                    val currentMonth = cal.get(Calendar.MONTH) + 1
+                    val currentYear = cal.get(Calendar.YEAR)
+                    val lunarDate = com.example.tviai.core.LunarConverter.convertSolarToLunar(currentDay, currentMonth, currentYear)
+                    state.userInput.copy(
+                        viewingMode = mode, 
+                        viewingDay = lunarDate.day, 
+                        viewingMonth = lunarDate.month, 
+                        viewingYear = lunarDate.year
+                    )
+                }
+                else -> state.userInput.copy(viewingMode = mode)
             }
             state.copy(userInput = newInput)
         }
@@ -120,6 +132,10 @@ class TuViViewModel(
 
     fun updateViewingMonth(month: Int) {
         _uiState.update { it.copy(userInput = it.userInput.copy(viewingMonth = month)) }
+    }
+
+    fun updateViewingDay(day: Int) {
+        _uiState.update { it.copy(userInput = it.userInput.copy(viewingDay = day)) }
     }
 
     fun calculateLaso() {

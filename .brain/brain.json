@@ -1,33 +1,27 @@
 {
   "meta": { "schema_version": "1.1.0", "awf_version": "3.3.0" },
-  "project": {
-    "name": "TuViAndroid",
-    "type": "Android App (Kotlin)",
-    "status": "In Development - Prompt Optimization"
+  "project": { "name": "TuViAndroid", "type": "Android App (Compose)", "status": "active" },
+  "tech_stack": { 
+    "frontend": {"framework": "Jetpack Compose", "language": "Kotlin"}, 
+    "backend": {"ai": "Gemini API"}
   },
-  "tech_stack": {
-    "frontend": "Android XML/Kotlin",
-    "backend": "Gemini AI API Intergration (Kotlin)",
-    "database": "Local storage (Android context)"
-  },
-  "features": [
-    "Lá số Tử Vi calculation",
-    "Gemini AI interpretation",
-    "12-month transit (Lưu Nguyệt) analysis",
-    "Prompt data compression (JSON array flattening)"
+  "database_schema": {},
+  "api_endpoints": [],
+  "business_rules": [
+    "Dữ liệu lá số tử vi xử lý bằng Kotlin logic ở app/src/main/java/com/example/tviai/core/TuViLogic.kt",
+    "Giao diện sử dụng Jetpack Compose với Material 3",
+    "Phân tích AI thông qua Gemini API; prompt build linh hoạt theo các Mode: YEAR, MONTH, DAY."
   ],
-  "knowledge_items": {
-    "patterns": [
-      "Separating UI data from AI data in TuViLogic",
-      "Injecting all 12 months transit into prompt regardless of view mode",
-      "Flattening star objects into formatted strings (e.g. `ĐV. Lộc Tồn [cat_tinh]`) drastically reduces prompt length while keeping meaning untouched for LLMs"
-    ],
-    "gotchas": [
-      "Deep cloning of CungInfo is required to prevent star accumulation during loops",
-      "Gemini prompt size increases significantly with 12-month JSON data",
-      "Trailing whitespace in names ('Nguyễn Thị Ngọc ') must be trimmed before injecting to prompt",
-      "Flags like Tuần/Triệt or markers like `[Cung Lưu Nguyệt]` shouldn't be parsed as stars, otherwise LLMs will hallucinate or read empty names",
-      "Inconsistent prefix formats (L., LN.) confuse LLMs—must unify using RegEx"
-    ]
+  "features": [
+    {
+      "name": "Lưu Nhật",
+      "status": "implemented",
+      "description": "Xem vận hạn Tử Vi theo ngày. Tính cung lưu nhật, an các sao lưu ngày (LNh.), gửi prompt riêng kết hợp Đại vận + Lưu niên + Lưu nguyệt + Lưu nhật tới AI."
+    }
+  ],
+  "knowledge_items": { 
+    "patterns": ["Ứng dụng kiến trúc MVVM", "Sử dụng Julian Day Number cho convert Âm Dương cực chính xác"], 
+    "gotchas": ["Giao diện các input Compose hay bị vỡ nếu không xài `singleLine=true` và weight chuẩn."], 
+    "conventions": ["Các sao lưu thêm prefix để AI đọc, ví dụ: LNh. Kình Dương, LNh. Hóa Khoa..."] 
   }
 }

@@ -303,13 +303,22 @@ class GeminiClient(
             }
         } else ""
 
-        val vanHanRequest = if (info.viewingMode == "MONTH") {
-            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
-            "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa đã cung cấp. " +
-            "LƯU Ý: Dữ liệu hiện tại là cấp NĂM, chưa có lưu nguyệt tứ hóa. " +
-            "Nếu không đủ căn cứ cho kết luận cấp tháng → nêu rõ giới hạn và luận ở mức năm."
-        } else {
-            "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
+        val vanHanRequest = when (info.viewingMode) {
+            "MONTH" -> {
+                "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+                "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa đã cung cấp. " +
+                "LƯU Ý: Dữ liệu hiện tại là cấp NĂM, chưa có lưu nguyệt tứ hóa. " +
+                "Nếu không đủ căn cứ cho kết luận cấp tháng → nêu rõ giới hạn và luận ở mức năm."
+            }
+            "DAY" -> {
+                "Phân tích vận ngày ${info.viewingDay} tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+                "Sử dụng: đại vận + tiểu hạn + lưu niên + lưu nguyệt + lưu nhật. " +
+                "Dữ liệu lưu nhật có tiền tố LNh. (Lưu Nhật). " +
+                "Khẳng định rõ: Lưu Nhật chỉ thể hiện xu hướng, sự kiện nhỏ trong ngày, không làm thay đổi vận mệnh lớn."
+            }
+            else -> {
+                "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
+            }
         }
         
         val birthYear = info.solarDate.split("/").last().toIntOrNull() ?: info.viewingYear
@@ -357,7 +366,7 @@ class GeminiClient(
         - Mệnh đóng tại: ${info.menhTai}
         - Thân đóng tại: ${info.thanTai}
         - Đại vận hiện tại: ${info.daiVanInfo}
-        - Khoảng thời gian xem vận: ${if (info.viewingMode == "MONTH") "Tháng ${info.viewingMonth} năm ${info.viewingYear}" else "Năm ${info.viewingYear}"}
+        - Khoảng thời gian xem vận: ${when (info.viewingMode) { "MONTH" -> "Tháng ${info.viewingMonth} năm ${info.viewingYear}"; "DAY" -> "Ngày ${info.viewingDay} tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}"; else -> "Năm ${info.viewingYear}" }}
 
         2. CÁC CUNG VÀ SAO:
         $cungDetails
@@ -720,6 +729,7 @@ class GeminiClient(
         • ĐV. = Sao Đại Vận (VD: ĐV. Lộc Tồn, ĐV. Hóa Lộc = Đại Vận Hóa Lộc)
         • L. = Sao Lưu niên (VD: L.Kình Dương, L.Hóa Kỵ = Lưu niên Hóa Kỵ)
         • LN. = Sao Lưu nguyệt (VD: LN. Khôi Việt, LN. Hóa Lộc = Lưu nguyệt Hóa Lộc)
+        • LNh. = Sao Lưu nhật (VD: LNh. Kình Dương, LNh. Hóa Kỵ = Lưu nhật Hóa Kỵ - chỉ có khi xem theo ngày)
         • Tuần, Triệt = Tuần Không và Triệt Không (sao bị Tuần/Triệt sẽ giảm lực)
         • QUY TẮC VÔ CHÍNH DIỆU (4 bước):
           Bước 1: Mượn chính tinh cung đối chiếu (xung chiếu) — giảm 30% lực so với sao ở bản cung.
@@ -1119,7 +1129,8 @@ class GeminiClient(
                 put("ban_menh", "(Hóa Lộc), (Hóa Quyền), (Hóa Khoa), (Hóa Kỵ)")
                 put("dai_van", "ĐV. prefix")
                 put("luu_nien", "L. prefix")
-                put("luu_nguyet", "LN. prefix")
+                put("luu_nguyet", "LN. prefix (sao lưu tháng)")
+                put("luu_nhat", "LNh. prefix (sao lưu ngày — chỉ có khi xem vận theo ngày)")
             })
             put("specials", JSONArray(listOf("Tuần = Tuần Không (giảm lực)", "Triệt = Triệt Không (giảm lực)")))
             put("vo_chinh_dieu_rules", JSONArray(listOf(
@@ -1162,11 +1173,21 @@ class GeminiClient(
         cungList.forEach { canChi12Obj.put(it.name, it.canChi) }
 
         // Van Han request
-        val vanHanRequest = if (info.viewingMode == "MONTH") {
-            "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
-            "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa + Cung Lưu Nguyệt + LN. Tứ Hóa và Sao Lưu Nguyệt (tiền tố LN.) để kết luận."
-        } else {
-            "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
+        val vanHanRequest = when (info.viewingMode) {
+            "MONTH" -> {
+                "Phân tích vận tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+                "Sử dụng: đại vận + tiểu hạn + lưu niên tứ hóa + Cung Lưu Nguyệt + LN. Tứ Hóa và Sao Lưu Nguyệt (tiền tố LN.) để kết luận."
+            }
+            "DAY" -> {
+                "Phân tích vận ngày ${info.viewingDay} tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}. " +
+                "Sử dụng: đại vận + tiểu hạn + lưu niên + lưu nguyệt + lưu nhật. " +
+                "Dữ liệu lưu nhật có tiền tố LNh. (Lưu Nhật). " +
+                "Phân tích đa tầng: Đại vận > Lưu niên > Lưu nguyệt > Lưu nhật. " +
+                "Lưu Nhật cho biết xu hướng BIẾN ĐỘNG NHỎ trong ngày, KHÔNG quyết định vận mệnh lớn."
+            }
+            else -> {
+                "Phân tích vận năm ${info.viewingYear} (theo đại vận hiện tại và lưu tinh năm)"
+            }
         }
 
         return JSONObject().apply {
@@ -1181,7 +1202,11 @@ class GeminiClient(
                 put("menh_position", info.menhTai)
                 put("than_position", info.thanTai)
                 put("dai_van", info.daiVanInfo)
-                put("viewing_period", if (info.viewingMode == "MONTH") "Tháng ${info.viewingMonth} năm ${info.viewingYear}" else "Năm ${info.viewingYear}")
+                put("viewing_period", when (info.viewingMode) {
+                    "MONTH" -> "Tháng ${info.viewingMonth} năm ${info.viewingYear}"
+                    "DAY" -> "Ngày ${info.viewingDay} tháng ${info.viewingMonth} âm lịch năm ${info.viewingYear}"
+                    else -> "Năm ${info.viewingYear}"
+                })
             })
 
             // Metadata
@@ -1196,6 +1221,9 @@ class GeminiClient(
                 put("tieu_han_cung", "${info.tieuHanCung} (năm ${info.viewingYear})")
                 if (info.luuNguyetCung.isNotEmpty()) {
                     put("luu_nguyet_cung", "${info.luuNguyetCung} (tháng ${info.viewingMonth})")
+                }
+                if (info.luuNhatCung.isNotEmpty()) {
+                    put("luu_nhat_cung", "${info.luuNhatCung} (ngày ${info.viewingDay} tháng ${info.viewingMonth})")
                 }
                 put("dai_van_list", parseDaiVanToJson(info.daiVanFullList))
             })
@@ -1238,6 +1266,9 @@ class GeminiClient(
                 if (info.luuNguyetCung.isNotEmpty()) {
                     put("luu_nguyet_cung", "${info.luuNguyetCung} (tháng ${info.viewingMonth})")
                 }
+                if (info.luuNhatCung.isNotEmpty()) {
+                    put("luu_nhat_cung", "${info.luuNhatCung} (ngày ${info.viewingDay} tháng ${info.viewingMonth})")
+                }
                 put("tu_hoa_overlap_guide", "Phải kiểm tra xếp chồng tứ hóa: Song Kỵ (2 Kỵ cùng cung), Song Lộc (2 Lộc cùng cung), Lộc Kỵ giao nhau tại một cung. Ưu tiên phân tích: tứ hóa bản mệnh + đại vận xếp chồng → tác động lên Mệnh/Quan/Tài/Phu Thê trước, sau đó mới xét lưu niên.")
             })
 
@@ -1276,6 +1307,20 @@ class GeminiClient(
         }
         result.put("luu_nien", lnObj)
 
+        // Luu Nguyet
+        val lngObj = JSONObject()
+        listOf("(LN. Hóa Lộc)", "(LN. Hóa Quyền)", "(LN. Hóa Khoa)", "(LN. Hóa Kỵ)").forEach { suffix ->
+            findCungForSuffix(suffix)?.let { lngObj.put(suffix, it) }
+        }
+        if (lngObj.length() > 0) result.put("luu_nguyet", lngObj)
+
+        // Luu Nhat
+        val lnhObj = JSONObject()
+        listOf("(LNh. Hóa Lộc)", "(LNh. Hóa Quyền)", "(LNh. Hóa Khoa)", "(LNh. Hóa Kỵ)").forEach { suffix ->
+            findCungForSuffix(suffix)?.let { lnhObj.put(suffix, it) }
+        }
+        if (lnhObj.length() > 0) result.put("luu_nhat", lnhObj)
+
         return result
     }
 
@@ -1288,21 +1333,28 @@ class GeminiClient(
             if (c.phuTinh.any { it.startsWith("Triệt") }) flags.put("Gặp Triệt")
             if (c.phuTinh.contains("[Cung Đại Vận]")) flags.put("Cung Đại Vận")
             if (c.phuTinh.contains("[Cung Lưu Nguyệt]")) flags.put("Cung Lưu Nguyệt")
+            if (c.phuTinh.contains("[Cung Lưu Nhật]")) flags.put("Cung Lưu Nhật")
 
             val fixedPhu = c.phuTinh.filter {
                 !it.startsWith("ĐV.") && !it.startsWith("L.") &&
-                !it.startsWith("LN.") && !it.startsWith("(ĐV.") && 
-                !it.startsWith("(L.") && !it.startsWith("(LN.") &&
-                it != "[Cung Đại Vận]" && it != "[Cung Lưu Nguyệt]" &&
+                !it.startsWith("LN.") && !it.startsWith("LNh.") &&
+                !it.startsWith("(ĐV.") && 
+                !it.startsWith("(L.") && !it.startsWith("(LN.") && !it.startsWith("(LNh.") &&
+                it != "[Cung Đại Vận]" && it != "[Cung Lưu Nguyệt]" && it != "[Cung Lưu Nhật]" &&
                 !it.startsWith("Tuần") && !it.startsWith("Triệt")
             }
             
             val daiVanStars = c.phuTinh.filter { it.startsWith("ĐV.") || it.startsWith("(ĐV.") }
             val luuStars = c.phuTinh.filter { 
                 (it.startsWith("L.") || it.startsWith("(L.")) && 
-                !it.startsWith("LN.") && !it.startsWith("(LN.") 
+                !it.startsWith("LN.") && !it.startsWith("(LN.") &&
+                !it.startsWith("LNh.") && !it.startsWith("(LNh.")
             }
-            val luuNguyetStars = c.phuTinh.filter { it.startsWith("LN.") || it.startsWith("(LN.") }
+            val luuNguyetStars = c.phuTinh.filter { 
+                (it.startsWith("LN.") || it.startsWith("(LN.")) &&
+                !it.startsWith("LNh.") && !it.startsWith("(LNh.")
+            }
+            val luuNhatStars = c.phuTinh.filter { it.startsWith("LNh.") || it.startsWith("(LNh.") }
 
             val palace = JSONObject().apply {
                 put("name", c.name)
@@ -1315,9 +1367,9 @@ class GeminiClient(
                 fixedPhu.forEach { starArr.put(parseStarToString(it, false)) }
                 put("fixed_stars", starArr)
                 
-                if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty() || luuNguyetStars.isNotEmpty()) {
+                if (daiVanStars.isNotEmpty() || luuStars.isNotEmpty() || luuNguyetStars.isNotEmpty() || luuNhatStars.isNotEmpty()) {
                     val transitArr = JSONArray()
-                    (daiVanStars + luuStars + luuNguyetStars).forEach { transitArr.put(parseStarToString(it, false)) }
+                    (daiVanStars + luuStars + luuNguyetStars + luuNhatStars).forEach { transitArr.put(parseStarToString(it, false)) }
                     put("transit_stars", transitArr)
                 }
             }

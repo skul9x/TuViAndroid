@@ -75,5 +75,41 @@ class LunarConverter {
             else if (hour < 21) 10
             else 11
         }
+
+        /**
+         * Calculate Julian Day Number from a solar (Gregorian) date.
+         * Used as the basis for computing Can Chi of any day.
+         */
+        private fun julianDayNumber(day: Int, month: Int, year: Int): Long {
+            val a = (14 - month) / 12
+            val y = year + 4800 - a
+            val m = month + 12 * a - 3
+            return day.toLong() + (153L * m + 2) / 5 + 365L * y + y / 4 - y / 100 + y / 400 - 32045
+        }
+
+        /**
+         * Get Can index of a solar date (0=Giáp, 1=Ất, ..., 9=Quý)
+         * Based on the 60-day cycle: Can = (JDN + 9) % 10
+         */
+        fun getCanNgayIndex(day: Int, month: Int, year: Int): Int {
+            val jdn = julianDayNumber(day, month, year)
+            return ((jdn + 9) % 10).toInt()
+        }
+
+        /**
+         * Get Chi index of a solar date (0=Tý, 1=Sửu, ..., 11=Hợi)
+         * Based on the 60-day cycle: Chi = (JDN + 1) % 12
+         */
+        fun getChiNgayIndex(day: Int, month: Int, year: Int): Int {
+            val jdn = julianDayNumber(day, month, year)
+            return ((jdn + 1) % 12).toInt()
+        }
+
+        /**
+         * Get full Can Chi string of a solar date (e.g. "Giáp Tý")
+         */
+        fun getCanChiNgay(day: Int, month: Int, year: Int): String {
+            return "${THIEN_CAN[getCanNgayIndex(day, month, year)]} ${DIA_CHI[getChiNgayIndex(day, month, year)]}"
+        }
     }
 }

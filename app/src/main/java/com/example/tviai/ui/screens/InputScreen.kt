@@ -147,36 +147,38 @@ fun InputScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 // Viewing Mode Selection
-                Row(
+                // Viewing Mode Selection
+                ViewingModeSelector(
+                    selectedMode = uiState.userInput.viewingMode,
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    ViewingModeOption("Theo năm", uiState.userInput.viewingMode == ViewingMode.YEAR) {
-                        viewModel.updateViewingMode(ViewingMode.YEAR)
-                    }
-                    ViewingModeOption("Theo tháng", uiState.userInput.viewingMode == ViewingMode.MONTH) {
-                        viewModel.updateViewingMode(ViewingMode.MONTH)
-                    }
-                }
+                    onModeSelected = { viewModel.updateViewingMode(it) }
+                )
                 
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Row(
                     modifier = Modifier.fillMaxWidth(), 
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                 ) {
-                    if (uiState.userInput.viewingMode == ViewingMode.MONTH) {
+                    if (uiState.userInput.viewingMode == ViewingMode.DAY) {
+                        LunarDaySelector(
+                            selectedDay = uiState.userInput.viewingDay,
+                            modifier = Modifier.weight(0.9f)
+                        ) { viewModel.updateViewingDay(it) }
+                    }
+                    
+                    if (uiState.userInput.viewingMode == ViewingMode.MONTH || uiState.userInput.viewingMode == ViewingMode.DAY) {
                         MonthSelector(
                             selectedMonth = uiState.userInput.viewingMonth,
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.weight(0.9f),
                             label = "Tháng âm"
                         ) { viewModel.updateViewingMonth(it) }
                     }
                     
                     YearSelector(
                         selectedYear = uiState.userInput.viewingYear,
-                        modifier = if (uiState.userInput.viewingMode == ViewingMode.MONTH) Modifier.weight(1.2f) else Modifier.fillMaxWidth(),
+                        modifier = Modifier.weight(1.2f),
                         onYearSelected = { viewModel.updateViewingYear(it) }
                     )
                 }
@@ -358,12 +360,15 @@ fun YearSelector(selectedYear: Int, modifier: Modifier = Modifier, onYearSelecte
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = "Năm $selectedYear",
+            value = selectedYear.toString(),
             onValueChange = {},
             readOnly = true,
+            label = { Text("Năm xem", fontSize = 11.sp, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier.fillMaxWidth().menuAnchor(),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            singleLine = true,
+            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -445,10 +450,11 @@ fun MonthSelector(
             value = if (selectedMonth == 0) "Chọn" else selectedMonth.toString(),
             onValueChange = {},
             readOnly = true,
-            label = { Text(label, fontSize = 11.sp) },
+            label = { Text(label, fontSize = 11.sp, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier.fillMaxWidth().menuAnchor(),
             shape = RoundedCornerShape(12.dp),
+            singleLine = true,
             textStyle = androidx.compose.ui.text.TextStyle(fontSize = 14.sp)
         )
         ExposedDropdownMenu(
@@ -486,4 +492,89 @@ fun BirthYearSelector(selectedYear: Int, modifier: Modifier = Modifier, onYearSe
         textStyle = LocalTextStyle.current.copy(fontSize = 14.sp),
         placeholder = { Text("YYYY") }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LunarDaySelector(
+    selectedDay: Int,
+    modifier: Modifier = Modifier,
+    onDaySelected: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val days = (1..30).toList()
+    
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = if (selectedDay == 0) "Chọn" else selectedDay.toString(),
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Ngày âm", fontSize = 11.sp, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier.fillMaxWidth().menuAnchor(),
+            shape = RoundedCornerShape(12.dp),
+            singleLine = true,
+            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            days.forEach { day ->
+                DropdownMenuItem(
+                    text = { Text(day.toString()) },
+                    onClick = {
+                        onDaySelected(day)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ViewingModeSelector(
+    selectedMode: ViewingMode,
+    modifier: Modifier = Modifier,
+    onModeSelected: (ViewingMode) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = selectedMode.displayName,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Chế độ xem", fontSize = 11.sp, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier.fillMaxWidth().menuAnchor(),
+            shape = RoundedCornerShape(12.dp),
+            singleLine = true,
+            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            ViewingMode.entries.forEach { mode ->
+                DropdownMenuItem(
+                    text = { Text(mode.displayName) },
+                    onClick = {
+                        onModeSelected(mode)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
 }

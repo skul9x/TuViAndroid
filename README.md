@@ -1,42 +1,51 @@
-# TViAI - Ứng dụng Tử Vi AI (Android)
+# Tử Vi AI (TuViAndroid)
 
-TViAI là một ứng dụng xem lá số Tử Vi trên nền tảng Android, kết hợp với trí tuệ nhân tạo (Gemini AI) để đem đến những luận giải mệnh lý chuyên sâu, chính xác và đa phong cách.
+Ứng dụng dự đoán, luận giải Tử Vi chuyên sâu thông minh, kết hợp các thuật toán an sao chính xác tuyệt đối (Julian Day Number) với sức mạnh phân tích ngôn ngữ tự nhiên từ **Gemini AI**.
 
-## 🚀 Chức Năng Chính
+## 🚀 Tính Năng Chính
+- **Luận giải cá nhân hóa:** Lấy lá số tử vi dựa trên giới tính, ngày tháng năm sinh (Dương lịch/Âm lịch).
+- **Phân tích đa không gian/thời gian:** Hỗ trợ luận giải theo Đại Vận, Lưu Niên, Lưu Nguyệt, và đặc biệt là **Lưu Nhật** (xem hạn theo ngày) cực kỳ chính xác.
+- **Tương tác AI trực tiếp:** Sử dụng bộ prompt tối ưu theo chuẩn phong thủy để AI phân tích chi tiết, logic các cung và sao trên lá số.
+- **Phong cách đa dạng:** Hỗ trợ nhiều ngữ điệu phân tích: Nghiêm túc, Tích cực, Thấu cảm...
 
-* **Lập Lá Số Tử Vi**: Tính toán và hiển thị lá số dựa trên thông tin ngày tháng năm sinh (hỗ trợ cả Dương lịch và Âm lịch), giờ sinh, giới tính.
-* **Luận Giải AI**: Tích hợp Google Gemini AI đa tính cách (Nghiêm túc, Hài hước, Chuyên gia mệnh lý, v.v.) để luận giải các cung tấu, đại vận và lưu nguyệt.
-* **Smart API & Model Management**: 
-    - Quản lý nhiều API Keys (quay vòng khi hết quota).
-    - Tự động hạ cấp (fallback) xuống Model thấp hơn khi Model cao bị lỗi hoặc quá tải.
-    - An toàn lưu trữ cấu hình trong DataStore.
-* **Phi Tinh Lưu Nguyệt**: Phân tích chi tiết 12 tháng hạn vận trong năm.
-* **Giao Diện Premium**: Thiết kế trực quan, mượt mà và thân thiện với người dùng di động.
+## 🛠️ Công Nghệ Sử Dụng
+- **Ngôn ngữ:** Kotlin
+- **UI Framework:** Jetpack Compose (Material Design 3)
+- **Kiến trúc:** MVVM
+- **AI Integration:** Google Gemini API
+- **Tooling:** Gradle, Android Studio
 
-## 🛠️ Cấu Trúc Dự Án
+## 📂 Cấu Trúc Dự Án
+```text
+TuViAndroid/
+├── app/
+│   ├── src/main/java/com/example/tviai/
+│   │   ├── core/      # Xử lý Engine Tử Vi, cấu hình Gemini, tính JDN 
+│   │   ├── data/      # Các Data Models, Constants, UserInput
+│   │   ├── ui/        # Các màn hình Compose (InputScreen, ResultScreen, Components...)
+│   │   └── viewmodel/ # State holders, xử lý logic UI 
+├── .brain/            # Lưu trữ dữ liệu cấu hình memory của agent, lịch sử session
+└── README.md          # Tài liệu dự án
+```
 
-Dự án được viết bằng Kotlin với cấu trúc tiêu chuẩn của Android:
-
-* Tầng `ui/`: Các giao diện người dùng (Jetpack Compose).
-* Tầng `core/`: Xử lý lõi, tính toán thiên can địa chi, chuyển đổi Âm/Dương lịch (`LunarConverter`, `TuViLogic`), và gọi API Gemini.
-* Tầng `data/`: Định nghĩa các cấu trúc dữ liệu (`UserInput`, `LasoData`) và quản lý bộ nhớ cục bộ (`SettingsDataStore`, `HistoryRepository`).
-* Tầng `viewmodel/`: Quản lý luồng và trạng thái dữ liệu (StateFlow) cho các Compose screen.
-
-## ⚙️ Hướng Dẫn Cài Đặt và Chạy
-
-1. Yêu cầu hệ thống: Android Studio Koala hoặc muộn hơn.
-2. Clone repository về máy:
+## ⚙️ Hướng Dẫn Cài Đặt
+1. **Clone dự án:**
    ```bash
    git clone https://github.com/skul9x/TuViAndroid.git
+   cd TuViAndroid
    ```
-3. Mở Android Studio và `Sync Project with Gradle Files`.
-4. Build APK qua Menu: `Build > Build Bundle(s) / APK(s) > Build APK(s)`.
-5. Đưa ứng dụng vào máy giả lập hoặc điện thoại Android thực tế và trải nghiệm.
+2. **Cấu hình API Key:**
+   - Tạo file `local.properties` tại thư mục gốc của dự án.
+   - Thêm dòng: `GEMINI_API_KEY=your_google_gemini_api_key`
+3. **Build & Chạy:**
+   Mở dự án trong **Android Studio**, đợi Gradle sync hoàn tất, chọn máy ảo hoặc máy thật và ấn Run (Shift + F10).
 
-## 🔒 Lưu Ý Cấu Hình
-
-Dự án này sử dụng mô hình tự mang API (BYOK - Bring Your Own Key). Người dùng (hoặc người kiểm thử) phải truy cập màn hình Cài Đặt (Settings) trong ứng dụng để nhập Gemini API Key của chính mình trước khi sử dụng tính năng luận AI. Dự án không đi kèm với bất kỳ Key hardcode nào vì lý do bảo mật.
+## 📝 Cách Sử Dụng
+1. Nhập thông tin ngày tháng năm sinh, giờ sinh và giới tính.
+2. Chọn thời gian xem (Theo năm, theo tháng hoặc theo ngày).
+3. Ấn **Xem Lá Số & Luận Giải**. AI sẽ sử dụng dữ liệu từ Mệnh cục, đại vận đến tiểu hạn, lưu nguyệt, lưu nhật để phân tích tương lai của bạn.
 
 ---
 
-*Copyright 2026 Nguyễn Duy Trường*
+**Bản Quyền**
+Copyright 2026 Nguyễn Duy Trường

@@ -210,6 +210,61 @@ class TuViLogic {
             phiTinhLuuNguyet = precomputePhiTinh(cungList, isMonthly = true, monthCanIdx = monthCanIdx, monthName = monthCanChi)
         }
 
+        // 8.3 Calculate Lưu Nhật (For the UI — only when DAY mode)
+        var luuNhatCungName = ""
+        var phiTinhLuuNhat = ""
+        if (input.viewingMode == ViewingMode.DAY && input.viewingDay > 0 && input.viewingMonth > 0) {
+            // Step 1: Ensure Lưu Nguyệt palace is calculated (even if not in MONTH mode)
+            val lnMonthCanChi = LunarConverter.getCanChiThang(input.viewingMonth, canNamXemIndex)
+            val lnMonthCanStr = lnMonthCanChi.split(" ").first()
+            val lnMonthChiStr = lnMonthCanChi.split(" ").last()
+            val lnMonthCanIdx = THIEN_CAN.indexOf(lnMonthCanStr)
+            val lnMonthChiIdx = DIA_CHI.indexOf(lnMonthChiStr)
+            
+            var lnChinhTyIdx = (tieuHanIdx - (userBirthLunarMonth - 1)) % 12
+            while (lnChinhTyIdx < 0) lnChinhTyIdx += 12
+            val lnMonthlyJanIdx = (lnChinhTyIdx + chiGioIndex) % 12
+            val lnMonthlyPalaceIdx = (lnMonthlyJanIdx + (input.viewingMonth - 1)) % 12
+            
+            // If Lưu Nguyệt was not already injected (because we're in DAY mode, not MONTH),
+            // inject it + its stars so the Lưu Nhật stacks correctly
+            if (luuNguyetCungName.isEmpty()) {
+                luuNguyetCungName = DIA_CHI[lnMonthlyPalaceIdx]
+                cungList[lnMonthlyPalaceIdx].phuTinh.add("[Cung Lưu Nguyệt]")
+                anSaoLuuNguyet(cungList, lnMonthCanIdx, lnMonthChiIdx)
+                phiTinhLuuNguyet = precomputePhiTinh(cungList, isMonthly = true, monthCanIdx = lnMonthCanIdx, monthName = lnMonthCanChi)
+            }
+            
+            // Step 2: Cung Lưu Nhật = Cung Lưu Nguyệt + (ngày - 1) thuận
+            val luuNhatPalaceIdx = (lnMonthlyPalaceIdx + (input.viewingDay - 1)) % 12
+            luuNhatCungName = DIA_CHI[luuNhatPalaceIdx]
+            cungList[luuNhatPalaceIdx].phuTinh.add("[Cung Lưu Nhật]")
+            
+            // Step 3: Convert viewing lunar date to solar to get its Can Chi
+            // We need to find the solar date of this lunar day to compute Can Chi of the day
+            // Since user inputs lunar day/month + solar year for viewing, we approximate:
+            // Use the LunarDateUtil in reverse or use a simple offset approach.
+            // BEST approach: The viewing year is solar. Month is lunar month of that year.
+            // We need to convert (lunarDay=input.viewingDay, lunarMonth=input.viewingMonth, lunarYear≈input.viewingYear) → solar date → JDN → Can Chi.
+            // For simplicity, we'll use the approximate solar date (1st of lunar month ≈ around same solar month, +day offset).
+            // Actually, we can compute it more precisely:
+            // The LunarDateUtil has month days info. We need solar→lunar, but the reverse isn't directly available.
+            // PRACTICAL: Use a known reference point. Use the existing solar→lunar conversion to find
+            // what solar date corresponds to this lunar date.
+            // For now, use a brute-force approach: find solar date of lunar day 1 of the given month,
+            // then add (day-1) to get the target solar date.
+            val solarDateForLuuNhat = findSolarDateForLunar(input.viewingDay, input.viewingMonth, input.viewingYear)
+            val dayCanIdx = LunarConverter.getCanNgayIndex(solarDateForLuuNhat.first, solarDateForLuuNhat.second, solarDateForLuuNhat.third)
+            val dayChiIdx = LunarConverter.getChiNgayIndex(solarDateForLuuNhat.first, solarDateForLuuNhat.second, solarDateForLuuNhat.third)
+            
+            // Step 4: An sao Lưu Nhật
+            anSaoLuuNhat(cungList, dayCanIdx, dayChiIdx)
+            
+            // Step 5: Phi Tinh Lưu Nhật
+            val dayCanChi = LunarConverter.getCanChiNgay(solarDateForLuuNhat.first, solarDateForLuuNhat.second, solarDateForLuuNhat.third)
+            phiTinhLuuNhat = precomputePhiTinh(cungList, isMonthly = false, monthCanIdx = dayCanIdx, monthName = dayCanChi)
+        }
+
         // 9. Calculate metadata amDuong (Âm Dương Thuận/Nghịch lý)
         // Năm Âm/Dương
         val isYangYearForMenh = (canNamIndex % 2 == 0)
@@ -260,6 +315,7 @@ class TuViLogic {
                 thanTai = DIA_CHI[thanIndex],
                 viewingYear = input.viewingYear,
                 viewingMonth = input.viewingMonth,
+                viewingDay = input.viewingDay,
                 viewingMode = input.viewingMode.name,
                 readingStyle = input.readingStyle.displayName,
                 daiVanInfo = daiVanMeta,
@@ -269,8 +325,10 @@ class TuViLogic {
                 amDuong = amDuongStr,
                 tieuHanCung = tieuHanCungName,
                 luuNguyetCung = luuNguyetCungName,
+                luuNhatCung = luuNhatCungName,
                 phiTinhTuHoa = phiTinhData,
                 phiTinhLuuNguyet = phiTinhLuuNguyet,
+                phiTinhLuuNhat = phiTinhLuuNhat,
                 luuNguyet12Months = luuNguyet12MonthsJsonString
             ),
             cung = cungList,
@@ -1316,6 +1374,91 @@ class TuViLogic {
                     for (cung in cungList) {
                         if (cung.chinhTinh.any { it == starName || it.startsWith("$starName ") } || 
                             cung.phuTinh.any { (it == starName || it.startsWith("$starName ")) && !it.startsWith("LN.") }) {
+                            cung.phuTinh.add(suffixes[i].trim())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Convert a lunar date (day, month, lunarYear ≈ solarYear) to its corresponding solar date.
+     * Uses brute-force search: iterate solar dates around the expected range until the
+     * LunarDateUtil conversion matches the target lunar date.
+     * Returns Triple(solarDay, solarMonth, solarYear).
+     */
+    private fun findSolarDateForLunar(lunarDay: Int, lunarMonth: Int, solarYear: Int): Triple<Int, Int, Int> {
+        // Start search from around the same month in solar calendar
+        // Lunar months are roughly offset by 1-2 months from solar
+        val startMonth = if (lunarMonth <= 1) 1 else lunarMonth - 1
+        val cal = java.util.Calendar.getInstance()
+        cal.set(solarYear, startMonth - 1, 1) // Calendar months are 0-based
+        
+        // Search up to 90 days forward
+        for (offset in 0..90) {
+            val sd = cal.get(java.util.Calendar.DAY_OF_MONTH)
+            val sm = cal.get(java.util.Calendar.MONTH) + 1
+            val sy = cal.get(java.util.Calendar.YEAR)
+            
+            try {
+                val lunar = com.example.tviai.core.util.LunarDateUtil.convertSolarToLunar(sd, sm, sy)
+                if (lunar.day == lunarDay && lunar.month == lunarMonth && lunar.year == solarYear) {
+                    return Triple(sd, sm, sy)
+                }
+            } catch (_: Exception) { }
+            
+            cal.add(java.util.Calendar.DAY_OF_MONTH, 1)
+        }
+        
+        // Fallback: approximate (lunarMonth ≈ solarMonth, lunarDay ≈ solarDay + ~30 days offset)
+        return Triple(lunarDay, lunarMonth, solarYear)
+    }
+
+    /**
+     * An Sao Lưu Nhật (Daily Transit Stars).
+     * Same pattern as anSaoLuuNguyet but uses Can/Chi of the viewing DAY
+     * and prefix "LNh." (Lưu Nhật).
+     */
+    private fun anSaoLuuNhat(cungList: MutableList<CungInfo>, dayCanIdx: Int, dayChiIdx: Int) {
+        val canStr = THIEN_CAN[dayCanIdx]
+        
+        // 1. LNh. Lộc Tồn + Kình Đà
+        val locTonChi = Constants.LOC_TON_MAP[canStr] ?: "Dần"
+        val lnhLocPos = DIA_CHI.indexOf(locTonChi)
+        cungList[lnhLocPos].phuTinh.add("LNh. Lộc Tồn")
+        
+        cungList[(lnhLocPos + 1) % 12].phuTinh.add("LNh. Kình Dương")
+        var lnhDaPos = (lnhLocPos - 1) % 12
+        if (lnhDaPos < 0) lnhDaPos += 12
+        cungList[lnhDaPos].phuTinh.add("LNh. Đà La")
+        
+        // 2. LNh. Thiên Khôi, Thiên Việt (theo Can ngày)
+        Constants.KHOI_VIET_POS[canStr]?.let { (k, v) ->
+            cungList[k].phuTinh.add("LNh. Thiên Khôi")
+            cungList[v].phuTinh.add("LNh. Thiên Việt")
+        }
+        
+        // 3. LNh. Thiên Mã (theo Chi ngày)
+        Constants.THIEN_MA_MAP[dayChiIdx]?.let { pos ->
+            cungList[pos].phuTinh.add("LNh. Thiên Mã")
+        }
+        
+        // 4. LNh. Thiên Khốc, Thiên Hư (theo Chi ngày)
+        var lnhKhocPos = (6 - dayChiIdx) % 12
+        if (lnhKhocPos < 0) lnhKhocPos += 12
+        val lnhHuPos = (6 + dayChiIdx) % 12
+        cungList[lnhKhocPos].phuTinh.add("LNh. Thiên Khốc")
+        cungList[lnhHuPos].phuTinh.add("LNh. Thiên Hư")
+
+        // 5. LNh. Tứ Hóa (theo Can ngày)
+        Constants.TU_HOA_MAP[dayCanIdx]?.let { stars ->
+            if (stars.size == 4) {
+                val suffixes = listOf(" (LNh. Hóa Lộc)", " (LNh. Hóa Quyền)", " (LNh. Hóa Khoa)", " (LNh. Hóa Kỵ)")
+                for ((i, starName) in stars.withIndex()) {
+                    for (cung in cungList) {
+                        if (cung.chinhTinh.any { it == starName || it.startsWith("$starName ") } || 
+                            cung.phuTinh.any { (it == starName || it.startsWith("$starName ")) && !it.startsWith("LNh.") && !it.startsWith("LN.") }) {
                             cung.phuTinh.add(suffixes[i].trim())
                         }
                     }

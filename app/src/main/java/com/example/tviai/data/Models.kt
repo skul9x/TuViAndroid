@@ -23,7 +23,8 @@ enum class ReadingStyle(val displayName: String) {
 
 enum class ViewingMode(val displayName: String) {
     YEAR("Theo năm"),
-    MONTH("Theo tháng")
+    MONTH("Theo tháng"),
+    DAY("Theo ngày")
 }
 
 data class UserInput(
@@ -36,6 +37,7 @@ data class UserInput(
     val isLunar: Boolean = false,
     val viewingYear: Int,
     val viewingMonth: Int = 0,
+    val viewingDay: Int = 0,
     val viewingMode: ViewingMode = ViewingMode.YEAR,
     val readingStyle: ReadingStyle = ReadingStyle.NGHIEM_TUC,
     val lunarDayInput: Int? = null,
@@ -75,9 +77,12 @@ data class UserInfoResult(
     val amDuong: String = "",           // VD: "Dương Nam – Thuận hành"
     val tieuHanCung: String = "",       // Cung tiểu hạn năm xem
     val luuNguyetCung: String = "",     // Cung lưu nguyệt tháng xem
+    val luuNhatCung: String = "",       // Cung lưu nhật ngày xem
     val phiTinhTuHoa: String = "",      // Pre-computed data phi tinh 12 cung (Bản mệnh)
     val phiTinhLuuNguyet: String = "",  // Pre-computed phi tinh lưu nguyệt
-    val luuNguyet12Months: String = ""  // Chứa mảng JSON 12 tháng lưu nguyệt
+    val phiTinhLuuNhat: String = "",    // Pre-computed phi tinh lưu nhật
+    val luuNguyet12Months: String = "", // Chứa mảng JSON 12 tháng lưu nguyệt
+    val viewingDay: Int = 0             // Ngày âm lịch xem hạn
 )
 
 data class LasoData(
