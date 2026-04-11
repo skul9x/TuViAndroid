@@ -1,5 +1,18 @@
 # Changelog
 
+## [2026-04-11 - History Flow & Reverse Parsing]
+### Added
+- **Reverse Parse Logic**: Implemented `loadFromHistory()` in `TuViViewModel` to reverse-parse `LasoData` (solar date, hour, gender, reading style) back into individual input fields.
+- **Hour Parsing Support**: Added robust regex-based extraction and localized fallback for mapping Vietnamese `Chi` names (Tý, Sửu...) to numeric bounds.
+- **Unit Testing**: Included comprehensive `HistoryParseTest.kt` verifying all boundary cases of `loadFromHistory()` (100% pass across 8 scenarios).
+- **UX Feedback**: Added one-time `historyLoadedEvent` via `SharedFlow` indicating data restoration with a Toast.
+
+### Changed
+- **Navigation Flow**: Updated `NavGraph` so that clicking a historical record routes the user to `InputScreen` instead of `LasoScreen`, allowing users to review/edit their data before calculation.
+
+### Fixed
+- **SDK Build Path**: Updated `local.properties` to target correct Windows SDK path during APK build.
+
 ## [2026-03-18 - UI Refresh & Build Stability]
 ### Added
 - **UI Responsiveness**: Implemented `defaultMinSize` and `verticalScroll` in `GoldButton` and `LasoScreen.kt` to prevent text clipping at high system font scales (e.g., 200%).

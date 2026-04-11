@@ -17,6 +17,11 @@
       "name": "Lưu Nhật",
       "status": "implemented",
       "description": "Xem vận hạn Tử Vi theo ngày. Tính cung lưu nhật, an các sao lưu ngày (LNh.), gửi prompt riêng kết hợp Đại vận + Lưu niên + Lưu nguyệt + Lưu nhật tới AI."
+    },
+    {
+      "name": "Lịch Sử Nâng Cao",
+      "status": "implemented",
+      "description": "Click xem lịch sử sẽ điền sẵn (pre-fill) form nhập liệu thay vì load thẳng lá số, cho phép kiểm tra và tuỳ chỉnh nâng cao."
     }
   ],
   "knowledge_items": { 

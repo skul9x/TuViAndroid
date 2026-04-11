@@ -1,21 +1,27 @@
 {
-  "updated_at": "2026-04-02T19:28:55Z",
+  "updated_at": "2026-04-11T16:30:00Z",
   "working_on": {
-    "feature": "Tính năng Lưu Nhật (Daily Transit)",
-    "task": "Hoàn thiện UI (InputScreen) và logic Tử Vi theo ngày",
+    "feature": "History Navigation Flow",
+    "task": "Modify HistoryScreen routing and parse history data backwards",
     "status": "completed",
     "files": [
       "app/src/main/java/com/example/tviai/ui/screens/InputScreen.kt",
-      "app/src/main/java/com/example/tviai/core/TuViLogic.kt",
-      "app/src/main/java/com/example/tviai/core/LunarConverter.kt",
       "app/src/main/java/com/example/tviai/viewmodel/TuViViewModel.kt",
-      "app/src/main/java/com/example/tviai/core/GeminiClient.kt"
+      "app/src/main/java/com/example/tviai/navigation/NavGraph.kt",
+      "app/src/test/java/com/example/tviai/viewmodel/HistoryParseTest.kt",
+      "local.properties"
     ],
     "blockers": [],
-    "notes": "Feature logic, models, AI prompts, và UI đã hoàn thiện và chạy không lỗi."
+    "notes": "Feature logic, models, UI toast, and unit tests have been completed and the App compiles correctly."
   },
   "pending_tasks": [],
   "recent_changes": [
+    {
+      "timestamp": "2026-04-11",
+      "type": "feature",
+      "description": "Changed History flow to pre-fill InputScreen via loadFromHistory() on selection rather than instantly displaying LasoScreen.",
+      "files": ["InputScreen.kt", "TuViViewModel.kt", "NavGraph.kt", "HistoryParseTest.kt"]
+    },
     {
       "timestamp": "2026-04-02",
       "type": "feature",
@@ -25,19 +31,24 @@
   ],
   "errors_encountered": [
     {
-      "error": "Layout UI (ViewingModeOption + Dropdowns) bị vỡ màn hình do quá hẹp và không dùng label",
-      "solution": "Đổi Radio button thành Dropdown Menu, set weight(1f) cân đều, thêm label vào ô Năm xem",
+      "error": "Failed Gradle build due to missing SDK configuration for Windows",
+      "solution": "Corrected sdk.dir parameter to absolute Windows path in local.properties",
+      "resolved": true
+    },
+    {
+      "error": "Kotlin Unresolved Reference for asSharedFlow",
+      "solution": "Imported kotlinx.coroutines.flow.asSharedFlow missing from the file context",
       "resolved": true
     }
   ],
   "decisions_made": [
     {
-      "decision": "Thuật toán JDN cho Lưu Nhật",
-      "reason": "Chính xác tuyệt đối về đếm Can Chi ngày cho bất kỳ mốc thời gian nào"
+      "decision": "Prefill Information on History Select",
+      "reason": "Allows users to review, configure limits/mode over their previous baseline before finalizing calculation"
     },
     {
-      "decision": "Dropdown cho Viewing Mode",
-      "reason": "Tiết kiệm không gian và tối ưu UX cho màn hình điện thoại"
+      "decision": "Separate Junit Parse Test",
+      "reason": "Ensure fallback logic for string time representations resolves directly matching native Android functionality."
     }
   ]
 }

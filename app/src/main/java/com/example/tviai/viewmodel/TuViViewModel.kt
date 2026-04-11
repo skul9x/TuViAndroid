@@ -13,8 +13,11 @@ import com.example.tviai.data.SettingsDataStore
 import com.example.tviai.data.UserInput
 import java.util.Calendar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -177,8 +180,79 @@ class TuViViewModel(
         }
     }
 
+    // Event channel for one-time UI events (e.g., Toast)
+    private val _historyLoadedEvent = MutableSharedFlow<String>()
+    val historyLoadedEvent: SharedFlow<String> = _historyLoadedEvent.asSharedFlow()
+
     fun setLaso(laso: LasoData) {
         _uiState.update { it.copy(currentLaso = laso, aiReading = "", usedModel = "") }
+    }
+
+    /**
+     * Load history data back into InputScreen fields.
+     * Parses solarDate, time, gender, readingStyle from UserInfoResult.
+     * Resets viewing mode to defaults (current year, YEAR mode).
+     */
+    fun loadFromHistory(laso: LasoData) {
+        val info = laso.info
+
+        // Parse solarDate "day/month/year" → individual ints
+        val dateParts = info.solarDate.split("/")
+        val day = dateParts.getOrNull(0)?.toIntOrNull() ?: 1
+        val month = dateParts.getOrNull(1)?.toIntOrNull() ?: 1
+        val year = dateParts.getOrNull(2)?.toIntOrNull() ?: 1990
+
+        // Parse time "0h (Giờ Tý)" → hour int
+        val hour = parseHourFromTimeString(info.time)
+
+        // Parse gender
+        val gender = if (info.gender == "Nữ") Gender.NU else Gender.NAM
+
+        // Parse reading style
+        val readingStyle = ReadingStyle.fromString(info.readingStyle)
+
+        _uiState.update {
+            it.copy(
+                userInput = UserInput(
+                    name = info.name,
+                    solarDay = day,
+                    solarMonth = month,
+                    solarYear = year,
+                    hour = hour,
+                    gender = gender,
+                    viewingYear = Calendar.getInstance().get(Calendar.YEAR),
+                    readingStyle = readingStyle
+                ),
+                currentLaso = null,
+                aiReading = "",
+                usedModel = ""
+            )
+        }
+
+        // Fire one-time event for Toast
+        viewModelScope.launch {
+            _historyLoadedEvent.emit("Đã tải thông tin từ lịch sử")
+        }
+    }
+
+    /**
+     * Parse hour from time string format: "0h (Giờ Tý)" or similar.
+     * First tries to extract the number before 'h', then falls back to Chi name mapping.
+     */
+    private fun parseHourFromTimeString(time: String): Int {
+        // Try to extract hour number directly: "0h (Giờ Tý)" → "0"
+        val hourMatch = Regex("""^(\d+)h""").find(time)
+        if (hourMatch != null) {
+            return hourMatch.groupValues[1].toIntOrNull() ?: 12
+        }
+
+        // Fallback: map Chi name to hour
+        val chiToHour = mapOf(
+            "Tý" to 0, "Sửu" to 2, "Dần" to 4, "Mão" to 6,
+            "Thìn" to 8, "Tị" to 10, "Ngọ" to 12, "Mùi" to 14,
+            "Thân" to 16, "Dậu" to 18, "Tuất" to 20, "Hợi" to 22
+        )
+        return chiToHour.entries.firstOrNull { time.contains(it.key) }?.value ?: 12
     }
 
     fun resetInput() {

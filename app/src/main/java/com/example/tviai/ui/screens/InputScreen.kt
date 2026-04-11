@@ -24,6 +24,9 @@ import com.example.tviai.ui.components.PremiumCard
 import com.example.tviai.ui.components.SectionHeader
 import com.example.tviai.viewmodel.TuViViewModel
 
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputScreen(
@@ -34,6 +37,14 @@ fun InputScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
+    // Collect one-time Toast event from ViewModel (e.g., after loading history)
+    LaunchedEffect(Unit) {
+        viewModel.historyLoadedEvent.collect { message ->
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Scaffold(
         topBar = {

@@ -70,8 +70,10 @@ fun NavGraph(
             HistoryScreen(
                 repository = appContainer.historyRepository,
                 onSelect = { laso ->
-                    viewModel.setLaso(laso)
-                    navController.navigate(Screen.Laso.route)
+                    viewModel.loadFromHistory(laso)
+                    navController.navigate(Screen.Input.route) {
+                        popUpTo(Screen.Input.route) { inclusive = true }
+                    }
                 },
                 onBack = { navController.popBackStack() }
             )

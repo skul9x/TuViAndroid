@@ -1,51 +1,45 @@
-# Tử Vi AI (TuViAndroid)
+# TuViAndroid 🔮
 
-Ứng dụng dự đoán, luận giải Tử Vi chuyên sâu thông minh, kết hợp các thuật toán an sao chính xác tuyệt đối (Julian Day Number) với sức mạnh phân tích ngôn ngữ tự nhiên từ **Gemini AI**.
+TuViAndroid là một ứng dụng di động xem Tử Vi nâng cao, được phát triển trên nền tảng Android. Ứng dụng kết hợp giữa việc tự động an sao, lập lá số theo phương pháp cổ truyền (Nam Phái) và trí tuệ nhân tạo (Gemini API) để phân tích, luận giải chi tiết.
 
-## 🚀 Tính Năng Chính
-- **Luận giải cá nhân hóa:** Lấy lá số tử vi dựa trên giới tính, ngày tháng năm sinh (Dương lịch/Âm lịch).
-- **Phân tích đa không gian/thời gian:** Hỗ trợ luận giải theo Đại Vận, Lưu Niên, Lưu Nguyệt, và đặc biệt là **Lưu Nhật** (xem hạn theo ngày) cực kỳ chính xác.
-- **Tương tác AI trực tiếp:** Sử dụng bộ prompt tối ưu theo chuẩn phong thủy để AI phân tích chi tiết, logic các cung và sao trên lá số.
-- **Phong cách đa dạng:** Hỗ trợ nhiều ngữ điệu phân tích: Nghiêm túc, Tích cực, Thấu cảm...
+## Chức Năng Nổi Bật 🚀
+- **An Sao Tự Động:** Tự động tính toán và an chính tinh, phụ tinh dựa trên thuật toán Tử Vi Đẩu Số. Hỗ trợ quy tắc Vô Chính Diệu, đánh giá lực độ mạnh yếu của sao.
+- **Phân Tích Bằng AI (Gemini):** Prompt JSON nâng cao giúp AI phân tích luận giải chính xác theo nhiều phong cách (Nghiêm túc, Hài hước, Chuyên gia...). Hạn chế tối đa tình trạng thao túng thông tin hay tự bịa đặt.
+- **Hạn Vận Đa Tầng:** Hỗ trợ luận giải theo Đại Vận (10 năm), Lưu Niên (Năm), Lưu Nguyệt (Tháng), và Lưu Nhật (Ngày).
+- **Lưu Trữ Lịch Sử Nâng Cao:** Tự động lưu trữ các lá số đã xem. Click xem lại sẽ tự động điền sẵn (pre-fill) form thông tin ban đầu, cho phép tuỳ chỉnh lại linh hoạt.
+- **Chế Độ Xem Cho Trẻ Em:** Ứng xử thông minh bằng cách bỏ qua phân tích sự nghiệp/tình duyên với những lá số của trẻ em dưới 13 tuổi, tập trung vào phụ mẫu và sức khoẻ.
 
-## 🛠️ Công Nghệ Sử Dụng
-- **Ngôn ngữ:** Kotlin
-- **UI Framework:** Jetpack Compose (Material Design 3)
-- **Kiến trúc:** MVVM
-- **AI Integration:** Google Gemini API
-- **Tooling:** Gradle, Android Studio
+## Công Nghệ Sử Dụng 🛠
+- **Ngôn Ngữ:** Kotlin 100%
+- **Giao Diện (UI):** Jetpack Compose, Material Design 3
+- **Kiến Trúc:** MVVM, Clean Architecture
+- **Xử lý Bất Đồng Bộ:** Kotlin Coroutines & Flow
+- **Lưu trữ Cục Bộ (Local Storage):** Room Database / SQLite
+- **AI Integration:** Google Gemini REST API / JSON Prompting
 
-## 📂 Cấu Trúc Dự Án
-```text
-TuViAndroid/
-├── app/
-│   ├── src/main/java/com/example/tviai/
-│   │   ├── core/      # Xử lý Engine Tử Vi, cấu hình Gemini, tính JDN 
-│   │   ├── data/      # Các Data Models, Constants, UserInput
-│   │   ├── ui/        # Các màn hình Compose (InputScreen, ResultScreen, Components...)
-│   │   └── viewmodel/ # State holders, xử lý logic UI 
-├── .brain/            # Lưu trữ dữ liệu cấu hình memory của agent, lịch sử session
-└── README.md          # Tài liệu dự án
-```
+## Cấu Trúc Thư Mục 📂
+- `app/src/main/java/com/example/tviai/core`: Chứa logic tử vi thuần tuý (`TuViLogic.kt`, `LunarConverter.kt`) và Client kết nối API AI (`GeminiClient.kt`). 
+- `app/src/main/java/com/example/tviai/data`: Các models, Repository, Room Entities cho Database và Settings.
+- `app/src/main/java/com/example/tviai/ui`: Chứa màn hình (`screens`) và các thành phần giao diện dùng chung (`components`).
+- `app/src/main/java/com/example/tviai/viewmodel`: Nơi quản lý trạng thái, vòng đời của view và xử lý hành động (Actions).
+- `.brain`: Bộ nhớ mô hình AI ghi lại phân tích, thay đổi, log phiên làm việc để duy trì trạng thái ngữ cảnh dự án khi được AI hỗ trợ.
 
-## ⚙️ Hướng Dẫn Cài Đặt
-1. **Clone dự án:**
+## Hướng Dẫn Cài Đặt & Chạy Dự Án 💻
+1. Clone dự án về máy:
    ```bash
    git clone https://github.com/skul9x/TuViAndroid.git
-   cd TuViAndroid
    ```
-2. **Cấu hình API Key:**
-   - Tạo file `local.properties` tại thư mục gốc của dự án.
-   - Thêm dòng: `GEMINI_API_KEY=your_google_gemini_api_key`
-3. **Build & Chạy:**
-   Mở dự án trong **Android Studio**, đợi Gradle sync hoàn tất, chọn máy ảo hoặc máy thật và ấn Run (Shift + F10).
+2. Mở dự án thông qua **Android Studio**.
+3. Tại thư mục gốc `local.properties`, thêm API Key của Gemini nếu có:
+   ```properties
+   GEMINI_API_KEY="AIzaSy...your-api-key"
+   sdk.dir=C\:\\Users\\admin\\AppData\\Local\\Android\\Sdk # (tuỳ biến tuỳ HĐH)
+   ```
+4. Chờ Gradle Sync hoàn tất, có thể chọn cấu hình App và ấn Run để Build APK sang máy ảo hoặc máy vật lý.
+5. Để build riêng APK qua command line:
+   ```bash
+   ./gradlew assembleDebug
+   ```
 
-## 📝 Cách Sử Dụng
-1. Nhập thông tin ngày tháng năm sinh, giờ sinh và giới tính.
-2. Chọn thời gian xem (Theo năm, theo tháng hoặc theo ngày).
-3. Ấn **Xem Lá Số & Luận Giải**. AI sẽ sử dụng dữ liệu từ Mệnh cục, đại vận đến tiểu hạn, lưu nguyệt, lưu nhật để phân tích tương lai của bạn.
-
----
-
-**Bản Quyền**
+## Bản Quyền 📜
 Copyright 2026 Nguyễn Duy Trường
